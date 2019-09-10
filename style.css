@@ -1,0 +1,149 @@
+body
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+background-color:#FFFFFF; font-weight:normal; font-size:0.9em; color:#333333; margin-left:100px; margin-right:100px; margin-top:5px; margin-bottom:5px; }
+
+h1 
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+color:#1B436D; font-size:1.75em; margin:40px; text-align:center; }
+
+h2 
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+color:#01172E; font-size:1.25em; margin-top:40px; text-align:left; }
+
+h3 
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+color:#1B436D; font-size:1.25em; margin-top:30px; }
+
+h4 
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+color:#333333; font-size:1.2em;}
+
+h5 
+{ font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";  
+color:#666666; font-size:1.1em;}
+
+h6 
+{ font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";  
+color:#666666; font-size:1.1em;}
+
+li { margin-bottom:10px; }
+
+hr { margin-top:30px; margin-bottom:30px; background-color:#1B436D; color:#1B436D; height:1px;  }
+
+.tablecells { display: block; border: 1px solid; line-height:45px; border: 1px solid; font-size: 18px; text-align:center; padding-left:10px; padding-right:10px; margin:50px }
+
+td.headerleft   
+{background-color:#FFFFFF;}
+
+td.headerright   
+{background-color:#FFFFFF;}
+
+td.headerbar   
+{background-color:#FFFFFF;}
+
+td.menu  
+{font-family: verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+font-size:0.8em; background-color:#e7e3e3;}
+
+
+td.submenu1  
+{font-family: verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+font-size:0.8em; background-color:#f4f2f2;}
+
+
+td.submenu 
+{font-family: verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+font-size:0.8em; background-color:#f4f2f2;}
+
+td.colour1 
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#ffffff; font-size:0.8em; font-weight:bold; background-color:#c99191;}
+
+
+td.colour2 
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#333333; font-size:0.8em; background-color:#e9dbdb;}
+
+
+td.menublue   
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#FFFFFF; font-size:0.8em; background-color:#666699;}
+
+td.menubluehighlight   
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#FFFFFF; font-size:0.8em; background-color:#996699;}
+
+td.menured  
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#e7e3e3; font-size:0.8em;background-color:#993333;}
+
+td.menuhead2   
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#333333; font-size:0.8em;}
+
+td.menurow   
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#333333; font-size:0.8em;}
+
+td.deptname
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+color:#333399; font-size:1.2em;}
+
+td.footer  
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif"; 
+font-size:0.7em;}
+
+
+
+td.textonly
+{font-family : verdana, arial, helvetica, sans-serif, "ms sans serif";
+color:#333333; font-size:0.6em;}
+
+
+td 
+{font-family: verdana, arial, helvetica, sans-serif, "ms sans serif"; font-size : 0.8em;}
+ 
+.newwindowpadded { margin-left:20px; }
+a.newwindow:link { color:#CC0000; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; margin:2px;}
+a.newwindowpadded:link { color:#CC0000; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; }
+a.toggle:link { color:#CC0000; font-weight:bold; text-decoration:none; border-style:outset; border-width:2px; }
+a.newwindow:visited { color:#660066; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; }
+a.newwindowpadded:visited { color:#660066; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; }
+a.toggle:visited { color:#660066; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; }
+a.newwindow:hover { color:#cc3300; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; }
+a.newwindowpadded:hover { color:#cc3300; font-weight:bold; text-decoration:none; border-style:dotted; border-width:2px; }
+a.toggle:hover { color:#cc3300; font-weight:bold; text-decoration:none; border-style:inset; border-width:2px; }
+
+
+a:link {color:#CC0000; font-weight:bold; text-decoration:none;}
+a:visited {color:#660066; font-weight:bold; text-decoration:none;}
+a:hover {color:#cc3300; font-weight:bold; text-decoration:underline;}
+
+a.menulink1:link  {color:#333366; font-weight:normal; text-decoration:none;}
+a.menulink1:visited {color:#333366; font-weight:normal; text-decoration:none;} 
+a.menulink1:hover {color:#cc3300;}
+
+a.menulink2:link  {color:#333366; font-weight:normal; text-decoration:none;}
+a.menulink2:visited {color:#333366; font-weight:normal; text-decoration:none;} 
+a.menulink2:hover {color:#cc3300;}
+
+.menublue-link {  color: #e7e3e3; text-decoration: none; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 0.7em; background-color: #666699}
+.cpd_boxed_text {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 1.1em; color: #333333; font-weight: bold; border: 1px #333333 solid; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px}
+
+.paddedimage { padding-left:20px; text-align:center; }
+
+.textright { text-align: right; } 
+
+.headertable { padding:0px; text-align:center; margin-left: auto; margin-right: auto; font-size:1.25em; }
+
+.centretable1 { padding:2px; text-align:center; width:910px; margin-left: auto; margin-right: auto; }
+.centretable2 { padding:0px; text-align:center; width:900px; margin-left: auto; margin-right: auto; font-size:1.25em; }
+.centretable3 { padding:12px; text-align:center; width:300px; margin-left: auto; margin-right: auto; }
+
+.centretd1 { text-align:center; font-size:16px; }
+.centretd2 { text-align:center; vertical-align:middle; width:20%; }
+.righttd1 { text-align:right; vertical-align:middle; width:100px; }
+
+.centrediv { text-align:center; width:900px; margin-left: auto; margin-right: auto; }
+
+.centrep { text-align:center; }
