@@ -19,6 +19,6 @@ r <- getOption("repos")
 r <- c(r, temporary = paste0('file:', file.path(tmp, tempfile='drat')))
 options(repos = r)
 
-cat("Done - you should now be able to use install.packages()\n")
+cat("Done - you should now be able to use install.packages() and/or update.packages() as needed\n")
 
 
