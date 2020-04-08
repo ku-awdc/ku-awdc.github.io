@@ -85,12 +85,13 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
 }
 
 fetch_drat_ll <- 
-function (server = "", userpwd = "", feedback, silent = FALSE) 
+function (server = "", feedback, silent = FALSE) 
 {
     curlok <- check_curl(feedback)
     if (!curlok) 
         stop("Unable to fetch the drat repository: curl does not have sftp support", 
             call. = FALSE)
+    serverset <- FALSE
     if (identical(server, "")) {
         cat("Enter the SFTP server address (this should start with 'sftp://') \n")
         server <- readline(prompt = "\tServer address: ")
@@ -98,6 +99,7 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
             stop("The specified SFTP server address '", server, 
                 "' should start with 'sftp://'", call. = FALSE)
         }
+        serverset <- TRUE
     }
     server <- gsub("COVID19_Model_share/", "", server)
     server <- gsub("COVID19_Model_share", "", server)
@@ -105,15 +107,13 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
     server <- gsub("COVID19_Model", "", server)
     if (grepl("/$", server)) 
         server <- gsub("/$", "", server)
-    if (identical(userpwd, "")) {
-        userpwd <- readline(prompt = "\tUsername: ")
-        if (!grepl(":", userpwd)) {
-            pass <- readline(prompt = "\tPassword: ")
-            userpwd <- paste0(userpwd, ":", pass)
-        }
+    userpwd <- getPass::getPass(msg = "\tEnter username: ")
+    if (!grepl(":", userpwd)) {
+        pass <- getPass::getPass(msg = "\tEnter password: ")
+        userpwd <- paste0(userpwd, ":", pass)
     }
     if (!silent) 
-        cat("Downloading and unpacking the drat repository to a temporary folder ... ")
+        cat("Downloading and unpacking the drat repository to a temporary folder ... \n")
     td <- c(Sys.getenv("TMPDIR"), Sys.getenv("TMP"), Sys.getenv("TEMP"), 
         "/tmp")
     td <- td[which(td != "")[1]]
@@ -124,14 +124,10 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
             destfile = file.path(tmp, "drat.zip"), handle = curl::new_handle(userpwd = userpwd))
     })
     if (inherits(ss, "try-error")) {
-        if (!silent) 
-            cat("\n")
         unlink(tmp, recursive = TRUE)
         stop("An error occured while fetching the drat repository - check the message above for clues", 
             call. = FALSE)
     }
-    Sys.setenv(TEMP_SFTP_SERVER = server)
-    Sys.setenv(TEMP_SFTP_USERPWD = userpwd)
     safe_unzip(file.path(tmp, "drat.zip"), exdir = tmp)
     tr <- paste0("file:", file.path(tmp, tempfile = "drat"))
     r <- getOption("repos")
@@ -144,8 +140,6 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
     }
     options(repos = r)
     if (!silent) 
-        cat("done\n")
-    if (!silent) 
         cat("\nThe drat repository has been downloaded from the SFTP server and added to your available repositories\nThe private R packages are now available via install.packages() and/or update.packages()\n")
     if (getRversion() < "3.6") {
         warning("Your version of R (", as.character(getRversion()), 
@@ -157,10 +151,11 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
 
 # Auto-run to setup:
 
-if(!suppressPackageStartupMessages(require('curl', quietly=TRUE))) stop('The curl package could not be loaded - please make sure that both the curl and zip packages are installed and try again')
-if(!suppressPackageStartupMessages(require('zip', quietly=TRUE))) stop('The zip package could not be loaded - please make sure that both the curl and zip packages are installed and try again')
+if(!suppressPackageStartupMessages(require('curl', quietly=TRUE))) stop('The curl package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
+if(!suppressPackageStartupMessages(require('zip', quietly=TRUE))) stop('The zip package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
+if(!suppressPackageStartupMessages(require('getPass', quietly=TRUE))) stop('The getPass package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
 
-fetch_drat_ll(server='', userpwd='', feedback='Re-source this online script', silent=FALSE)
+fetch_drat_ll(server='', feedback='Re-source this online script', silent=FALSE)
 }
 
 .wrapfun()
