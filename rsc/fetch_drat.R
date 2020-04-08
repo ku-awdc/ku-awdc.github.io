@@ -38,7 +38,7 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
             cat("Unzipping the file failed with zip::unzip - trying again with system utilities...\n")
             Sys.sleep(0.5)
             ss <- try({
-                system(str_c("open \"", zipfile, "\""))
+                system(paste0("open \"", zipfile, "\""))
             })
             readline(prompt = "Hit any key to continue")
             prompted <- TRUE
@@ -50,9 +50,9 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
             stop("File could not be unzipped automatically")
         cat("An error occured while using zip::unzip from within R - please uncompress the folder manually\nOpening folder...")
         Sys.sleep(1)
-        system(str_c("open \"", gsub("/[^/]*$", "", zipfile), 
+        system(paste0("open \"", gsub("/[^/]*$", "", zipfile), 
             "\""))
-        system(str_c("open \"", zipfile, "\""))
+        system(paste0("open \"", zipfile, "\""))
         readline(prompt = "Hit any key to continue")
         prompted <- TRUE
     }
@@ -109,7 +109,7 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
         userpwd <- readline(prompt = "\tUsername: ")
         if (!grepl(":", userpwd)) {
             pass <- readline(prompt = "\tPassword: ")
-            userpwd <- str_c(userpwd, ":", pass)
+            userpwd <- paste0(userpwd, ":", pass)
         }
     }
     if (!silent) 
