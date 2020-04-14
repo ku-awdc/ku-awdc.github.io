@@ -85,7 +85,7 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
 }
 
 fetch_drat_ll <- 
-function (server = "", feedback, silent = FALSE) 
+function (server = "", userpwd = "", feedback, silent = FALSE) 
 {
     curlok <- check_curl(feedback)
     if (!curlok) 
@@ -107,10 +107,12 @@ function (server = "", feedback, silent = FALSE)
     server <- gsub("COVID19_Model", "", server)
     if (grepl("/$", server)) 
         server <- gsub("/$", "", server)
-    userpwd <- getPass::getPass(msg = "\tEnter username: ")
-    if (!grepl(":", userpwd)) {
-        pass <- getPass::getPass(msg = "\tEnter password: ")
-        userpwd <- paste0(userpwd, ":", pass)
+    if (userpwd == "") {
+        userpwd <- getPass::getPass(msg = "\tEnter username: ")
+        if (!grepl(":", userpwd)) {
+            pass <- getPass::getPass(msg = "\tEnter password: ")
+            userpwd <- paste0(userpwd, ":", pass)
+        }
     }
     if (!silent) 
         cat("Downloading and unpacking the drat repository to a temporary folder ... \n")
@@ -155,7 +157,7 @@ if(!suppressPackageStartupMessages(require('curl', quietly=TRUE))) stop('The cur
 if(!suppressPackageStartupMessages(require('zip', quietly=TRUE))) stop('The zip package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
 if(!suppressPackageStartupMessages(require('getPass', quietly=TRUE))) stop('The getPass package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
 
-fetch_drat_ll(server='', feedback='Re-source this online script', silent=FALSE)
+fetch_drat_ll(server='', userpwd='', feedback='Re-source this online script', silent=FALSE)
 }
 
 .wrapfun()
