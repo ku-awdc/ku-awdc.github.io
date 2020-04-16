@@ -28,6 +28,12 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
 {
     if (!silent) 
         cat("Unzipping the file/folder...\n")
+    dly <- suppressWarnings(as.numeric(Sys.getenv("SAFE_ZIP_DELAY")))
+    if (is.na(dly)) 
+        dly <- 0.5
+    tdir <- strsplit(zipfile, split = "/", fixed = TRUE)[[1]]
+    tdir <- paste(tdir[-length(tdir)], collapse = "/")
+    oldfiles <- list.files(tdir)
     prompted <- FALSE
     ss <- try({
         zip::unzip(zipfile, files = files, exdir = exdir)
@@ -40,7 +46,12 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
             ss <- try({
                 system(paste0("open \"", zipfile, "\""))
             })
-            readline(prompt = "Hit any key to continue")
+            if (interactive()) {
+                readline(prompt = "Hit any key to continue")
+            }
+            else {
+                Sys.sleep(dly)
+            }
             prompted <- TRUE
         }
     }
@@ -56,8 +67,14 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
         readline(prompt = "Hit any key to continue")
         prompted <- TRUE
     }
+    newfiles <- list.files(tdir)
+    newfiles <- newfiles[!newfiles %in% oldfiles]
+    if (!file.exists(exdir) && length(newfiles) == 1) {
+        cat("NOTE: renaming \"", newfiles, "\" to correspond to the ZIP file name...\n", 
+            sep = "")
+        file.rename(file.path(tdir, newfiles), exdir)
+    }
     if (!file.exists(exdir)) {
-        file.copy(zipfile, getwd())
         stop("Attempt to unzip failed - the zip file has been copied to your working directory", 
             call. = FALSE)
     }
@@ -68,15 +85,12 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
         exdir <- file.path(exdir, fld)
     }
     if (!prompted) {
-        dly <- suppressWarnings(as.numeric(Sys.getenv("SAFE_ZIP_DELAY")))
-        if (Sys.getenv("SAFE_ZIP_DELAY") != "" && is.na(dly)) {
+        if (Sys.getenv("SAFE_ZIP_DELAY") != "" && is.na(dly) && 
+            interactive()) {
             readline(prompt = "Hit any key to continue")
         }
-        else if (!is.na(dly)) {
-            Sys.sleep(dly)
-        }
         else {
-            Sys.sleep(0.5)
+            Sys.sleep(dly)
         }
     }
     if (!silent) 
@@ -141,8 +155,46 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
         r <- c(r, tmpdrat = tr)
     }
     options(repos = r)
-    if (!silent) 
-        cat("\nThe drat repository has been downloaded from the SFTP server and added to your available repositories\nThe private R packages are now available via install.packages() and/or update.packages()\n")
+    if (!silent) {
+        ap <- available.packages(repos = tr)[, c("Package", "Version"), 
+            drop = FALSE]
+        ap <- data.frame(Package = ap[, 1], Available = as.character(ap[, 
+            2]), stringsAsFactors = FALSE)
+        ip <- installed.packages()[, c("Package", "Version"), 
+            drop = FALSE]
+        ip <- data.frame(Package = ip[, 1], Installed = as.character(ip[, 
+            2]), stringsAsFactors = FALSE)
+        pp <- merge(ip, ap, by = "Package", all.x = FALSE, all.y = TRUE)
+        pp$Installed[is.na(pp$Installed)] <- "<none>"
+        cat("The drat repository has been downloaded from the SFTP server and added to your available repositories\nThe following R packages are now available via install.packages():\n\n")
+        print(pp, row.names = FALSE)
+        if (all(pp$Installed == pp$Available)) {
+            cat("\nYour private repo packages are up to date!\n")
+        }
+        else {
+            if (interactive()) {
+                ia <- pp$Package
+                cat("\nSuggested actions:\n1: install.packages(\"", 
+                  paste(ia, collapse = "\", \""), "\")\n", sep = "")
+                ua <- pp$Package[pp$Installed != pp$Available]
+                if (length(ua) > 0 && length(pp$Package) > 1) {
+                  cat("2: install.packages(\"", paste(ua, collapse = "\", \""), 
+                    "\")\n", sep = "")
+                }
+                cat("[Or any other key to do nothing]\n", sep = "")
+                action <- readline("Enter selection: ")
+                if (action == "1") {
+                  eval(parse(text = paste0("install.packages(\"", 
+                    paste(ia, collapse = "\", \""), "\")")))
+                }
+                else if (length(ua) > 0 && length(pp$Package) > 
+                  1 && action == "2") {
+                  eval(parse(text = paste0("install.packages(\"", 
+                    paste(ua, collapse = "\", \""), "\")")))
+                }
+            }
+        }
+    }
     if (getRversion() < "3.6") {
         warning("Your version of R (", as.character(getRversion()), 
             ") is not up to date, so pre-built binares are not available\nYou will have to install packages from source using install.packages(..., type='source')", 
