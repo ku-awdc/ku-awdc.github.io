@@ -24,7 +24,7 @@ function (feedback)
 
 safe_unzip <- 
 function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL, 
-    silent = TRUE) 
+    unzip_path, silent = TRUE) 
 {
     if (!silent) 
         cat("Unzipping the file/folder...\n")
@@ -34,28 +34,34 @@ function (zipfile, exdir = gsub("\\.zip$", "", zipfile), files = NULL,
     tdir <- strsplit(zipfile, split = "/", fixed = TRUE)[[1]]
     tdir <- paste(tdir[-length(tdir)], collapse = "/")
     oldfiles <- list.files(tdir)
-    prompted <- FALSE
-    ss <- try({
+    ss <- !inherits(try({
         zip::unzip(zipfile, files = files, exdir = exdir)
-    })
-    if (inherits(ss, "try-error")) {
+    }), "try-error")
+    if (!ss) {
         unlink(exdir, recursive = TRUE)
-        if (Sys.info()["sysname"] == "Darwin") {
-            cat("Unzipping the file failed with zip::unzip - trying again with system utilities...\n")
-            Sys.sleep(0.5)
-            ss <- try({
-                system(paste0("open \"", zipfile, "\""))
-            })
-            if (interactive()) {
-                readline(prompt = "Hit any key to continue")
-            }
-            else {
-                Sys.sleep(dly)
-            }
-            prompted <- TRUE
+        cat("Unzipping the file failed with zip::unzip - trying again with system unzip...\n")
+        if (missing(unzip_path)) {
+            unzip_path <- system("which unzip", intern = TRUE)
         }
+        ss <- system(paste0(unzip_path, " -o -d \"", exdir, "\" \"", 
+            zipfile, "\"")) == 0
+        Sys.sleep(dly)
     }
-    if (inherits(ss, "try-error")) {
+    prompted <- FALSE
+    if (!ss) {
+        unlink(exdir, recursive = TRUE)
+        cat("Unzipping the file failed with system unzip - trying to open the file directly...\n")
+        Sys.sleep(0.5)
+        ss <- system(paste0("open \"", zipfile, "\"")) == 0
+        if (interactive()) {
+            readline(prompt = "Hit any key to continue")
+        }
+        else {
+            Sys.sleep(dly)
+        }
+        prompted <- TRUE
+    }
+    if (!ss) {
         unlink(exdir, recursive = TRUE)
         if (!interactive()) 
             stop("File could not be unzipped automatically")
@@ -168,37 +174,55 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
         pp$Installed[is.na(pp$Installed)] <- "<none>"
         cat("The drat repository has been downloaded from the SFTP server and added to your available repositories\nThe following R packages are now available via install.packages():\n\n")
         print(pp, row.names = FALSE)
-        if (all(pp$Installed == pp$Available)) {
+        srctp <- FALSE
+        if (getRversion() < "3.6") {
+            srctp <- TRUE
+            warning("Your version of R (", as.character(getRversion()), 
+                ") is not up to date, so pre-built binares are not available", 
+                call. = FALSE)
+        }
+        pp$Current <- sapply(seq_len(nrow(pp)), function(i) pp$Installed[i] != 
+            "<none>" && package_version(pp$Installed[i]) >= package_version(pp$Available[i]))
+        if (all(pp$Current) && !"<none>" %in% pp$Installed) {
             cat("\nYour private repo packages are up to date!\n")
         }
         else {
             if (interactive()) {
-                ia <- pp$Package
-                cat("\nSuggested actions:\n1: install.packages(\"", 
-                  paste(ia, collapse = "\", \""), "\")\n", sep = "")
-                ua <- pp$Package[pp$Installed != pp$Available]
-                if (length(ua) > 0 && length(pp$Package) > 1) {
-                  cat("2: install.packages(\"", paste(ua, collapse = "\", \""), 
-                    "\")\n", sep = "")
+                optcmd <- character(4)
+                tpp <- pp$Package[!pp$Current && pp$Installed != 
+                  "<none>"]
+                if (length(tpp) > 0) {
+                  optcmd[1] <- str_c("install.packages(\"", paste(tpp, 
+                    collapse = "\", \""), "\"", if (srctp) 
+                    ", type=\"source\"", ")")
+                }
+                tools <- which(grepl("tools$", pp$Package))
+                if (length(tools) == 1 && !pp$Current[tools]) {
+                  optcmd[2] <- str_c("install.packages(\"", pp$Package[tools], 
+                    "\"", if (srctp) 
+                      ", type=\"source\"", ")")
+                }
+                tpp <- pp$Package[pp$Installed == "<none>"]
+                if (length(tpp) > 0) {
+                  optcmd[3] <- str_c("install.packages(\"", paste(tpp, 
+                    collapse = "\", \""), "\"", if (srctp) 
+                    ", type=\"source\"", ")")
+                }
+                optcmd[4] <- str_c("install.packages(\"", paste(pp$Package, 
+                  collapse = "\", \""), "\"", if (srctp) 
+                  ", type=\"source\"", ")")
+                optcmd <- unique(optcmd[optcmd != ""])
+                cat("\nSuggested actions:\n", sep = "")
+                for (a in seq_along(optcmd)) {
+                  cat(a, ": ", optcmd[a], "\n", sep = "")
                 }
                 cat("[Or any other key to do nothing]\n", sep = "")
                 action <- readline("Enter selection: ")
-                if (action == "1") {
-                  eval(parse(text = paste0("install.packages(\"", 
-                    paste(ia, collapse = "\", \""), "\")")))
-                }
-                else if (length(ua) > 0 && length(pp$Package) > 
-                  1 && action == "2") {
-                  eval(parse(text = paste0("install.packages(\"", 
-                    paste(ua, collapse = "\", \""), "\")")))
+                if (action %in% as.character(seq_along(optcmd))) {
+                  eval(parse(text = optcmd[as.numeric(action)]))
                 }
             }
         }
-    }
-    if (getRversion() < "3.6") {
-        warning("Your version of R (", as.character(getRversion()), 
-            ") is not up to date, so pre-built binares are not available\nYou will have to install packages from source using install.packages(..., type='source')", 
-            call. = FALSE)
     }
 }
 
@@ -209,7 +233,8 @@ if(!suppressPackageStartupMessages(require('curl', quietly=TRUE))) stop('The cur
 if(!suppressPackageStartupMessages(require('zip', quietly=TRUE))) stop('The zip package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
 if(!suppressPackageStartupMessages(require('getPass', quietly=TRUE))) stop('The getPass package could not be loaded - please make sure that the curl, zip and getPass packages are installed and try again')
 
-fetch_drat_ll(server='', userpwd='', feedback='Re-source this online script', silent=FALSE)
+if(length(find('server')) == 0) server <- ''
+fetch_drat_ll(server=server, userpwd='', feedback='Re-source this online script', silent=FALSE)
 }
 
 .wrapfun()
