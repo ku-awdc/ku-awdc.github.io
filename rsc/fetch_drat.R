@@ -192,25 +192,26 @@ function (server = "", userpwd = "", feedback, silent = FALSE)
                 tpp <- pp$Package[!pp$Current && pp$Installed != 
                   "<none>"]
                 if (length(tpp) > 0) {
-                  optcmd[1] <- str_c("install.packages(c(\"", 
+                  optcmd[1] <- paste0("install.packages(c(\"", 
                     paste(tpp, collapse = "\", \""), "\")", if (srctp) 
                       ", type=\"source\"", ")")
                 }
                 tools <- which(grepl("tools$", pp$Package))
                 if (length(tools) == 1 && !pp$Current[tools]) {
-                  optcmd[2] <- str_c("install.packages(c(\"", 
+                  optcmd[2] <- paste0("install.packages(c(\"", 
                     pp$Package[tools], "\")", if (srctp) 
                       ", type=\"source\"", ")")
                 }
                 tpp <- pp$Package[pp$Installed == "<none>"]
                 if (length(tpp) > 0) {
-                  optcmd[3] <- str_c("install.packages(c(\"", 
+                  optcmd[3] <- paste0("install.packages(c(\"", 
                     paste(tpp, collapse = "\", \""), "\")", if (srctp) 
                       ", type=\"source\"", ")")
                 }
-                optcmd[4] <- str_c("install.packages(c(\"", paste(pp$Package, 
-                  collapse = "\", \""), "\")", if (srctp) 
-                  ", type=\"source\"", ")")
+                optcmd[4] <- paste0("install.packages(c(\"", 
+                  paste(pp$Package, collapse = "\", \""), "\")", 
+                  if (srctp) 
+                    ", type=\"source\"", ")")
                 optcmd <- unique(optcmd[optcmd != ""])
                 cat("\nSuggested actions:\n", sep = "")
                 for (a in seq_along(optcmd)) {
