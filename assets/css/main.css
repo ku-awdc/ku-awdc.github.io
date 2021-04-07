@@ -3034,7 +3034,7 @@ input, select, textarea {
 				left: 50%;
 				position: absolute;
 				top: 100%;
-				width: 1px;
+				width: 0;  /* Changed from 1px to remove line under buttons in header */
 			}
 
 		#header .inner {
