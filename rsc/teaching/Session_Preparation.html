@@ -570,8 +570,6 @@ effectiveSize(samples)</code></pre>
 <li><p>You have worked through the exercises, understood the key points, and are able to use R at a sufficient level to follow similar exercises during the course week. Please submit an answer to the final exercise (a value of <span class="math inline">\(sigma\)</span> that gives an effective sample size &gt;= 2000) to document this.</p></li>
 </ol>
 <p>If you will not be able to complete this preparation material within the given time frame then please let the course instructor know ASAP that you would like to withdraw your participation in the course, so that the first person on the waiting list can take your place. Please also note that if you fail to email the course instructor before the deadline then your place on your course will be withdrawn automatically.</p>
-<pre class="r"><code># If you are smart enough to read the Rmd document to look for hidden answers to the exercises, then well done.  If you wish then your email may quote the secret password &quot;jabberwocky&quot; rather than an estimate of sigma.
-seq(0.1,1,by=0.1) |&gt; {\(s) plot(s,sapply(s, function(x) effectiveSize(metropolis(sigma=x))),xlab=&quot;sigma&quot;,ylab=&quot;effectiveSize&quot;)}(); abline(h=2000)</code></pre>
 </div>
 </div>
 
