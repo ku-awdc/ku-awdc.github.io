@@ -11,7 +11,7 @@
 
 <meta name="author" content="Matt Denwood" />
 
-<meta name="date" content="2021-06-18" />
+<meta name="date" content="2021-06-19" />
 
 <title>Preparation for online workshop</title>
 
@@ -170,14 +170,14 @@ pre code {
 <h1 class="title toc-ignore">Preparation for online workshop</h1>
 <h3 class="subtitle">Homework and software installation for the online HARMONY training workshop on diagnostic test evaluation</h3>
 <h4 class="author">Matt Denwood</h4>
-<h4 class="date">2021-06-18</h4>
+<h4 class="date">2021-06-19</h4>
 
 </div>
 
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>This document will help you to prepare for the HARMONY training workshop on diagnostic test evaluation being held online from 28th June to 1st July 2021. The workshop will be oriented around practical exercises, so it is very important that you are using a computer with the necessary software installed. Although we will try to keep the programming to a minimum during the workshop, you also need to be sufficiently familiar with R so that you can use it for basic tasks. You will also need to download the teaching material from our GitHub site, so you might find it helpful to have created an account with GitHub before the course so that you can access the material more easily during the week (including any updates we make). Finally, the advanced training workshop will start from the assumption that you have a basic understanding of Bayes’ theorem, and what the difference is between a likelihood, prior and posterior distribution. The purpose of this document is to ensure that you have the necessary software installed, access to the GitHub repository where the teaching material will be made available, and to give you a brief refresher in the basics of Bayesian statistics.</p>
+<p>This document will help you to prepare for the HARMONY training workshop on diagnostic test evaluation being held online from 28th June to 1st July 2021. The workshop will be oriented around practical exercises, so it is very important that you are using a computer with the necessary software installed. Although we will try to keep the programming to a minimum during the workshop, you will need to be sufficiently familiar with R so that you can use it for basic tasks. You will also need to download the teaching material from our GitHub site, so you might find it helpful to have created an account with GitHub before the course so that you can access the material more easily during the week (including any updates we make). Finally, the advanced training workshop will start from the assumption that you have a basic understanding of Bayes’ theorem, and what the difference is between a likelihood, prior and posterior distribution. The purpose of this document is to ensure that you have the necessary software installed, access to the GitHub repository where the teaching material will be made available, and to give you a brief refresher in the basics of Bayesian statistics.</p>
 </div>
 <div id="software-installation" class="section level1">
 <h1>Software installation</h1>
@@ -206,8 +206,8 @@ stopifnot(numeric_version(testjags()$rjags.version) &gt;= &quot;4-8&quot;)</code
 </div>
 <div id="simple-web-usage" class="section level2">
 <h2>Simple Web Usage</h2>
-<p>We have created a public repository containing the teaching material for the training workshop. This means that anyone can view the teaching material at any time via the following website: <a href="https://github.com/ku-awdc/HarmonyTraining" class="uri">https://github.com/ku-awdc/HarmonyTraining</a></p>
-<p>First click on the “Workshop 2 - Copenhagen” folder, then you should see a number of files listed with names like “Session_1.Rmd”, “Session_1.pdf” etc. Each of the sessions for the online training workshop (including this preparation document) has a series of files: the .Rmd is the original Rmarkdown document, and the .pdf and .html files are created from these. You can click on any of these files to view them, although of the different file formats the .pdf version is probably easiest to download directly from the website. There are two problems with this:</p>
+<p>We have created a public repository containing the teaching material for the training workshop. This means that anyone can view the teaching material at any time via the following website: <a href="https://github.com/ku-awdc/HarmonyWS2" class="uri">https://github.com/ku-awdc/HarmonyWS2</a></p>
+<p>You should see a number of folders listed with names “Day0”, “Day1” etc, and within these folders are files like like “Session_1.Rmd”, “Session_1.pdf” etc. Each of the sessions for the online training workshop (including this preparation document) has a series of files: the .Rmd is the original Rmarkdown document, and the .pdf and .html files are created from these. You can click on any of these files to view them, although of the different file formats the .pdf version is probably easiest to download directly from the website. There are two problems with this:</p>
 <p>1 - You will likely encounter problems when copy/pasting R code from the PDF files.</p>
 <p>2 - If/when any of the files are updated, you will not get an automatic update of the new version.</p>
 <p>We therefore recommend that you follow the instructions below to clone the repository directly to your computer.</p>
@@ -219,8 +219,8 @@ stopifnot(numeric_version(testjags()$rjags.version) &gt;= &quot;4-8&quot;)</code
 <div id="github-desktop" class="section level2">
 <h2>GitHub Desktop</h2>
 <p>The easiest way to use GitHub is via GitHub desktop. Go to <a href="https://desktop.github.com" class="uri">https://desktop.github.com</a> and download/install the software. Then open it and sign in using your GitHub account (the username and password that you just created). This should become the primary way in which you interact with GitHub, rather than via your browser.</p>
-<p>The first step is to clone the <code>HarmonyTraining</code> repository on to your computer. From inside GitHub Desktop, go to the File menu then Clone Respository, then click on the URL tab. Then type/paste <code>ku-awdc/HarmonyTraining</code> into the box under <code>Repository URL or GitHub username and repository</code>. A suggested local path folder will be created automatically at the bottom but feel free to change this. Then click on Clone and wait for the files to download.</p>
-<p>Creating the clone copies all of the files currently on the GitHub repository to your computer at the local path specified above (if you can’t remember what this was choose ‘Show in Windows/Finder’ or similar, depending on your OS, under the Respository menu). This is where all of the course material will (eventually) be located. For example, look inside the <code>&#39;Workshop 2 - Copenhagen&#39;</code> folder and open up the <code>&#39;Session_Preparation.html&#39;</code> file - that is a local copy of the same document you are currently reading! But now you also have the PDF version - use this if you want to print the document for some reason, but it is a good idea to stick to using the HTML version if you want to copy/paste R code (you will probably encounter problems with quotation marks if you copy/paste R code from PDF files). The two versions should be identical.</p>
+<p>The first step is to clone the <code>HarmonyWS2</code> repository on to your computer. From inside GitHub Desktop, go to the File menu then Clone Respository, then click on the URL tab. Then type/paste <code>ku-awdc/HarmonyWS2</code> into the box where it says <code>Filter your reposotories</code> or <code>Repository URL</code> or <code>GitHub username and repository</code> (depending on your version of GitHub Desktop). A suggested local path folder will be created automatically at the bottom but feel free to change this. Then click on Clone and wait for the files to download.</p>
+<p>Creating the clone copies all of the files currently on the GitHub repository to your computer at the local path specified above (if you can’t remember what this was choose ‘Show in Windows/Finder’ or similar, depending on your OS, under the Respository menu). This is where all of the course material will (eventually) be located. For example, look inside the <code>&#39;Day0&#39;</code> folder and open up the <code>&#39;Session_Preparation.html&#39;</code> file - that is a local copy of the same document you are currently reading! But now you also have the PDF version - use this if you want to print the document for some reason, but it is a good idea to stick to using the HTML version if you want to copy/paste R code (you will probably encounter problems with quotation marks if you copy/paste R code from PDF files). The two versions should be identical.</p>
 </div>
 <div id="modifying-files" class="section level2">
 <h2>Modifying Files</h2>
@@ -553,7 +553,7 @@ samples &lt;- metropolis(sigma=0.01)
 autocorr(samples, lags=1)
 # Effective sample size:
 effectiveSize(samples)</code></pre>
-<p>Find a value of <span class="math inline">\(sigma\)</span> that gives an effective sample size of &gt;= 2000.</p>
+<p>Can you find a value of <span class="math inline">\(sigma\)</span> that gives an effective sample size of &gt;= 2000?</p>
 </div>
 <div id="conclusions" class="section level2">
 <h2>Conclusions</h2>
@@ -561,15 +561,6 @@ effectiveSize(samples)</code></pre>
 <p>1 - Make sure that the chain(s) have converged, and that a sufficient burnin period has been run before starting to sample. The two most common methods of doing this are to look at the potential scale reduction factor (psrf) of the Gelman-Rubin statistic, and to look at trace plots (typically of more than 1 independent chain) for each parameter to make sure the chains have converged on the stationary posterior. This is extremely important, and can be tricky.</p>
 <p>2 - Make sure that you have a sufficient effective sample size. This is relatively easy to do, simply by remembering to check the effective sample size (this should be produced by whatever software you are using) to make sure it is over at least 500 (and preferably 1000) for all parameters of interest.</p>
 <p>We will reinforce these concepts (and show you how to assess them for models run in JAGS) during the training workshop.</p>
-</div>
-<div id="completing-the-preparation" class="section level2">
-<h2>Completing the preparation</h2>
-<p>Once you have worked all of the way through this document, please send an email to the course instructor to confirm that:</p>
-<ol style="list-style-type: decimal">
-<li><p>You have installed all of the software as instructed at the beginning of the document and will have the same computer (and software) available to you during the course week.</p></li>
-<li><p>You have worked through the exercises, understood the key points, and are able to use R at a sufficient level to follow similar exercises during the course week. Please submit an answer to the final exercise (a value of <span class="math inline">\(sigma\)</span> that gives an effective sample size &gt;= 2000) to document this.</p></li>
-</ol>
-<p>If you will not be able to complete this preparation material within the given time frame then please let the course instructor know ASAP that you would like to withdraw your participation in the course, so that the first person on the waiting list can take your place. Please also note that if you fail to email the course instructor before the deadline then your place on your course will be withdrawn automatically.</p>
 </div>
 </div>
 
