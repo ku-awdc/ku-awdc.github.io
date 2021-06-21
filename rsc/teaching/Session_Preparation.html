@@ -11,7 +11,7 @@
 
 <meta name="author" content="Matt Denwood" />
 
-<meta name="date" content="2021-06-19" />
+<meta name="date" content="2021-06-21" />
 
 <title>Preparation for online workshop</title>
 
@@ -170,7 +170,7 @@ pre code {
 <h1 class="title toc-ignore">Preparation for online workshop</h1>
 <h3 class="subtitle">Homework and software installation for the online HARMONY training workshop on diagnostic test evaluation</h3>
 <h4 class="author">Matt Denwood</h4>
-<h4 class="date">2021-06-19</h4>
+<h4 class="date">2021-06-21</h4>
 
 </div>
 
@@ -182,10 +182,11 @@ pre code {
 <div id="software-installation" class="section level1">
 <h1>Software installation</h1>
 <p>You need to install R (version 4.0.0 or later; preferably version 4.1.0) from <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a> and we recommend that you also use Rstudio which can be downloaded separately from <a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a></p>
-<p>Please also install the latest versions of the following R packages: PriorGen, rjags, runjags, coda, TeachingDemos</p>
+<p>Please also install the latest versions of the following R packages from CRAN: tidyverse, PriorGen, rjags, runjags, coda, TeachingDemos</p>
 <p>You will also need the standalone JAGS software (version 4.3.0 or later) for the course - download the installer for your platform from here: <a href="https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/" class="uri">https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/</a></p>
 <p>To check that you have installed the software correctly please run the following code within R (or RStudio) and make sure that no errors are produced:</p>
 <pre class="r"><code>stopifnot(getRversion() &gt;= &quot;4.0.0&quot;)
+stopifnot(require(&#39;tidyverse&#39;))
 stopifnot(require(&#39;PriorGen&#39;))
 stopifnot(require(&#39;rjags&#39;))
 stopifnot(require(&#39;runjags&#39;))
@@ -239,7 +240,7 @@ stopifnot(numeric_version(testjags()$rjags.version) &gt;= &quot;4-8&quot;)</code
 <h1>Revision of Basic Principles</h1>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The aim of this pre-course work is to revise the underlying principles of Bayesian statistics that you will need during the course. It is designed so you can run the code shown and check that your results agree with those shown here. Feel free to play around with the code to see what happens - that is the best way to learn! If you have not encountered a function before then consult the help file for that function with a question mark followed by the function name, for example: ?seq Some prior familiarity with R will be assumed for this exercise but if you need to brush up then there are lots of tutorials online e.g. <a href="https://www.datacamp.com/courses/free-introduction-to-r" class="uri">https://www.datacamp.com/courses/free-introduction-to-r</a></p>
+<p>The aim of this pre-course work is to revise the underlying principles of Bayesian statistics that you will need during the course. It is designed so you can run the code shown and check that your results agree with those shown here. Feel free to play around with the code to see what happens - that is the best way to learn! If you have not encountered a function before then consult the help file for that function with a question mark followed by the function name, for example: <code>?seq</code> . Some prior familiarity with R will be assumed for this exercise but if you need to brush up then there are lots of tutorials online e.g. <a href="https://www.datacamp.com/courses/free-introduction-to-r" class="uri">https://www.datacamp.com/courses/free-introduction-to-r</a></p>
 <p>We will assume that you have all worked through this material in advance of the course.</p>
 </div>
 <div id="probability-distributions" class="section level2">
