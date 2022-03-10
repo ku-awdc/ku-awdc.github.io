@@ -62,7 +62,6 @@ if (window.hljs) {
 
 
 
-
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -83,9 +82,6 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
 }
 pre code {
   padding: 0;
@@ -188,10 +184,10 @@ pre code {
 <pre class="r"><code>library(&quot;goldfinger&quot;)</code></pre>
 <pre><code>## Loading required package: tidyverse</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.5.9000     ✓ purrr   0.3.4     
-## ✓ tibble  3.1.6          ✓ dplyr   1.0.8     
-## ✓ tidyr   1.2.0          ✓ stringr 1.4.0     
-## ✓ readr   2.1.2          ✓ forcats 0.5.1</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.6     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+## ✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
@@ -213,12 +209,12 @@ pre code {
 <li><p>gy_user_public.gyp [where “user” is your username]: this contains your public keys which other people will need to send you data and/or receive data from you. Please should send this file to Matt by email.</p></li>
 <li><p>gy_user_private.gyp [where “user” is your username]: this contains your private keys which you will need to decrypt data sent to you from others (and to encrypt data to send to others). Please DO NOT send this file to anyone. You should keep it safe (and backed up) on your own machine, and/or on your personal folder on the network drive. DO NOT put this file on any shared network drive.</p></li>
 </ul>
-<p>You can now see a list of the currently available users in goldfinger using this code (the redact=TRUE argument obscures email addresses because this document is online!):</p>
-<pre class="r"><code>gy_users(redact=TRUE)</code></pre>
+<p>You can now see a list of the currently available users in goldfinger using this code (email addresses are obscured here because this document is online):</p>
+<pre class="r"><code>gy_users()</code></pre>
 <pre><code>## User set to &#39;md&#39; of group &#39;goldfinger&#39; (from file &#39;~/Documents/Personal/gy_md_private.gyp&#39;)
 ## Downloading user list...
 ## Verification succeeded</code></pre>
-<pre><code>## # A tibble: 7 × 4
+<pre><code>## # A tibble: 8 × 4
 ##   user    name                  email    user_since
 ##   &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;    &lt;date&gt;    
 ## 1 md      Matt Denwood          **@**.** 2021-09-24
@@ -227,12 +223,13 @@ pre code {
 ## 4 saxmose Søren Saxmose Nielsen **@**.** 2022-02-08
 ## 5 seges   SEGES server          **@**.** 2022-02-10
 ## 6 bcon    Beate Conrady         **@**.** 2022-02-27
-## 7 liza    Liza RN               **@**.** 2022-03-08</code></pre>
+## 7 liza    Liza RN               **@**.** 2022-03-08
+## 8 vgr853  Lars Pedersen         **@**.** 2022-03-10</code></pre>
 <p>When the function is run, an updated list of users is downloaded from a shared resource on the internet. By default this file is only fetched once per R session, but you can force an update using:</p>
-<pre class="r"><code>gy_users(refresh=TRUE, redact=TRUE)</code></pre>
+<pre class="r"><code>gy_users(refresh=TRUE)</code></pre>
 <pre><code>## Downloading user list...
 ## Verification succeeded</code></pre>
-<pre><code>## # A tibble: 7 × 4
+<pre><code>## # A tibble: 8 × 4
 ##   user    name                  email    user_since
 ##   &lt;chr&gt;   &lt;chr&gt;                 &lt;chr&gt;    &lt;date&gt;    
 ## 1 md      Matt Denwood          **@**.** 2021-09-24
@@ -241,15 +238,16 @@ pre code {
 ## 4 saxmose Søren Saxmose Nielsen **@**.** 2022-02-08
 ## 5 seges   SEGES server          **@**.** 2022-02-10
 ## 6 bcon    Beate Conrady         **@**.** 2022-02-27
-## 7 liza    Liza RN               **@**.** 2022-03-08</code></pre>
+## 7 liza    Liza RN               **@**.** 2022-03-08
+## 8 vgr853  Lars Pedersen         **@**.** 2022-03-10</code></pre>
 <p>Once Matt has received and processed your public file, then your details will be included in this list.</p>
 </div>
 <div id="a-note-on-passwords" class="section level2">
 <h2>A note on passwords</h2>
 <p>The goldfinger package stores your password using the keyring package. On Windows, this means using the Credential Store, on macOS it uses Keychain, and on Linux it uses the Secret Service API. These passwords are safely stored as part of the user settings on your computer, and can only be read by processes running under your user account when you are physically logged in. This provides a relatively strong safety mechanism in a highly convenient way. You can see the usernames that have a password saved with goldfinger using the keyring package:</p>
 <pre class="r"><code>keyring::key_list(&quot;goldfinger&quot;)</code></pre>
-<pre><code>##      service username
-## 1 goldfinger       md</code></pre>
+<pre><code>## [1] service  username
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 <p>You will need to re-enter your password in the following situations:</p>
 <ul>
 <li><p>You get a new computer, or move user accounts, or reformat your computer</p></li>
@@ -311,14 +309,14 @@ str(cars)</code></pre>
 ## 
 ## $metadata$versions
 ##                actual                sodium                    qs 
-##             &quot;0.4.3-1&quot;               &quot;1.2.0&quot;              &quot;0.25.3&quot; 
+##             &quot;0.4.3-1&quot;               &quot;1.2.0&quot;              &quot;0.25.2&quot; 
 ##                  rcpp                     R             date_time 
-##               &quot;1.0.8&quot;               &quot;4.1.2&quot; &quot;2022-03-10 14:42:06&quot; 
+##               &quot;1.0.8&quot;               &quot;4.1.2&quot; &quot;2022-03-10 23:02:15&quot; 
 ##                  type               minimum 
 ##             &quot;decrypt&quot;             &quot;0.4.2-0&quot; 
 ## 
 ## $metadata$date_time
-## [1] &quot;2022-03-10 14:42:06 CET&quot;
+## [1] &quot;2022-03-10 23:02:15 CET&quot;
 ## 
 ## $metadata$gy_type
 ## [1] &quot;gy_save&quot;
@@ -326,104 +324,104 @@ str(cars)</code></pre>
 ## 
 ## $decrypt
 ## $decrypt$makg
-##   [1] 3c ed 69 97 3b 92 e5 8e 8c 03 37 f0 5c f5 9a 20 9a a0 ac d6 c1 96 3d ec 8d
-##  [26] f7 c7 5f e2 8e 0a 9e 82 3d de c8 1e 88 81 0b 49 5f 62 8b 48 8d 81 a4 f0 4f
-##  [51] 22 d5 27 24 94 e4 43 0f 9b df e2 d5 1c 31 90 3d a2 26 1c 88 0c 36 5e 2f 60
-##  [76] 1d 4f 05 0b a6 19 6d be e6 30 70 22 bf b2 6c bc d4 97 ab 44 87 24 78 aa bc
-## [101] 0c 66 85 aa 16 58 d2 3c 59 b3 70 7a 6d 2e e9 57 8d 7e ff cf 25 58 89 34 eb
-## [126] 7b 30 ad 6e bc 82 1f 92 a4 d3 41 38 06 57 f0 1f c5 53 3b 3f 7a 39 0c 0a 10
-## [151] e8 27 7c bc 15 ab ca 92 8b 8d 88 07 a5 ee dd 62 f3 d3 62 19 65 31 09 f5 4c
-## [176] ec ad f0 cc 9c bf a3 72 1d e7 34 db d5 ca 32 11 57 a6 3e 3d b6 95 83 8b 8d
-## [201] 86 56 c1 f1 3b a9 81 61 e9 19 b8 ad 05 5f 7d b5 93 2a c6 e2 3e d7 fb 6d d4
-## [226] ab c8 8d 7d 66 d8 5a cc 8e 0a 66 49 8b 2f aa 76 1c da c8 4f 11 db 20 2c aa
-## [251] 47 4e 32 41 3c 20 77 ec f2 4a 39 ae 15 e0 c0 60 5c bb 68 b3 fa 95 5d ce 1c
-## [276] 5b 58 60 c6 e4 ba ad 5b 7a 8b cb 30 95 82 11 08 06 f9 77 ba c1 90 68 14 d1
-## [301] 8c 5d fd 2d 4f 9f ee 4e e3 9d 15 da ff 78 af 7e ea 1c 3d 58 9e 4a 55 6c 38
-## [326] f8 ab 44 58 a6 35 b1 56 87 d7 ff c8 42 6f 3a 4f 88 d8 28 93 3b 45 07 6f 17
-## [351] f5 7c 43 08 14 f6 8a 10 ff 95 6c 41 89 12 e8 75 44 74 6f 52 f8 83 09 93 7b
-## [376] eb 43 5d 4a bb 07 1c 27 5c a0 43 2c 99 b4 cd f4 8b 36 65 76 7c e4 08 ee 2f
-## [401] 01 2d 34 d7 cd 6e 40 ba 49 0a 93 66 65 11 bc 4b 9c 1c ce 69 20 92 93 8c d8
-## [426] 1a 28 b9 e6 3c ee b3 2e b5 da 52 be 10 ab 31 86 6e 69 eb 3f 75 d0 fb d2 77
-## [451] 75 13 f4 e7 84 ce 29 9a 40 d1 ff 98 30 d4 f6 c3 d6 13 68 ae 08 62 b6 62 c9
-## [476] 7d c5 60 4c 00 73 15 eb d5 21 94 93 89 0b d1 bc ac 01 62 55 43 7c 0f a6 54
-## [501] 3d 3b ef 86 97 f9 c8 d3 ff 60 9d ce 6b f9 bd 34 ef b2 00 fd 5a c6 df 09 2c
-## [526] a6 49
+##   [1] 8d 3a f0 4d 11 b6 85 1b 8d a0 15 c4 89 bd 2a 01 80 a5 89 a8 e1 96 0c 21 fb
+##  [26] dc 09 36 51 0e e5 ed be 28 2a 17 63 98 dc 49 c5 3a c6 cf 8f 70 5d 2e cb 76
+##  [51] 46 d0 11 e2 29 7a 41 38 90 8d d1 43 ad fe f9 d6 30 ec 4f d7 66 f3 d5 53 0e
+##  [76] f3 e6 14 bf 6d da 29 1f d6 8b c6 c6 35 91 ba 2f d7 2f e5 6e d0 d7 53 2a 4d
+## [101] ee 9c 43 c0 fd f4 04 b9 8f 0c 9c fa d4 d6 0d 69 80 ee 3c e5 86 69 79 95 55
+## [126] 97 1c 92 d4 0c 5f b6 bd be 48 14 ae c7 1b 58 6b ec 78 fd a4 7f 75 71 a7 ca
+## [151] 00 19 bc 8c 56 34 e5 f7 6b 62 82 0a 6e 65 ce 31 00 56 fd 8a 17 71 b4 70 89
+## [176] 95 2a 4a 02 38 ae 56 b4 da 5a af 19 bc f1 58 9c f8 92 25 cd bd db 71 72 e8
+## [201] df 3a 9b 00 a5 2f 35 94 cb 17 6d 9b 18 2c 3d ac 13 19 99 ae 15 36 bb 28 d2
+## [226] a6 6c ed 6d 48 8c b9 4b 49 d4 12 f1 e8 c8 01 e7 d4 75 70 e3 cf a2 32 c7 67
+## [251] c8 e4 92 4c 59 54 b4 c4 4c 70 ab 08 2d d8 5b 1f 07 ca fb 8b b6 80 f1 fa b1
+## [276] 84 4d 88 e8 ad 10 7d 86 38 f6 a5 e7 c3 8a c7 61 c7 ee b6 19 fc bb 5a c4 a4
+## [301] 60 0f 18 09 0e 32 4e 24 5b 08 5c 04 17 e9 86 31 4b 0e 49 11 b3 5d 8d 67 40
+## [326] 0e c3 99 87 72 48 fd 24 64 95 cf 0c 34 7e dc 80 00 6b 0c 92 ae 66 17 31 9f
+## [351] 30 3d aa 44 9a fb e7 e0 59 53 52 25 c1 5c 80 24 a5 98 f8 40 6d 5a 7a 5e f8
+## [376] b3 e4 bd 01 af 4b 27 03 08 a0 a2 d6 c1 0f c0 8b dd ba eb 7b 5f e0 ea 87 cc
+## [401] df d1 bc 74 65 31 96 09 d6 a2 89 97 d5 eb a8 bd 8f a9 df f6 d2 eb 72 b2 6b
+## [426] 11 63 93 bb 82 2f d6 d3 a7 93 98 09 9b 28 8c bd ea 83 fe f0 74 be 20 48 4f
+## [451] e5 4e fd 0e 9b a4 d1 b4 4c 36 d8 4e 07 0d bb b2 36 9d 1b 35 7a 9b ad a8 47
+## [476] e2 ce 3d e0 f1 94 b8 5f e8 19 32 8c 54 09 14 72 e2 93 80 15 74 41 4c 61 fb
+## [501] e3 cd 3c c0 88 e6 5e 6c 41 d2 44 d5 a7 0d be 02 da 4d 30 54 50 92 52 2a 5c
+## [526] 96 01
 ## attr(,&quot;nonce&quot;)
-##  [1] 9f 2e f2 25 15 d3 b3 55 a2 06 ca 17 6f fd cb 5d 35 4c 02 9f 02 47 ea 91
+##  [1] 53 6b 6d 06 ed c1 8b 76 65 85 d5 bb 7c 83 95 eb 1c f3 0e d8 74 33 da cb
 ## 
 ## $decrypt$saxmose
-##   [1] 57 a7 d8 73 b0 39 53 c7 3c 24 29 66 1c c9 15 ae 4f 35 d3 03 d8 cc 28 c7 25
-##  [26] 08 3e 86 b9 69 51 05 aa 2a 10 49 86 b8 61 ee fd 94 c8 8a e4 aa 88 cd 6d 35
-##  [51] 1a 4c da 78 d5 61 bc 59 c8 5a 70 2a 3b ca f3 eb 10 ad 37 26 3e 3e 91 5d 08
-##  [76] ec f9 38 7c 9a fd a5 89 f7 55 00 a3 1f 2f 99 9f db 6b bd 86 4c aa 4c 66 da
-## [101] 33 f8 23 54 5d a4 59 7e 1f b3 1e 03 43 cf ea c9 6a 5b 1d da a7 47 e8 67 45
-## [126] 7d 99 ef be ec bf d1 4a b5 72 73 ea 69 c4 06 54 88 56 17 16 a0 3d c9 b9 92
-## [151] 01 2d 30 d9 41 85 a5 02 54 25 43 23 12 95 36 10 69 bb 7a f8 d7 ba cc 37 01
-## [176] 1d 88 d7 54 75 56 71 e5 54 95 27 43 95 9d 9d f7 23 a3 86 23 13 3c 12 46 fa
-## [201] 6e 1e 9b 54 b5 b4 62 55 c2 23 84 7d 00 2c 5b 26 04 76 1d 69 9b 94 ce b5 3b
-## [226] 2c 20 13 4a 6e 85 7e fe 5b 81 40 cf 02 f1 c8 89 ba 93 90 53 68 0e a6 6d d4
-## [251] 37 51 c2 55 25 62 cf 36 0f ea af 8a d3 33 cd fa 46 ab eb a3 9f 77 81 e6 db
-## [276] ff be 85 1c 74 35 39 5b cc 12 46 d0 ca be c1 9c b0 db 10 6f 20 e7 49 01 cb
-## [301] 66 14 bf 45 58 8c 96 8a bd 6d d3 da 48 26 22 42 51 71 f7 bd d0 c9 3c be b2
-## [326] 41 ee 0e ad 01 aa fa 29 7d b6 23 cc 51 b7 fe 1e 04 eb cb ea db 78 0f f2 b9
-## [351] 0a 44 dd 9f 15 82 a7 5e 65 b2 8f 7a 80 6d 4d ca 87 7d 9d 0b 55 ae 30 e9 95
-## [376] b2 91 08 6c e3 64 06 9a d6 d5 7f f6 d4 d4 d3 bc d2 14 7f b6 cd e0 bd d2 5f
-## [401] b5 f0 26 b6 99 40 52 dd c5 25 8d f3 8d 4d 16 48 3e 10 2c 4e 03 2e c9 47 76
-## [426] cd 33 4b c4 ac 5b 7b f5 7c 7b f0 56 71 bf 01 30 75 0d 47 7a d1 47 cd bc 63
-## [451] 0c ee 7e 4b 3d f5 f2 f1 4e 49 16 dc 7d a1 86 c7 32 9c da 02 90 ba 74 1f 8e
-## [476] e8 12 9f b6 1c dd 1c 5d 7d 00 3c ac b0 c0 03 51 9b 63 11 f8 3c 54 9e 33 b9
-## [501] a1 c0 ff 9e c7 d5 a3 28 6f 56 16 e9 fb b3 95 35 5d 96 e0 8c a6 ae a7 55 3a
-## [526] 90 fb c4 e6 fb
+##   [1] 24 de 41 0d 37 a7 c8 28 e1 8d e1 9c ea b6 fa 09 7f af 28 12 6b 1c 06 51 03
+##  [26] 9c c3 57 c5 e8 32 2f 29 93 d9 99 ac 1f c4 ad 64 71 f1 34 8a 53 86 dd cd c0
+##  [51] ae ab 04 62 83 cd e7 64 51 d8 7c f1 59 6a a7 8a 5a 5b 2f 89 aa c3 51 59 83
+##  [76] e1 e1 7e 4d 83 17 46 d9 12 32 03 04 e7 35 ff e2 0c 13 17 3a 4c 06 ae 7b a1
+## [101] 89 b1 f1 5f d3 89 39 58 d6 8a bc 14 47 c6 cf 07 b0 45 61 99 c2 e9 d2 3a 64
+## [126] cd dd 43 1d fc 79 20 68 b4 be ee 68 a7 d1 96 55 b4 0c 36 49 13 87 d7 2e b6
+## [151] d3 10 3e ad f6 2a b9 b3 69 05 f9 80 9c 9d 9f 1b f9 30 3c f8 cc 2d 25 c2 92
+## [176] 47 4a 49 4c 20 ec dd a3 08 98 0a 9d 01 15 b2 95 6b a8 f3 e0 3a 61 9d 44 90
+## [201] 4d 7d 91 b8 47 25 21 4e 84 52 86 57 97 ff 79 55 5e b7 62 f7 f1 e8 91 e7 e4
+## [226] 28 7f 52 07 e3 49 d6 7b 7e b7 40 3a 12 ff b9 2f 86 20 f2 96 b9 8a 12 b3 67
+## [251] d6 e4 59 4f 11 48 79 31 fb ce 79 a8 63 03 cc aa 5c bb 7f 06 07 bb 41 38 89
+## [276] 3e 93 d8 51 c5 11 6b ef 3e 83 fd b6 d3 04 20 fc aa 85 84 a6 78 64 1f 09 2a
+## [301] 6b 14 4c e0 0f ec 67 eb b3 eb 47 cd 5b 51 af ab b7 7f 86 78 c3 0f b1 92 40
+## [326] 56 09 35 00 c0 1a c6 35 a6 19 15 8f 74 b2 ce ea a2 bf d3 d1 b5 97 e7 60 c5
+## [351] 0c 42 79 43 65 04 c7 e5 30 5f ab bf d9 09 aa 80 ea a3 7b c7 8f 2c 26 21 54
+## [376] d7 0d 0d ab 9c 34 ce 54 2a c2 b6 c8 c0 46 b8 04 7b 15 2a 75 0c f0 56 fd 0e
+## [401] 5b d0 a2 ee ea 76 dc a9 ae a1 ae 38 aa 9e ee f6 9e 47 3c 98 09 9b 81 ee 48
+## [426] 65 40 ff 4d ca 3c 41 45 20 c3 9c 80 3a b2 9b 19 93 7b 47 4e a6 ca d4 ee a3
+## [451] 64 85 da e0 29 4b e1 9b f0 3c c9 bb 14 73 15 11 78 a2 ca e3 d3 f7 ca 65 c3
+## [476] 97 84 14 ec af ee a0 7b e8 04 cf 7a 37 40 d5 9e a0 7f c0 10 56 8f ea 4d f3
+## [501] 98 4c c0 f3 74 fb 65 53 cb 6f d5 cc 26 dc 3b 55 7d ea 59 43 dc c9 4b 3a 01
+## [526] 0e bc 9e 31 a2
 ## attr(,&quot;nonce&quot;)
-##  [1] 97 cf a3 8a 84 e8 1a 33 67 cb d6 fb 61 80 e3 68 24 99 4f b0 06 e2 5f 29
+##  [1] 40 65 e8 bc 2b b0 f1 37 3f 0f d8 b9 fc af 89 2b 19 9d 2b b9 43 6e f2 6a
 ## 
 ## $decrypt$md
-##   [1] ff 89 d4 b6 6b 01 6d bb b2 f5 72 00 a4 af d6 b5 c8 c2 4d 8b 7c b8 65 17 90
-##  [26] 5a 56 66 16 f8 9c e1 8f b7 ab a9 19 f1 15 f3 3f 70 df 74 c7 b1 a7 dd ed 44
-##  [51] 38 0b 76 30 2d 01 86 d7 ed f5 c0 59 97 64 b9 7b b3 82 7e 6f 39 24 13 84 4b
-##  [76] 81 b0 d9 92 c2 97 4f 9f cd f8 1c 7e d7 c6 ff ce e3 c8 74 93 a5 5e 35 33 65
-## [101] 77 9c 64 2a 10 e6 90 0d 7f 66 19 ee 5d 37 0f 1b d5 e7 eb dc a5 6e 1f 5f 40
-## [126] d7 49 7a 62 bd 7e e5 dd 06 9b 70 d2 48 21 c6 f1 27 8d 8c 63 89 b6 93 ee 36
-## [151] 55 66 30 1d f4 0c 34 58 5e 13 06 1c f1 03 67 97 ec 61 0f 38 04 dd 0e 2d 99
-## [176] 5a d1 17 8c 84 bc 0d f7 09 90 c6 92 70 a6 ff 2f 95 6b 49 c5 3b 2e da 9b 7f
-## [201] 83 1a 08 41 c3 2c 36 e6 32 34 a9 53 28 eb 4c b8 6e 05 af 5c 4c b8 c4 fe c5
-## [226] 72 fe 6c c5 96 ea 87 af d1 e2 a2 4e 19 86 8c a5 5b d2 4b e3 1e 2c 54 79 27
-## [251] 87 c2 73 63 c5 51 44 8d 2b f3 e0 d7 c4 d4 01 5a 4e 67 31 ed db 8c ab c3 28
-## [276] 52 bc 5c bc aa 85 98 11 75 8b 7a 25 40 c3 06 91 93 26 95 3c 33 e6 7c 75 85
-## [301] 06 bb 3e 45 f6 88 57 22 1b 0a ae b2 d2 9f 09 0a 4f ac e2 07 80 97 65 19 33
-## [326] 59 82 27 2b f4 69 4d 86 ff d0 4e 47 c4 10 ea dd 39 7a 74 ea c2 cf 4f 1b 86
-## [351] 4d b9 e9 b6 ea 9e d0 37 84 ce 7b eb 2d f0 ef 7a 6b a5 a8 ea 90 d1 53 da 35
-## [376] fc a9 23 cc 72 6a 85 02 d6 3e 1f 65 6e e4 5d f8 3d 38 09 e1 de a2 13 b1 05
-## [401] 94 24 3f d3 64 ae 63 cd d1 96 d5 dd 59 4b 65 25 b1 87 75 e2 de 0d 8e e2 a8
-## [426] bd 58 fb 0f bd 57 92 44 3b 81 b0 b8 e7 ef d8 e0 6b 38 72 20 ba 38 87 1a 3b
-## [451] 46 14 79 67 e0 36 9a 39 4b bf 9b 06 9f e5 60 d8 41 0d 4b ac 7f 38 ef 0d e7
-## [476] 39 1e 7e 9a 07 62 38 e0 63 d8 5f 69 33 81 db 21 f3 9b af db 26 10 04 bd c0
-## [501] 65 bc 1f 9f ef 03 28 ac 69 1b fd 13 b2 71 ce fc 0a dc be 9f ea 30 1d ab 48
+##   [1] 6f 36 2f dd 8b c5 b0 75 0e cd 47 eb ca d2 2e 82 3d d7 73 44 83 b1 30 d9 88
+##  [26] 94 1b 85 45 88 a5 a0 6d ef cc 5b 56 32 11 7c 45 10 b4 b7 b4 d3 f6 36 20 50
+##  [51] e7 37 48 3f 90 7e 77 af f5 13 1b 40 02 21 31 67 28 d3 16 4a 64 50 9f c9 e4
+##  [76] 40 2d 7c 63 ff 84 18 d4 b7 8f 66 2d ac 08 bb 9f 98 e1 6f 9f 1c 3b d3 dd 78
+## [101] 54 cb d8 4c 7f 86 a6 08 b2 73 9f 9d 76 c7 c6 fb b6 c2 09 a0 43 86 88 a0 58
+## [126] ef d1 6e ac 76 5d fd 21 05 32 f9 41 24 62 df 72 a9 5c 4c 9c 10 58 58 2a 60
+## [151] 38 28 d4 ad 3c 98 75 e2 15 3d ce 5e d3 a5 f0 ea fd 62 41 46 8b d7 0e a2 91
+## [176] 46 8d 42 0d d8 76 9c 7b f4 c0 0d 6a 6e 44 8e de d1 08 7b 37 0c dc 7e 98 e3
+## [201] f0 fb 7d c1 56 ca 6d c6 56 af ed be 69 fd 74 1d 14 f2 95 83 8a 51 6d 49 10
+## [226] 28 46 90 9d 4f a2 ba 89 f1 3d 06 56 19 89 db 2f 01 a7 dd f1 09 84 8d be 44
+## [251] 3c 11 7e 75 c1 d8 15 bb 55 87 96 31 4c e9 3e a1 e6 7d f5 ca 3c 40 70 9c 10
+## [276] 4e da b9 3e 45 bc 54 4d b2 13 34 c0 24 40 89 34 40 fe 2f 7f 64 dd 9a 28 20
+## [301] 76 ee 71 51 89 f9 4d b3 af 33 d1 06 be 91 0d 04 f3 bb 70 05 8b 3c 3e 49 a6
+## [326] 6c 78 58 fc c1 77 9e 16 d4 be aa 4f ee cd fe 15 93 37 2f f3 65 0e ca bb f7
+## [351] 95 00 2f 1d d7 a6 ef 89 7f fd 25 f7 7b c7 d8 24 1a 30 a9 37 0f f8 cc c6 ea
+## [376] d4 8a 45 db d0 ac f0 1a 3c 27 7d b4 bc 70 3b ea 8b 11 ac eb dc 27 31 26 b6
+## [401] 8b f1 dd c1 bc 63 01 60 9f 58 67 12 7f 77 22 d5 d0 70 f5 75 15 0f b2 30 ab
+## [426] 2b 1b 8f 71 f6 ea 4d e8 ce a5 c3 1b 48 4e 2a af 3d dc e7 37 9c c4 0f da 5a
+## [451] 7a 9f b5 9b 1d 57 76 cd 41 d7 31 2e 5e 75 33 b6 4b ca 67 79 67 e2 8e 10 b2
+## [476] 1d 03 0f 52 47 d9 7c 6e b1 a9 ee 82 94 2c 47 9a 86 9f c6 33 17 9d 49 76 dd
+## [501] 1d 0b 9b 4e 80 f7 1a f3 e8 e1 c8 26 f3 66 11 fc fb 82 58 d3 2e 6f c1 cf 8a
 ## attr(,&quot;nonce&quot;)
-##  [1] f4 2a ef ef 8c 7f b4 89 f4 36 55 a4 86 f7 68 8a fd 1d bf aa dd 90 32 99
+##  [1] f0 8b 6d 88 d9 44 9c 83 6d e1 f6 b7 5f ac ed 79 bd 03 c4 d2 7f 75 04 ac
 ## 
 ## 
 ## $object_encr
-##   [1] 05 9f 1a ab e6 78 4d b9 38 ef 7e 18 33 e3 5e af 55 e0 e6 55 db b2 f2 f9 14
-##  [26] 7d bd 4c fc 41 f9 c8 9a d0 9e 53 4b cd 0b a7 31 5c d3 cc ad 39 10 ae ad 79
-##  [51] 99 0f 86 38 84 47 ce d0 d3 e2 b9 dc 2b d9 3a 4b 52 47 09 5e 40 61 f6 36 d3
-##  [76] 00 b9 a9 1d cf 75 e4 84 17 4c 16 43 f4 86 2f 51 86 40 3b 3b fa 84 e8 31 9f
-## [101] 14 10 52 93 75 23 05 fe 46 a1 c6 e6 dd ff 6e 76 0e e9 61 7a 27 f5 67 f4 f9
-## [126] 05 54 f0 c1 2c 87 17 aa de 64 fb d2 20 5e 7c 60 6d 2f 13 51 d5 58 07 4c 51
-## [151] 4b 6b 9a 67 a6 36 31 66 de 44 ab 4a 84 1e 9f 58 14 ba cc a6 15 8f 81 69 6b
-## [176] 99 67 e3 d0 22 4c b2 b9 d2 a5 8c 46 cc f0 de 3a 04 59 f4 8a bc dd 31 30 73
-## [201] 6c 85 30 0a df b8 53 b5 38 10 d7 0b 53 ca a5 b9 52 da 14 af d5 b5 05 a5 f8
-## [226] 18 2c 31 80 dd 05 94 f3 dd b0 3d 4f be de 45 6c f7 a6 52 47 07 0c 90 4a 4d
-## [251] 82 b6 fd 3f f9 8b 12 10 c8 a7 6d 6e de 9e 65 67 3b 1c 54 41
+##   [1] 22 6a 80 d3 9a 36 e4 ea c8 e6 5b fb 50 6e 8a 96 6d 19 6f 42 62 d1 3e e2 0a
+##  [26] d7 19 f5 c6 ac 6f 4a 5e 0e 95 11 1d 0b d8 0b ec 6b 0d ef 0d 7f 69 18 97 1d
+##  [51] 65 61 51 04 b6 3b 9c 5c 17 da e6 5b 5c 1b dd 72 de bf 53 d2 77 b9 25 70 99
+##  [76] f6 ec 51 20 51 e9 7f e8 a0 7b 3f 40 e1 88 01 a7 fd 2a c7 d4 ce d5 4a 78 57
+## [101] 1b cc ab 44 ec 42 88 2a 0f d0 96 14 6a 0e 27 3e 02 aa f0 df 93 0c 36 a0 b5
+## [126] c4 ee 1a 4a 4e ce c2 43 27 46 8e 8c ed 52 bc 96 1e ce 15 c2 d8 87 16 59 fd
+## [151] ed 2b ce bb ff 43 6b c1 4a 01 41 49 fa 59 90 95 ea e9 9e 0d 6e b7 3a 80 c2
+## [176] 87 6a 2e 7b 55 04 98 bc 1f 18 8c ea 72 f4 1f 31 45 50 8a ea 67 4b a0 17 00
+## [201] ba 91 3f d8 eb d7 b3 b9 fc 3b c7 06 ff 71 f1 37 dd ad 7c 46 e6 75 2e 2f 3e
+## [226] 47 e4 c5 02 8b 31 9d 9f 79 7a 1a d8 c2 f9 41 31 f5 57 aa 9c 1f c4 d3 9f b0
+## [251] 08 74 2b ad 4f 49 ba 69 77 94 23 ee 19 fa 74 4e 91 eb 46 48
 ## attr(,&quot;nonce&quot;)
-##  [1] 2e da 07 9a 8d b3 a0 b7 22 02 7d 8c 9b 97 d8 ee 06 8a da 05 87 79 c3 ed
+##  [1] 63 7e 40 32 6c 75 ee 75 d8 bc 88 4b 8e 7c 58 0e 59 22 2a 3b d4 ca ff 95
 ## attr(,&quot;ser_method&quot;)
 ## [1] &quot;qs&quot;
 ## attr(,&quot;versions&quot;)
 ##                actual                sodium                    qs 
-##             &quot;0.4.3-1&quot;               &quot;1.2.0&quot;              &quot;0.25.3&quot; 
+##             &quot;0.4.3-1&quot;               &quot;1.2.0&quot;              &quot;0.25.2&quot; 
 ##                  rcpp                     R             date_time 
-##               &quot;1.0.8&quot;               &quot;4.1.2&quot; &quot;2022-03-10 14:42:06&quot; 
+##               &quot;1.0.8&quot;               &quot;4.1.2&quot; &quot;2022-03-10 23:02:15&quot; 
 ##                  type               minimum 
 ##         &quot;deserialise&quot;             &quot;0.4.2-0&quot; 
 ## 
@@ -446,7 +444,7 @@ str(cars)</code></pre>
 dput(keygen(), file=&quot;external_key.txt&quot;)</code></pre>
 <p>This is the contents of the file:</p>
 <pre class="r"><code>cat(readLines(&quot;external_key.txt&quot;))</code></pre>
-<pre><code>## as.raw(c(0x73, 0x42, 0x71, 0x22, 0x56, 0x2c, 0x54, 0x3f, 0x62,  0x7d, 0x79, 0x1b, 0xfa, 0x98, 0x72, 0xae, 0x53, 0x6f, 0x57, 0x94,  0x09, 0xdf, 0x75, 0xee, 0x84, 0xe1, 0x26, 0xd0, 0x9d, 0x86, 0x9b,  0x38))</code></pre>
+<pre><code>## as.raw(c(0x92, 0x2a, 0x06, 0x12, 0x4f, 0x7b, 0x39, 0xcb, 0x54,  0x29, 0x6e, 0x39, 0x45, 0x6a, 0x2b, 0x5c, 0x01, 0x1f, 0x20, 0xd0,  0xc9, 0xb5, 0x68, 0xf0, 0x07, 0xfd, 0xce, 0x13, 0x83, 0x82, 0x2c,  0x4a))</code></pre>
 <p>Then we can write a pair of functions that take an input, and encrypt/decrypt this input using the key in the file. The important point is that the file is read every time the function is run, and the external key is never stored:</p>
 <pre class="r"><code>encfun &lt;- function(x){
   cat(&quot;Reading external key for encryption...\n&quot;)
@@ -480,7 +478,7 @@ name</code></pre>
 <pre class="r"><code>rm(name)</code></pre>
 <p>We now have an encrypted version of the raw data, which is not the same as the original:</p>
 <pre class="r"><code>rawToChar(enc_name)</code></pre>
-<pre><code>## [1] &quot;\x9eۄ\xe5\xad&gt;h~Ӫ\u008a\x84\x9961\x8dL\xe30&quot;</code></pre>
+<pre><code>## [1] &quot;\f\xfa;\xbaH#`\016\xf4V*&gt;LRG\022kO\xc9\xd5&quot;</code></pre>
 <p>But we can recover the original using the corresponding decryption function that uses the same key:</p>
 <pre class="r"><code>name &lt;- decfun(enc_name)</code></pre>
 <pre><code>## Reading external key for decryption...</code></pre>
@@ -515,49 +513,48 @@ name</code></pre>
 <h2>Session information</h2>
 <p>This guide was produced on the following date and system:</p>
 <pre class="r"><code>Sys.time()</code></pre>
-<pre><code>## [1] &quot;2022-03-10 14:42:06 CET&quot;</code></pre>
+<pre><code>## [1] &quot;2022-03-10 23:02:15 CET&quot;</code></pre>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 4.1.2 (2021-11-01)
-## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Big Sur 10.16
+## Platform: aarch64-apple-darwin20 (64-bit)
+## Running under: macOS Monterey 12.2.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
-## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
 ##  [1] sodium_1.2.0       goldfinger_0.4.3-1 forcats_0.5.1      stringr_1.4.0     
-##  [5] dplyr_1.0.8        purrr_0.3.4        readr_2.1.2        tidyr_1.2.0       
-##  [9] tibble_3.1.6       ggplot2_3.3.5.9000 tidyverse_1.3.1   
+##  [5] dplyr_1.0.7        purrr_0.3.4        readr_2.1.1        tidyr_1.1.4       
+##  [9] tibble_3.1.6       ggplot2_3.3.5      tidyverse_1.3.1   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_1.0.8          lubridate_1.8.0     getPass_0.2-2      
 ##  [4] assertthat_0.2.1    digest_0.6.29       utf8_1.2.2         
 ##  [7] R6_2.5.1            cellranger_1.1.0    backports_1.4.1    
-## [10] reprex_2.0.1        evaluate_0.15       httr_1.4.2         
-## [13] pillar_1.7.0        rlang_1.0.2         readxl_1.3.1       
-## [16] rstudioapi_0.13     jquerylib_0.1.4     rmarkdown_2.12     
-## [19] qs_0.25.3           munsell_0.5.0       broom_0.7.12       
-## [22] compiler_4.1.2      modelr_0.1.8        xfun_0.30          
-## [25] pkgconfig_2.0.3     htmltools_0.5.2     tidyselect_1.1.2   
-## [28] fansi_1.0.2         crayon_1.5.0        tzdb_0.2.0         
-## [31] dbplyr_2.1.1        withr_2.5.0         grid_4.1.2         
-## [34] jsonlite_1.8.0      gtable_0.3.0        lifecycle_1.0.1    
+## [10] reprex_2.0.1        evaluate_0.14       httr_1.4.2         
+## [13] pillar_1.6.5        rlang_1.0.0         readxl_1.3.1       
+## [16] rstudioapi_0.13     jquerylib_0.1.4     rmarkdown_2.11     
+## [19] qs_0.25.2           munsell_0.5.0       broom_0.7.12       
+## [22] compiler_4.1.2      modelr_0.1.8        xfun_0.29          
+## [25] pkgconfig_2.0.3     htmltools_0.5.2     tidyselect_1.1.1   
+## [28] fansi_1.0.2         crayon_1.4.2        tzdb_0.2.0         
+## [31] dbplyr_2.1.1        withr_2.4.3         grid_4.1.2         
+## [34] jsonlite_1.7.3      gtable_0.3.0        lifecycle_1.0.1    
 ## [37] DBI_1.1.2           magrittr_2.0.2      scales_1.1.1       
-## [40] RcppParallel_5.1.5  cli_3.2.0           stringi_1.7.6      
-## [43] fs_1.5.2            xml2_1.3.3          bslib_0.3.1        
-## [46] ellipsis_0.3.2      keyring_1.3.0       generics_0.1.2     
-## [49] vctrs_0.3.8         stringfish_0.15.5   RApiSerialize_0.1.0
-## [52] tools_4.1.2         glue_1.6.2          hms_1.1.1          
-## [55] fastmap_1.1.0       yaml_2.3.5          colorspace_2.0-3   
-## [58] rvest_1.0.2         knitr_1.37          haven_2.4.3        
-## [61] sass_0.4.0</code></pre>
+## [40] RcppParallel_5.1.5  cli_3.1.1           stringi_1.7.6      
+## [43] fs_1.5.2            xml2_1.3.3          ellipsis_0.3.2     
+## [46] keyring_1.3.0       generics_0.1.1      vctrs_0.3.8        
+## [49] stringfish_0.15.5   RApiSerialize_0.1.0 tools_4.1.2        
+## [52] glue_1.6.1          hms_1.1.1           fastmap_1.1.0      
+## [55] yaml_2.2.2          colorspace_2.0-2    rvest_1.0.2        
+## [58] knitr_1.37          haven_2.4.3</code></pre>
 </div>
 
 
