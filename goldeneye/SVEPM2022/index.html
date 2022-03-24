@@ -1,38 +1,539 @@
-<!DOCTYPE HTML>
-<!--
-	Photon by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+<!DOCTYPE html>
+
 <html>
-	<head>
-		<title>Sharing secrets safely with goldeneye: SVEPM 2022 demonstration</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="../assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
 
-		<!-- Header -->
-			<section id="header">
-				<div class="inner">
-					<span class="icon solid major fa-server"></span>
-					<h1><strong>Sharing secrets safely with goldeneye: SVEPM 2022 demonstration</strong></h1>
-					<p>THIS PAGE IS CURRENTLY UNDER DEVELOPMENT<br />(please check back on Thursday 24th March)</p>
+<head>
 
-				</div>
-		</section>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
+<meta name="date" content="2022-03-24" />
 
-		<!-- Scripts -->
-			<script src="../assets/js/jquery.min.js"></script>
-			<script src="../assets/js/jquery.scrolly.min.js"></script>
-			<script src="../assets/js/browser.min.js"></script>
-			<script src="../assets/js/breakpoints.min.js"></script>
-			<script src="../assets/js/util.js"></script>
-			<script src="../assets/js/main.js"></script>
+<title>goldeneye</title>
 
-	</body>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">goldeneye</h1>
+<h4 class="date">2022-03-24</h4>
+
+
+
+<div id="sharing-secrets-safely-with-goldeneye" class="section level1">
+<h1>Sharing secrets safely with goldeneye</h1>
+<p>The goldeneye package is designed to allow data to safely be shared
+between R users over potentially insecure channels. It can also be used
+to secure data for local storage to ensure that potentially sensitive
+data can not be accessed by others even if your hard drive is lost or
+stolen. The R package is designed to be as simple to use as possible in
+order to facilitate routine use and also in order to reduce the
+technical barrier for novice R users.</p>
+<div id="r-package-installation" class="section level2">
+<h2>R package installation</h2>
+<p>To get started, you first need to download and install the goldeneye
+package. At some point in the future we intend to submit to CRAN, but
+for now you can install the package from our drat repository using the
+following code:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;goldeneye&#39;</span>, <span class="at">repos=</span><span class="fu">c</span>(<span class="st">&#39;https://cran.rstudio.com/&#39;</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">&#39;https://ku-awdc.github.io/drat/&#39;</span>))</span></code></pre></div>
+<p>Once the package is installed it then needs to be loaded:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;goldeneye&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: tidyverse</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✓ ggplot2 3.3.5     ✓ purrr   0.3.4</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✓ tibble  3.1.6     ✓ dplyr   1.0.7</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✓ tidyr   1.1.4     ✓ stringr 1.4.0</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ✓ readr   2.1.1     ✓ forcats 0.5.1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x dplyr::filter() masks stats::filter()</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching goldeneye version 0.5.1-1</span></span></code></pre></div>
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>In order to use the package you first need to set up a goldeneye
+profile. To do that, run the following function:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gy_setup</span>()</span></code></pre></div>
+<p>You will be asked to enter your name, an email address, and a
+password that will be used to secure your personal goldeneye profile.
+The password is stored in the secure registry on your computer, so you
+do not need to enter it every time you restart R, but you will need to
+re-enter your password if you change computers - so use a password that
+you will remember, or better still use a password manager!</p>
+<p>Once setup is complete, a goldeneye profile is created and saved as a
+.gyp file. This file contains the following information:</p>
+<ul>
+<li><p>Your name and email address</p></li>
+<li><p>An encrypted version of your private keys</p></li>
+<li><p>Your public keys</p></li>
+<li><p>A list of groups that you are a member of (see below)</p></li>
+</ul>
+<p>Remember to keep your .gyp file safe! If you lose it then you will
+have to set up a new file with new keys, and you will not be able to
+decrypt any of your existing encrypted datasets. If you move to a new
+computer, then just copy/transfer the .gyp file over to your new
+computer. The .gyp file contains your private keys so should be
+considered as moderately sensitive i.e. do not place this file online or
+on shared network drives. However, even if an attacker was able to get
+your .gyp file, they would still need to guess your password in order to
+be able to use it.</p>
+</div>
+<div id="sending-encrypted-files" class="section level2">
+<h2>Sending encrypted files</h2>
+<p>At this point you are able to encrypt data and send it to an existing
+goldeneye user that has made their public key available to you. They can
+either do this by sending you their public key file by email, or by
+hosting it online and sending you the link so that you (and others) can
+download it whenever you need it. For example, you can encrypt a file to
+send to Matt Denwood as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>secret <span class="ot">&lt;-</span> <span class="st">&quot;Some super secret data (this could be a data frame, a list, or any other R object)&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gy_save</span>(secret, <span class="at">users=</span><span class="st">&quot;https://www.costmodds.org/people/matt/goldeneye_public.gyu&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">file=</span><span class="st">&quot;secret.rdg&quot;</span>)</span></code></pre></div>
+<p>This creates a file “secret.rdg” in your current working directory
+that only you and Matt Denwood can decrypt using your respective private
+keys, using the following code:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">gy_load</span>(<span class="st">&quot;secret.rdg&quot;</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;secret&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>secret</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Some super secret data (this could be a data frame, a list, or any other R object)&quot;</span></span></code></pre></div>
+<p>Alternatively, the user argument can be a vector of multiple public
+keys so that other people can also decrypt the same file. If you want to
+exclude yourself from the list of authorised users then set the
+local_user=FALSE argument to gy_save().</p>
+</div>
+<div id="receiving-encrypted-files" class="section level2">
+<h2>Receiving encrypted files</h2>
+<p>If you want to allow other people to send you encrypted data, then
+you must first make your public key available. This can be extracted
+using the following function:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gy_public_file</span>()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following file contains your public keys:</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &#39;goldeneye_public.gyu&#39;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">NOTE</span><span class="co">: this file is safe to place online or to send over email to your collaborators</span></span></code></pre></div>
+<p>The file produced by this function does not contain your private keys
+so is safe to either send by email to your collaborators, or place
+online for general use by anyone. Other people can then encrypt data for
+your use by either specifying the path to a local copy of your public
+file or the URL of the online location.</p>
+</div>
+<div id="user-groups" class="section level2">
+<h2>User groups</h2>
+<p>While you can use the method above to share data, there are some
+practical considerations and potential security vulnerabilities
+associated:</p>
+<ol style="list-style-type: decimal">
+<li><p>The person to whom you want to send data must either send their
+public key to you or put it online before you can use it.</p></li>
+<li><p>Encrypting data for multiple users requires downloading a public
+key for each user.</p></li>
+<li><p>It is possible for an online key hosted on an insecure website to
+be changed without your knowledge so that a potential attacker injects
+their public key that you mistakenly use</p></li>
+<li><p>The person receiving the data has no way of verifying that it
+really was you that encrypted the data i.e. it may be replaced in
+transit.</p></li>
+</ol>
+<p>For these reasons, we recommend that you use a specific user group
+for sending files regularly to/from the same people. For most users,
+this will mean joining an existing group set up by someone else. As a
+demonstration, we have created a group for the 2022 SVEPM conference
+called “demo22” and invite anybody that is interested to join the group
+to evaluate how the software can be used. To join the group run the
+following code:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gy_join_group</span>(<span class="st">&quot;https://www.costmodds.org/rsc/goldeneye/demo22.gyg#oHrjws1utM#md&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Your profile file has been updated to add you to group &#39;demo22&#39;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Please email the file &#39;gy_demo22_test_public.gyu&#39; to:  ***+demo22@gmail.com</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">NOTE</span><span class="co">: in sending this file, you consent to your name and email address (as given above)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; being stored and made available in encrypted form via:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; https://www.costmodds.org/rsc/goldeneye/demo22.gyg</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Your group has been set to &#39;demo22&#39;</span></span></code></pre></div>
+<p>This function will do 3 things:</p>
+<ul>
+<li><p>Download the required information to join the group, including
+the encryption scheme used to stop people outside the group from
+accessing the user list (this is done using the final part of the setup
+link, which would normally be sent via email to only those people that
+should join the group)</p></li>
+<li><p>Create a file with your public key that you should return to the
+group administrator (a message will be printed in R instructing you how
+to do this)</p></li>
+<li><p>Modify your .gyp file to include the details of this group for
+future use. If you use the same .gyp file on multiple computers then you
+will need to re-copy it after joining a new group.</p></li>
+</ul>
+<p>At this point you can now see the users that are also in this
+group:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gy_users</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 × 4</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   user  name         email    member_since</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;    &lt;date&gt;      </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 md    Matt Denwood **@**.** 2022-03-23</span></span></code></pre></div>
+<p>Your name will not immediately show in the list because the group
+administrator must first add you to the group at their end. For the
+demo22 group this is done semi-automatically, so should happen within 24
+hours or so.</p>
+<p>Once you have joined a group you can then use other peoples’
+username(s) as a shorthand for their public key:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>secret <span class="ot">&lt;-</span> <span class="st">&quot;don&#39;t tell anyone&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gy_save</span>(secret, <span class="at">users=</span><span class="fu">c</span>(<span class="st">&quot;md&quot;</span>), <span class="at">file=</span><span class="st">&quot;secret_for_md.rdg&quot;</span>)</span></code></pre></div>
+<p>Note that you can do this as soon as you have joined the group,
+i.e. even before your name shows in the user group list. However, other
+people will not be able to verify that it really was you that encrypted
+the data until the group is updated, so in the meantime they will get a
+note that your identity could not be confirmed.</p>
+</div>
+<div id="long-term-usage" class="section level2">
+<h2>Long-term usage</h2>
+<p>This guide and setup link is freely available online, so in theory
+anybody can join the demo22 group: you should therefore be extremely
+careful to select the correct user name before sending sensitive data!
+For security reasons we will stop hosting this demo22 group at the end
+of 2022, but any datasets you create will continue to be decryptable
+indefinitely by the user(s) you have specified, and you may set up
+and/or join new groups at any point using the same profile that you
+created above.</p>
+<p>If you are interested in setting up your own user group for long-term
+usage then please feel free to contact the package maintainer.</p>
+</div>
+<div id="future-development" class="section level2">
+<h2>Future development</h2>
+<p>This R package is under active development, so please check back here
+periodically for updates and new features! If you are interested in
+contributing the code base then check out the GitHub repository:</p>
+<p><a href="https://github.com/ku-awdc/goldeneye" class="uri">https://github.com/ku-awdc/goldeneye</a></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
 </html>
