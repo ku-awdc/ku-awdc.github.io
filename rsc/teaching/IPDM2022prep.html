@@ -11,7 +11,7 @@
 
 <meta name="author" content="Matt Denwood" />
 
-<meta name="date" content="2022-07-27" />
+<meta name="date" content="2022-08-02" />
 
 <title>Preparation for online workshop</title>
 
@@ -1638,7 +1638,7 @@ pre code {
 <h3 class="subtitle">Homework and software installation for the IPDM
 2022 workshop</h3>
 <h4 class="author">Matt Denwood</h4>
-<h4 class="date">2022-07-27</h4>
+<h4 class="date">2022-08-02</h4>
 
 </div>
 
@@ -1707,16 +1707,17 @@ for the training workshop. This means that anyone can view the teaching
 material until the workshop is over via the following website: <a href="https://github.com/ku-awdc/IPDM2022" class="uri">https://github.com/ku-awdc/IPDM2022</a></p>
 <p>You should see a number of powerpoint files listed, which are the
 material for the didactic sessions. You should also see a folder
-“Exercises” containing files like “Exercise_0_Preparation.Rmd”,
-“Exercise_0_Preparation_question.html” etc. Each of the exercises for
-the workshop (including this preparation exercise) has a series of
-files: the .Rmd is the original Rmarkdown document, and the .pdf &amp;
-.html files are created from these (there are two versions of the HTML
-files: one with questions only and one also with solutions - the PDF
-files do not contain solutions). You can click on any of these files to
-view them, although of the different file formats the .pdf version is
-probably easiest to download directly from the website. There are two
-problems with this:</p>
+“Exercises” containing files like “Exercise_0_Preparation.html”,
+“Exercise_0_Preparation.pdf” etc. Each of the exercises for the workshop
+(including this preparation exercise) has two files under Exercises (one
+.pdf &amp; .html), and (except for the preparation material) each
+exercise also has another .html file under the “Exercises/Solutions”
+folder. Each of these should have exactly the same content, except that
+the solutions versions also contain solutions to the exercises (so don’t
+look at these until after you have completed the exercises!). You can
+click on any of these files to view them, although of the different file
+formats the .pdf version is probably easiest to download directly from
+the website. There are two problems with this:</p>
 <p>1 - You will likely encounter problems when copy/pasting R code from
 the PDF files, whereas copy/pasting R code from html files is much more
 reliable.</p>
@@ -1732,8 +1733,92 @@ via <a href="http://github.com" class="uri">http://github.com</a> - it
 is free and easy. Remember to make a note of the username and password
 that you just created!</p>
 </div>
-<div id="installing-git" class="section level2">
-<h2>Installing Git</h2>
+<div id="using-git" class="section level2">
+<h2>Using Git</h2>
+<p>There are two main ways to use Git on your machine: GitHub Desktop
+and RStudio.</p>
+<ol style="list-style-type: decimal">
+<li><p>GitHub Desktop is a free standalone application provided by
+GitHub that is designed to integrate seamlessly with your GitHub account
+by simply installing the application and signing in using your GitHub
+account credentials. However, this does require you to have
+administrative rights on your computer, so may not be possible if you
+e.g. must install software via an IT portal at your
+institution.</p></li>
+<li><p>You may be most used to using RStudio to edit R code, but it can
+also be used to sync changes with Git. The advantage of using RStudio is
+that you will already have it installed, but the disadvantage is that
+configuration/setup can be trickier than with GitHub Desktop.</p></li>
+</ol>
+<p>Each of these seems to work best for different people, so we will
+give instructions for both here - but you only need to have one of the
+two methods working for the workshop.</p>
+<div id="method-1-github-desktop" class="section level3">
+<h3>Method 1: GitHub Desktop</h3>
+<p>Go to <a href="https://desktop.github.com" class="uri">https://desktop.github.com</a> and download/install the
+software. Then open it and sign in using your GitHub account (the
+username and password that you just created). This should become the
+primary way in which you interact with GitHub, rather than via your
+browser.</p>
+<p>The first step is to clone the <code>IPDM2022</code> repository on to
+your computer. From inside GitHub Desktop, go to the File menu then
+Clone Respository, then click on the URL tab. Then type/paste
+<code>ku-awdc/IPDM2022</code> into the box where it says
+<code>Filter your reposotories</code> or <code>Repository URL</code> or
+<code>GitHub username and repository</code> (depending on your version
+of GitHub Desktop). A suggested local path folder will be created
+automatically at the bottom but feel free to change this. Then click on
+Clone and wait for the files to download.</p>
+<p>Creating the clone copies all of the files currently on the GitHub
+repository to your computer at the local path specified above (if you
+can’t remember what this was choose ‘Show in Windows/Finder’ or similar,
+depending on your OS, under the Respository menu). This is where all of
+the course material will be located. For example, look inside the
+<code>&#39;Exercises&#39;</code> folder and open up the
+<code>&#39;Exercise_0_Preparation.html&#39;</code> file - that is a local copy
+of the same document you are currently reading! But now you also have
+the PDF version - use this if you want to print the document for some
+reason, but it is a good idea to stick to using the HTML version if you
+want to copy/paste R code (you will probably encounter problems with
+quotation marks if you copy/paste R code from PDF files). The two
+versions should be identical.</p>
+<div id="modifying-files" class="section level4">
+<h4>Modifying Files</h4>
+<p>Once you have set up the local copy of the repository, you can then
+add, delete and modify any of the files within your local copy of the
+repository. Try doing this by deleting the
+<code>&#39;Exercise_0_Preparation.html&#39;</code> file. Now go back to GitHub
+Desktop where you should see a line appear on the left with a red minus
+symbol in a box to the right hand side - this is telling you that a file
+has been deleted locally (if you had modified the file rather than
+deleting it, the box would be orange and contain a dot). However, you
+don’t want to delete or modify any of the files we are providing in case
+we update them later. If you do this by mistake, just right-click the
+relevant line in GitHub desktop and choose “Discard changes” - the file
+should then be restored. Do this now for the
+<code>&#39;Exercise_0_Preparation.html&#39;</code> file and check that it has
+reappeared. If you do want to modify a file for some reason, we suggest
+that you copy it and modify the copied version. If you keep the copy
+inside the same folder then GitHub desktop will show the new file (green
+plus in the box) but you can safely ignore these, or move the copied
+file outside of the repository folder if you want to keep things
+simple.</p>
+</div>
+<div id="fetching-updates" class="section level4">
+<h4>Fetching Updates</h4>
+<p>An important advantage of GitHub is that we can update a file online
+(for example to fix a typo or add new material discussed during the
+workshop), and that update will be immediately available to all of you.
+But in order to receive the updated files you need to tell GitHub
+desktop to look for updates. Open GitHub desktop, then click on ‘Fetch
+origin’ and then ‘Pull’ to make sure that any recent changes are synced
+to your computer. As long as you remember to pull changes regularly then
+you will always have an up-to-date copy - so do this regularly.
+Forgetting to do this is the only real potential downside of Git.</p>
+</div>
+</div>
+<div id="method-2-rstudio" class="section level3">
+<h3>Method 2: RStudio</h3>
 <p>Unless you already have Git installed on your system, you will need
 to install it in order to be able to use Git within RStudio. There are a
 number of ways of doing this, depending on your system and access
@@ -1744,9 +1829,8 @@ then see the following links for some alternative options:</p>
 <li><p><a href="https://github.com/git-guides/install-git" class="uri">https://github.com/git-guides/install-git</a></p></li>
 <li><p><a href="https://happygitwithr.com/install-git.html" class="uri">https://happygitwithr.com/install-git.html</a></p></li>
 </ul>
-</div>
-<div id="cloning-a-repository-inside-rstudio" class="section level2">
-<h2>Cloning a repository inside RStudio</h2>
+<div id="cloning-a-repository-inside-rstudio" class="section level4">
+<h4>Cloning a repository inside RStudio</h4>
 <p>The easiest way to clone the <code>IPDM2022</code> repository on to
 your computer is via RStudio. Go to the <code>File</code> menu and
 select <code>New project</code>. It will open and wizard menu, giving
@@ -1779,8 +1863,8 @@ opening an html file from inside RStudio.</p>
 <code>Open project</code>. Locate your project and click
 <code>open</code>.</p>
 </div>
-<div id="modifying-files" class="section level2">
-<h2>Modifying Files</h2>
+<div id="modifying-files-1" class="section level4">
+<h4>Modifying Files</h4>
 <p>Once you have set up the local copy of the repository, you can then
 add, delete and modify any of the files within your local copy of the
 repository. Try doing this by deleting the
@@ -1802,8 +1886,8 @@ as a modification (blue M in the box) but you can safely ignore these,
 or move the copied file outside of the repository folder if you want to
 keep things simple.</p>
 </div>
-<div id="fetching-updates" class="section level2">
-<h2>Fetching Updates</h2>
+<div id="fetching-updates-1" class="section level4">
+<h4>Fetching Updates</h4>
 <p>An important advantage of GitHub is that we can update a file online
 (for example to fix a typo or add new material discussed during the
 workshop), and that update will be immediately available to all of you.
@@ -1815,8 +1899,10 @@ regularly then you will always have an up-to-date copy - so do this
 regularly. Forgetting to do this is the only real potential downside of
 Git.</p>
 </div>
-<div id="more-information" class="section level2">
-<h2>More information</h2>
+</div>
+</div>
+<div id="more-information-on-git" class="section level2">
+<h2>More information on Git</h2>
 <p>That is pretty much all you need to know for the training workshop
 but there are some good tutorials available, for example: <a href="https://happygitwithr.com" class="uri">https://happygitwithr.com</a>.</p>
 </div>
