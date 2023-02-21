@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>hexscape</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">hexscape</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The hexscape package has a number of uses (some of which are not yet
+implemented):</p>
+<ol style="list-style-type: decimal">
+<li><p>Facilitate use of vectorised spatial data for EU/EEA countries,
+and/or regions/areas (as defined by NUTS1/2/3) of these
+countries</p></li>
+<li><p>Facilitate use of additional vectorised spatial data on parishes,
+kommune and postcodes for Denmark</p></li>
+<li><p>Subdivision of the above spatial data into `patches’ based on
+either polygons of arbitrary size, or Voronoi tessellation around points
+of interest supplied by the user</p></li>
+<li><p>Facilitate use of Corine land usage data for EU/EEA countries (or
+regions/areas thereof) and aggregation of different land cover types
+within the spatial areas and/or patches defined above</p></li>
+<li><p>Facilitate generating networks of distances and/or adjacencies
+for these polygons</p></li>
+</ol>
+<p>The data comes from a combination of Eurostat, Corine, and other
+sources - all of which is freely available online. Much of the internal
+functionality is provided by the sf package.</p>
+<div id="installation" class="section level3">
+<h3>Installation</h3>
+<p>The package isn’t on CRAN (yet?), but the most recent stable (ish)
+version can be installed from our drat repository using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;hexscape&quot;</span>, <span class="at">repos=</span><span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">&quot;https://cran.rstudio.com/&quot;</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">`</span><span class="at">ku-awdc</span><span class="st">`</span> <span class="ot">=</span> <span class="st">&quot;https://ku-awdc.github.io/drat/&quot;</span>))</span></code></pre></div>
+<p>Or, for the most recent (but even less stable) version you can
+install from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;ku-awdc/hexscape&quot;</span>)</span></code></pre></div>
+<p>Then you should be able to load the package:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;hexscape&quot;</span>)</span></code></pre></div>
+<p>Note that this also currently loads tidyverse, as that is what I used
+to develop the package, and I was too lazy to import everything
+properly. At some point, this will change, so it is probably best to
+explicitly load tidyverse and sf (due to the heavy reliance on sf data
+frames) as well:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;sf&quot;</span>)</span></code></pre></div>
+<p>(Unless of course you don’t use tidyverse, in which case you should
+probably read <a href="https://r4ds.had.co.nz/index.html" class="uri">https://r4ds.had.co.nz/index.html</a> a couple more
+times)</p>
+</div>
+<div id="setup" class="section level3">
+<h3>Setup</h3>
+<p>The hexscape package uses local caching of intermediate data files,
+as most of the spatial operations take quite a long time to process from
+the raw data. So, the first step is to create a folder somewhere on your
+hard drive (NOT a network storage drive) to/from which files can be
+saved/loaded. Then run the following code:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set_storage_folder</span>(path_to_folder)</span></code></pre></div>
+<p>You should now see that hexscape has created some subfolders:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(path_to_folder)</span></code></pre></div>
+<p>This storage folder needs to be set every time you load hexscape. To
+avoid having to do this manually, you can put the following code in your
+.Rprofile:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## To open your .Rprofile try:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">edit_r_profile</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Then add the following to the bottom of that file:</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="st">&quot;HEXSCAPE_STORAGE&quot;</span><span class="ot">=</span><span class="st">&quot;/path/to/folder&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [obviously replacing /path/to/folder with your path]</span></span></code></pre></div>
+<p>That way, the storage folder will be set for you automatically when
+hexscape is loaded.</p>
+</div>
+<div id="nuts" class="section level3">
+<h3>NUTS</h3>
+<p>The hexscape package makes heavy use of NUTS (Nomenclature of
+territorial units for statistics; 2021 version) to define spatial areas.
+These are defined at levels 0 (national) to 3 (smallest scale), with the
+number of NUTS units depending on the country. Some datasets are inbuilt
+to help with cross-referencing:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nuts_codes</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nuts_codes <span class="sc">|&gt;</span> <span class="fu">filter</span>(Code<span class="sc">==</span><span class="st">&quot;DK&quot;</span>)</span></code></pre></div>
+<p>There is also a list of countries indicating whether or not that
+country has Eurostat spatial information available (and can therefore be
+used with the hexscape package):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>country_codes</span></code></pre></div>
+</div>
+</div>
+<div id="spatial-data" class="section level2">
+<h2>Spatial data</h2>
+<div id="eurostat-data" class="section level3">
+<h3>Eurostat data</h3>
+<p>We use the spatial data provided by Eurostat to define the boundaries
+of NUTS areas. This can be downloaded from: <a href="https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts21" class="uri">https://ec.europa.eu/eurostat/web/gisco/geodata/reference-data/administrative-units-statistical-units/nuts#nuts21</a></p>
+<p>You need to select the following options:</p>
+<ul>
+<li>Year = NUTS 2021</li>
+<li>File format = SHP</li>
+<li>Geometry type = Polygons (RG)</li>
+<li>Scale = 01M</li>
+<li>CRS = EPSG: 3035</li>
+</ul>
+<p>Then hit the download button and extract the resulting ZIP file. You
+should end up with a 29.2 MB folder called “NUTS_RG_01M_2021_3035.shp”.
+Put this folder inside the “raw_data” folder of the hexscape storage
+folder you created above.</p>
+<p>You should then be able to load a map for any NUTS area at any level,
+for example:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dk <span class="ot">&lt;-</span> <span class="fu">load_map</span>(<span class="st">&quot;DK&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dk</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dk) <span class="sc">+</span> <span class="fu">geom_sf</span>() <span class="sc">+</span> <span class="fu">theme_void</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pt</span></code></pre></div>
+<p>Or for a sub-region of a country:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sj <span class="ot">&lt;-</span> <span class="fu">load_map</span>(<span class="st">&quot;DK032&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot(sj) + geom_sf() + theme_void()</span></span></code></pre></div>
+<p>The first time the maps for a specific country are fetched might take
+a couple of seconds to process from the raw data; subsequent loads will
+be from a country-specific cache (almost instantaneously).</p>
+</div>
+<div id="corine-data" class="section level3">
+<h3>Corine data</h3>
+<p>The hexscape package uses Corine Land Cover (CLC) data as the raw
+underlying data for land usage. To use this, you need to download the
+SQLite Database from here: <a href="https://land.copernicus.eu/pan-european/corine-land-cover/clc2018?tab=download" class="uri">https://land.copernicus.eu/pan-european/corine-land-cover/clc2018?tab=download</a></p>
+<p>You will first need to register an account and log in, but it is free
+to do so.</p>
+<p>Once the file has downloaded (beware: it is 3.5GB) you can un-zip it
+and hopefully end up with a folder named
+u2018_clc2018_v2020_20u1_geoPackage - move (or copy/symlink if you
+prefer) this folder inside the raw_data folder that you set up above.
+Make sure to keep the name of the folder exactly as it is above.</p>
+<p>The CLC data classifies land usage under a number of different
+categories, grouped at 3 different levels. To see what codes are defined
+use the following lookup table:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>clc_codes</span></code></pre></div>
+<p>The final column defines a suitable colour code suggested for
+plotting.</p>
+</div>
+<div id="combining-corine-and-eurostat-data" class="section level3">
+<h3>Combining Corine and Eurostat data</h3>
+<p>The raw Corine data contains data on all polygons for all countries
+(i.e. it is vector rather than raster). In order to use it, we need to
+process the raw data to intersect with the specific NUTS1 area(s) we are
+interested in, and simplify the polygons slightly (for easier processing
+and plotting downstream). This is done automatically the first time you
+request a map, then the data is cached and re-used for subsequent
+requests of the same NUTS1 area. Simplification of polygons from
+different CLC codes is done ensuring that the total area remains the
+same, i.e. none of the simplified CLC polygons overlap, and the returned
+result is still a valid sf object. This all takes some time to process…
+For example, caching data for Denmark (NUTS1 code DK0) takes around 3
+mins to run on my arm64 laptop (and more than double that on my ageing
+Xeon desktop):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dk_corine <span class="ot">&lt;-</span> <span class="fu">load_corine</span>(<span class="st">&quot;DK0&quot;</span>)</span></code></pre></div>
+<p>But subsequent requests for any data from within Denmark is
+instantaneous, for example:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dk032_corine <span class="ot">&lt;-</span> <span class="fu">load_corine</span>(<span class="st">&quot;DK032&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dk032_corine, <span class="fu">aes</span>(<span class="at">fill=</span>CLC)) <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">lwd=</span><span class="dv">0</span>, <span class="at">colour=</span><span class="cn">NA</span>) <span class="sc">+</span> <span class="fu">theme_void</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.pos=</span><span class="st">&quot;none&quot;</span>) <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>clc_codes<span class="sc">$</span>CLC_RGB)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span><span class="al">TODO</span><span class="do">: implement an autoplot method</span></span></code></pre></div>
+<p>The default return value is a modified sf data frame, with 1 row per
+combination of CLC and NUTS3 area code in the region requested, and
+columns giving the CLC code and descriptions, country code and name,
+NUTS3 code, total area of the CLC type in the original data (in
+km<sup>2</sup>), total area of the CLC type in the simplified data, and
+the geometry. If you prefer a single row per CLC type for the entire
+area, then you can specify union=TRUE to load_corine().</p>
+<p>The number of NUTS1 codes per country varies from 1 (around half of
+the countries) up to 16 (Germany), and each NUTS1 area is cached
+separately. If you request data for a whole country, this might mean it
+takes a long time to process all of the relevant NUTS1 areas.</p>
+<p>If you know that you need to process a lot of different NUTS1 areas
+then you can set use_cache=TRUE for load_corine(); this does some
+pre-processing of the entire raw Corine database which takes around 5
+minutes the first time, but speeds up subsequent calls to load_corine
+(for any NUTS1 area). The downside is that this uses around 5GB of extra
+hard drive space to store the cached intermediate files. Or you can ask
+me nicely for a specific set NUTS1 areas and I might send them to you …
+but please do register and download the Corine database yourself so that
+I am not violating their usage policies.</p>
+</div>
+<div id="summarising-processed-corine-data" class="section level3">
+<h3>Summarising processed corine data</h3>
+<p>The load_corine() function provides spatial data for every CLC code
+separately, but you may want to filter and/or combine them. For now you
+have to do that manually - for example if we want to only extract
+farmland:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dk032_corine <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CLC_Label1 <span class="sc">==</span> <span class="st">&quot;Agricultural areas&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Area =</span> <span class="fu">sum</span>(Area), <span class="at">geometry =</span> <span class="fu">st_union</span>(geometry)) <span class="ot">-&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>dk032_farmland</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">load_map</span>(<span class="st">&quot;DK032&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_farmland, <span class="at">fill=</span><span class="st">&quot;dark green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<p>TODO: At some point I will probably write a helper function
+e.g. aggregate_corine() for this…</p>
+</div>
+<div id="danish-specific-data" class="section level3">
+<h3>Danish-specific data</h3>
+<p>TODO: kommune, sogne, and postcode shape files (and population
+densities from Danmark’s Statistic via <a href="https://github.com/rOpenGov/dkstat" class="uri">https://github.com/rOpenGov/dkstat</a> or direct via the API
+??)</p>
+</div>
+</div>
+<div id="discretising-the-spatial-data" class="section level2">
+<h2>Discretising the spatial data</h2>
+<div id="voronoi-tesselation" class="section level3">
+<h3>Voronoi tesselation</h3>
+<p>One option to discretise the spatial data is using Voronoi
+tesselation around a given number of spatial points. In real life this
+could be farm locations; let’s simulate N=100 farms within the farmland
+of south Jutland:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> 100L</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">Index =</span> <span class="dv">1</span><span class="sc">:</span>N, <span class="at">point=</span><span class="fu">st_sample</span>(dk032_farmland, N)) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">sf_column_name=</span><span class="st">&quot;point&quot;</span>) <span class="ot">-&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>fake_farms</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">load_map</span>(<span class="st">&quot;DK032&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_farmland, <span class="at">fill=</span><span class="st">&quot;dark green&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>fake_farms, <span class="at">col=</span><span class="st">&quot;dark green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<p>Then we can produce Voronoi tesselated polygons within this farmland
+as follows (where the first argument is the spatial mask for the area of
+interest, and the second is the points defining the Voronoi points):</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dk032_voronoi <span class="ot">&lt;-</span> <span class="fu">discretise_voronoi</span>(dk032_farmland, fake_farms)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dk032_voronoi</span></code></pre></div>
+<p>This returns the original data frame, plus new columns for Area,
+centroid (of the Voronoi tesselated area after intersecting with the
+map), and geometry. These can be plotted to show the expected
+discrepancy between original farm location and centroid e.g.:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">load_map</span>(<span class="st">&quot;DK032&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_farmland, <span class="at">fill=</span><span class="st">&quot;dark green&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_voronoi, <span class="at">fill=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_voronoi, <span class="fu">aes</span>(<span class="at">geometry=</span>centroid), <span class="at">col=</span><span class="st">&quot;dark green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>fake_farms, <span class="at">col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+</div>
+<div id="discretisation-into-hexagons" class="section level3">
+<h3>Discretisation into hexagons</h3>
+<p>TODO</p>
+</div>
+<div id="landscape-oriented-discretisation" class="section level3">
+<h3>Landscape-oriented discretisation</h3>
+<p>TODO</p>
+</div>
+</div>
+<div id="summarising-polygons" class="section level2">
+<h2>Summarising polygons</h2>
+<div id="summarising-content-by-clc" class="section level3">
+<h3>Summarising content by CLC</h3>
+<p>TODO</p>
+</div>
+<div id="generating-distances-and-adjacency-graphs" class="section level3">
+<h3>Generating distances and adjacency graphs</h3>
+<p>TODO</p>
+</div>
+</div>
+<div id="utility-functions" class="section level2">
+<h2>Utility functions</h2>
+<p>A number of helper/utility functions are provided (mostly wrapping
+functionality in sf), some of which are described below.</p>
+<div id="sampling-random-points" class="section level3">
+<h3>Sampling random points</h3>
+<p>To easily sample random points within a data frame containing
+polygons (either Voronoi tesselations or hexagons or anything else), you
+can use the sample_points function. This takes 2 arguments: the first is
+an sf data frame with 1 or more rows and a column giving the Index, and
+the second is the number of points to sample within each row.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span> <span class="fu">sample_points</span>(dk032_voronoi, <span class="at">size=</span>5L)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>random_points</span></code></pre></div>
+<p>The points are generated by rejection sampling over a bounding box of
+iteratively decreasing size. To plot the points:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span><span class="fu">load_map</span>(<span class="st">&quot;DK032&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_farmland, <span class="at">fill=</span><span class="st">&quot;dark green&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>dk032_voronoi, <span class="at">fill=</span><span class="st">&quot;transparent&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>random_points, <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<p>In this case, each farmland polygon should contain exactly 5 random
+points.</p>
+</div>
+</div>
+<div id="footnotes" class="section level2">
+<h2>Footnotes</h2>
+<p>The package is still under active development and is subject to some
+change, however we will try to keep the interfaces discussed above
+consistent. In particular, we acknowledge that the help files are fairly
+non-existent at the moment - these will be updated ASAP. When new
+release versions are uploaded to drat, this guide will be updated with
+the new features.</p>
+<p>Comments and suggestions are very welcome!</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
