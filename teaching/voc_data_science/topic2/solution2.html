@@ -361,69 +361,34 @@ Students</h1>
 <div id="solution-for-exercise-under-topic-2" class="section level2">
 <h2>Solution for exercise under topic 2</h2>
 <p>Here is a walk-through of how to build up the R script file to read
-our lameness data. The code shown here is interleaved with the results,
-so should show what you see in the R console if you run the code
-yourself. A full solution file is provided at the bottom.</p>
+our lameness data. The code shown here (except for the code we were
+given under topic 2) is interleaved with the results, so you should be
+able to see in this document what you will see in the R console if you
+run the code yourself. A full solution file is provided at the
+bottom.</p>
 <div id="code-we-were-given-in-topic-2" class="section level3">
 <h3>Code we were given in topic 2</h3>
 <p>We can start with the code we have already been given for topic 2
 i.e.:</p>
 <pre class="r"><code>### A script file to read lameness data, 2023-01-23
-library(&quot;tidyverse&quot;)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.0     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.1     ✔ tibble    3.1.8
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ✔ purrr     1.0.1     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
-<pre class="r"><code>library(&quot;readxl&quot;)</code></pre>
-<pre class="r"><code># This line will show a different path for you:
-setwd(&quot;~/Documents/DataScience/ErasmusPlusCourse&quot;)</code></pre>
-<pre class="r"><code>filename &lt;- &quot;solution_topic_1.xlsx&quot;
+library(&quot;tidyverse&quot;)
+library(&quot;readxl&quot;)
+
+# This line will show a different path for you:
+setwd(&quot;~/Documents/DataScience/ErasmusPlusCourse&quot;)
+
+filename &lt;- &quot;solution_topic_1.xlsx&quot;
 sheets &lt;- excel_sheets(filename)
 
 farm_data &lt;- read_excel(filename, sheet=&quot;farm_data&quot;)
-str(farm_data)</code></pre>
-<pre><code>## tibble [3 × 7] (S3: tbl_df/tbl/data.frame)
-##  $ CHR       : chr [1:3] &quot;9539&quot; &quot;9697&quot; &quot;9433&quot;
-##  $ Herd      : chr [1:3] &quot;Herd_A&quot; &quot;Herd_B&quot; &quot;Herd_C&quot;
-##  $ HerdType  : chr [1:3] &quot;Conventional&quot; &quot;Organic&quot; &quot;Conventional&quot;
-##  $ HerdSize  : num [1:3] 480 160 210
-##  $ MilkSystem: chr [1:3] &quot;Rotary parlour&quot; &quot;Herringbone parlour&quot; &quot;Robotic&quot;
-##  $ MilkFreq  : num [1:3] 3 2 3
-##  $ VisitDate : chr [1:3] &quot;2022-02-04&quot; &quot;2022-02-16&quot; &quot;2022-03-26&quot;</code></pre>
-<pre class="r"><code>farm_data$HerdType &lt;- factor(farm_data$HerdType)
+str(farm_data)
+
+farm_data$HerdType &lt;- factor(farm_data$HerdType)
 farm_data$MilkSystem &lt;- factor(farm_data$MilkSystem)
 farm_data$VisitDate &lt;- as.Date(farm_data$VisitDate)
 
-str(farm_data)</code></pre>
-<pre><code>## tibble [3 × 7] (S3: tbl_df/tbl/data.frame)
-##  $ CHR       : chr [1:3] &quot;9539&quot; &quot;9697&quot; &quot;9433&quot;
-##  $ Herd      : chr [1:3] &quot;Herd_A&quot; &quot;Herd_B&quot; &quot;Herd_C&quot;
-##  $ HerdType  : Factor w/ 2 levels &quot;Conventional&quot;,..: 1 2 1
-##  $ HerdSize  : num [1:3] 480 160 210
-##  $ MilkSystem: Factor w/ 3 levels &quot;Herringbone parlour&quot;,..: 3 1 2
-##  $ MilkFreq  : num [1:3] 3 2 3
-##  $ VisitDate : Date[1:3], format: &quot;2022-02-04&quot; &quot;2022-02-16&quot; ...</code></pre>
-<pre class="r"><code>summary(farm_data)</code></pre>
-<pre><code>##      CHR                Herd                   HerdType    HerdSize    
-##  Length:3           Length:3           Conventional:2   Min.   :160.0  
-##  Class :character   Class :character   Organic     :1   1st Qu.:185.0  
-##  Mode  :character   Mode  :character                    Median :210.0  
-##                                                         Mean   :283.3  
-##                                                         3rd Qu.:345.0  
-##                                                         Max.   :480.0  
-##                MilkSystem    MilkFreq       VisitDate         
-##  Herringbone parlour:1    Min.   :2.000   Min.   :2022-02-04  
-##  Robotic            :1    1st Qu.:2.500   1st Qu.:2022-02-10  
-##  Rotary parlour     :1    Median :3.000   Median :2022-02-16  
-##                           Mean   :2.667   Mean   :2022-02-24  
-##                           3rd Qu.:3.000   3rd Qu.:2022-03-07  
-##                           Max.   :3.000   Max.   :2022-03-26</code></pre>
+str(farm_data)
+summary(farm_data)</code></pre>
 </div>
 <div id="visit-data" class="section level3">
 <h3>Visit data</h3>
