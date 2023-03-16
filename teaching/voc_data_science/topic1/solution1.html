@@ -358,93 +358,26 @@ Students</h1>
 </div>
 
 
-<div id="topic-1-basic-principles-of-entering-storing-and-using-data" class="section level2">
-<h2>Topic 1: basic principles of entering, storing and using data</h2>
-<p>This online learning material is part of a series on data science
-created for the <a href="https://veterinary-online-collection.eu">Veterinary Online
-Collection</a>. This topic is part 1 in the series, and aims to give an
-introduction to the basic principles of best practice for entering,
-storing and using data. It is targeted primarily at veterinary
-undergraduate students, but anybody is welcome to use the material for
-other undergraduate and postgraduate courses as well as for
-self-directed study.</p>
-<div id="introduction" class="section level3">
-<h3>Introduction</h3>
-<p>There are many different ways to store data. Large datasets will
-typically be stored in a purpose-built <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> database or using
-specialist veterinary practice software, but smaller datasets are more
-often stored in something like an Excel document on your hard drive.
-This is also the most likely method we will use to store datasets that
-we have created ourselves, including observations that we have collected
-directly as part of research projects.</p>
-<p>In principle, the same principles apply regardless of how the data
-were collected: we must ensure that the source of the data is recorded,
-all variables are fully described, and that the data is entered in such
-a way that it can be used by ourselves and others with minimal
-possibility of errors in the data analysis. For this learning exercise,
-we will assume that we are recording our data in <a href="https://www.microsoft.com/en-gb/microsoft-365/excel">Microsoft
-Excel</a> or a free alternative such as <a href="https://www.openoffice.org">Open Office</a>.</p>
-</div>
-<div id="setting-up-the-dataset" class="section level3">
-<h3>Setting up the dataset</h3>
-<p>Our goal with an Excel-based dataset is to have a self-contained
-document that contains the data <em>AND</em> a complete description of
-where the data came from, what they were intended to be used for, when
-they were collected, and what each sheet (in Danish: ark) and variable
-(column) represents. This ensures that (a) we do not forget things about
-the data ourselves (which can happen surprisingly quickly!), (b) we have
-a permanent record of the provenance of the data that will be required
-to publish findings from our study, and (c) other people can make best
-use of the data we collected (either as part of the same project, or
-possibly later as part of a follow-up project).</p>
-<p>The biggest mistake that people make when trying to record data is to
-try to fit everything into a single sheet in Excel. It is much better to
-have several different sheets, all with their own specific (but smaller)
-purpose. We suggest to break your Excel file down into three types of
-sheet:</p>
-<ul>
-<li>Description sheets describing the source of the data and how to
-interpret the values entered</li>
-<li>One or more data sheets containing the observations themselves</li>
-<li>(Optionally) one or more sheets of notes containing explanations of
-why data are missing, summary statistics calculated using
-formulae/references to the data sheets, pivot tables, or plots</li>
-</ul>
-<div id="description-sheets" class="section level4">
-<h4>Description sheets</h4>
-<p>You should include a description of your data in dedicated sheets
-within the Excel file. Sometimes people include a separate file with the
-descriptions, but in our experience this tends to lead to the data being
-separated from the description and eventually the description being
-lost. It is much better to keep everything together, in sheets with the
-following standardised names:</p>
-<ol style="list-style-type: decimal">
-<li><p>“metadata”. This sheet should contain human-readable descriptions
-of the important features of your data, including (but not limited
-to):</p>
-<ul>
-<li>Dataset name/reference (including a version, if it has been
-updated)</li>
-<li>Date entered/compiled</li>
-<li>Description</li>
-<li>Name and email of the person entering/compiling the data</li>
-<li>Source of the data (where was the data obtained)</li>
-<li>Any publication / project reference, weblink, or other relevant
-information</li>
-</ul></li>
-</ol>
-<p>This does not have to be very long: a short description is much
-better than nothing! An appropriate metadata sheet could look like
-this:</p>
+<div id="solution-for-exercise-under-topic-1" class="section level2">
+<h2>Solution for exercise under topic 1</h2>
+<p>The first thing to do is to create a new file in Excel (or
+OpenOffice), and save it as an xlsx file with an informative name
+e.g. “lameness_data.xlsx”. Then you should create the standard three
+description sheets: metadata, tables and variables. We will create the
+data sheets later.</p>
+<div id="metadata" class="section level3">
+<h3>Metadata</h3>
+<p>Leave the tables and variables sheets blank for now, but you can fill
+out the metadata right away. It should look something like this:</p>
 <table>
 <colgroup>
-<col width="9%" />
-<col width="90%" />
+<col width="4%" />
+<col width="95%" />
 </colgroup>
 <tbody>
 <tr class="odd">
 <td align="left">Dataset</td>
-<td align="left">Luxating patella in dogs, version 1.0</td>
+<td align="left">Lameness in cattle, version 1.0</td>
 </tr>
 <tr class="even">
 <td align="left">Date</td>
@@ -452,8 +385,8 @@ this:</p>
 </tr>
 <tr class="odd">
 <td align="left">Description</td>
-<td align="left">An example dataset of clinical observations of luxating
-patella in dogs, before and after surgery of different types</td>
+<td align="left">An example dataset of lameness observations in dairy
+cattle, along with registry data on milk yield</td>
 </tr>
 <tr class="even">
 <td align="left">Name</td>
@@ -465,25 +398,455 @@ patella in dogs, before and after surgery of different types</td>
 </tr>
 <tr class="even">
 <td align="left">Source</td>
-<td align="left">Simulated data - this is not real!</td>
+<td align="left">Lameness observations were collected on farm visits,
+other data was extracted from Danish registries before the vists. Note:
+this is actually simulated data!</td>
 </tr>
 <tr class="odd">
 <td align="left">Reference</td>
-<td align="left"><a href="https://www.costmodds.org/teaching/voc_data_science/topic1/" class="uri">https://www.costmodds.org/teaching/voc_data_science/topic1/</a></td>
+<td align="left">Carried out as part of my PhD on lameness in dairy
+cattle, funded by SEGES with grant number S6716245. Note: supporting
+material for this training exercise can be found at <a href="https://www.costmodds.org/teaching/voc_data_science/topic1/" class="uri">https://www.costmodds.org/teaching/voc_data_science/topic1/</a></td>
 </tr>
 </tbody>
 </table>
-<ol start="2" style="list-style-type: decimal">
-<li>“tables”. This sheet should list each of the tables provided in the
-file, where each table is given in a separate sheet. It is also a good
-idea to include a brief high-level description of these tables so that
-anybody looking at the file can see immediately what data is contained
-in each sheet. An appropriate tables sheet could look like this:</li>
-</ol>
+<p>The precise text you entered here is not very important for this
+exercise, but in real life you should try to make it as informative as
+possible!</p>
+</div>
+<div id="farm-data" class="section level3">
+<h3>Farm data</h3>
+<p>Now we will move on to the data sheets. It doesn’t really matter
+which order you do these in, but I will follow the order that they are
+mentioned in the questions, starting with the information given to you
+by the farmer. All we really have to do is to write the text
+descriptions (as might be written down on a questionnaire sheet) into
+Excel, and give them informative variable names. For example:</p>
 <table>
 <colgroup>
-<col width="18%" />
-<col width="81%" />
+<col width="6%" />
+<col width="9%" />
+<col width="17%" />
+<col width="12%" />
+<col width="27%" />
+<col width="12%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">CHR</th>
+<th align="left">Herd</th>
+<th align="left">HerdType</th>
+<th align="right">HerdSize</th>
+<th align="left">MilkSystem</th>
+<th align="right">MilkFreq</th>
+<th align="left">VisitDate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">9539</td>
+<td align="left">Herd_A</td>
+<td align="left">Conventional</td>
+<td align="right">480</td>
+<td align="left">Rotary parlour</td>
+<td align="right">3</td>
+<td align="left">2022-02-04</td>
+</tr>
+<tr class="even">
+<td align="left">9697</td>
+<td align="left">Herd_B</td>
+<td align="left">Organic</td>
+<td align="right">160</td>
+<td align="left">Herringbone parlour</td>
+<td align="right">2</td>
+<td align="left">2022-02-16</td>
+</tr>
+<tr class="odd">
+<td align="left">9433</td>
+<td align="left">Herd_C</td>
+<td align="left">Conventional</td>
+<td align="right">210</td>
+<td align="left">Robotic</td>
+<td align="right">3</td>
+<td align="left">2022-03-26</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that we actually have two unique identifiers here: CHR and
+Herd both refer to a unique farm, so we could have chosen the Herd as
+the unique identifier (first column) instead.</p>
+</div>
+<div id="lameness-observations" class="section level3">
+<h3>Lameness observations</h3>
+<p>The lameness observations are in three separate files, but they are
+in the same format so we can combine them into a single table in our
+dataset. But first, we should create a column in each of the raw data
+files to indicate the herd - each file contains data for a single herd
+so you will just use the same value (given by the filename) for all
+rows. Make sure you write the herd identifier in the same way as you did
+for the farm_data table above.</p>
+<p>Then create a new sheet called e.g. “visit_data” in the data file,
+and paste in the contents of the three separate files, each below the
+previous one. Now change the name of the “Cow” column to “CKR” so that
+it matches the registry data. Then we need to make another modification:
+we don’t currently have a unique identifier for each row, so we need to
+add one. The easiest way to do this is to create a new column on the
+left of the existing columns, and type in a variable name like
+“ObservationID” at the top. Then you can use a simple Excel formula to
+create a row number for each row below it by typing =“Obs_”&amp;ROW()-1
+in cell A2, and then copying this formula all the way down to the last
+row of data. To finish, make sure you copy the entire column, then
+choose “Edit”-&gt;“Paste Special” and click the box for “Values”, then
+click on OK to replace the formulae with the values shown.</p>
+<p>The final step is to move the notes to a separate sheet, so that we
+can have an overview of all the missing data in once place. First create
+a new sheet called “notes”, with columns named something like “Table”,
+“Variable”, “RowID” and “Note”. Then you can take the 3 observations
+with a Note from the visit_data sheet, enter the relevant information in
+the notes sheet, then delete the Note column from the visit_data
+sheet.</p>
+<p>You should end up with a visit_data sheet that looks like this:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">ObservationID</th>
+<th align="left">Herd</th>
+<th align="left">CKR</th>
+<th align="right">GaitScore</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Obs_1</td>
+<td align="left">Herd_A</td>
+<td align="left">62376</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Obs_2</td>
+<td align="left">Herd_A</td>
+<td align="left">79068</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Obs_3</td>
+<td align="left">Herd_A</td>
+<td align="left">09421</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Obs_4</td>
+<td align="left">Herd_A</td>
+<td align="left">76139</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Obs_5</td>
+<td align="left">Herd_A</td>
+<td align="left">35357</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Obs_6</td>
+<td align="left">Herd_A</td>
+<td align="left">93835</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>And a notes sheet that looks like this:</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="14%" />
+<col width="8%" />
+<col width="60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Table</th>
+<th align="left">Variable</th>
+<th align="left">RowID</th>
+<th align="left">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">92563</td>
+<td align="left">Walked in front of another cow</td>
+</tr>
+<tr class="even">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">24673</td>
+<td align="left">Walked in front of another cow</td>
+</tr>
+<tr class="odd">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">70735</td>
+<td align="left">Not being milked due to clinical mastitis</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="registry-data" class="section level3">
+<h3>Registry data</h3>
+<p>The 3 Excel files containing registry data can be copy-pasted into
+your dataset with only minor modification, into sheets with the same
+names as the files, as follows:</p>
+<ul>
+<li>The animal-level registry data already has a unique identifier
+(CKR), so we can keep that as it is. However, the “Date” column heading
+is not very informative - we should use something like “DOB” instead, so
+that it does not conflict with the other types of dates we will have.
+You should end up with something like this:</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">CKR</th>
+<th align="left">CHR</th>
+<th align="left">DOB</th>
+<th align="left">Breed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">08326</td>
+<td align="left">9433</td>
+<td align="left">2012-02-01</td>
+<td align="left">hol</td>
+</tr>
+<tr class="even">
+<td align="left">05225</td>
+<td align="left">9697</td>
+<td align="left">2012-02-11</td>
+<td align="left">hol</td>
+</tr>
+<tr class="odd">
+<td align="left">03741</td>
+<td align="left">9697</td>
+<td align="left">2012-02-11</td>
+<td align="left">hol</td>
+</tr>
+<tr class="even">
+<td align="left">24413</td>
+<td align="left">9697</td>
+<td align="left">2012-03-12</td>
+<td align="left">hol</td>
+</tr>
+<tr class="odd">
+<td align="left">75220</td>
+<td align="left">9433</td>
+<td align="left">2012-03-22</td>
+<td align="left">jer</td>
+</tr>
+<tr class="even">
+<td align="left">69245</td>
+<td align="left">9539</td>
+<td align="left">2012-03-22</td>
+<td align="left">jer</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The calving-level registry data doesn’t have a unique identifier, so
+we need to add one to the left of the existing data like we did for the
+lameness observations. Use a formula like =“Clv_”&amp;ROW()-1 and
+remember to copy/paste values as before. Also change the variable name
+“Date” to something better, like “CalvingDate”. You should end up with
+something like this:</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">CalvingID</th>
+<th align="left">CKR</th>
+<th align="left">CalvingDate</th>
+<th align="right">Lactation</th>
+<th align="left">CHR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Clv_1</td>
+<td align="left">38087</td>
+<td align="left">2020-02-03</td>
+<td align="right">1</td>
+<td align="left">9433</td>
+</tr>
+<tr class="even">
+<td align="left">Clv_2</td>
+<td align="left">84851</td>
+<td align="left">2020-02-04</td>
+<td align="right">1</td>
+<td align="left">9539</td>
+</tr>
+<tr class="odd">
+<td align="left">Clv_3</td>
+<td align="left">05225</td>
+<td align="left">2020-02-05</td>
+<td align="right">7</td>
+<td align="left">9697</td>
+</tr>
+<tr class="even">
+<td align="left">Clv_4</td>
+<td align="left">31038</td>
+<td align="left">2020-02-05</td>
+<td align="right">1</td>
+<td align="left">9697</td>
+</tr>
+<tr class="odd">
+<td align="left">Clv_5</td>
+<td align="left">17484</td>
+<td align="left">2020-02-05</td>
+<td align="right">1</td>
+<td align="left">9539</td>
+</tr>
+<tr class="even">
+<td align="left">Clv_6</td>
+<td align="left">37971</td>
+<td align="left">2020-02-05</td>
+<td align="right">3</td>
+<td align="left">9697</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The milk-observation-level registry data is exactly the same as the
+calving-level data: add a new column to the left using a formula like
+=“Mlk_”&amp;ROW()-1 - and don’t forget to change the name of the Date
+column. You should end up with something like this:</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">MilkID</th>
+<th align="left">CKR</th>
+<th align="left">MilkDate</th>
+<th align="right">MilkYield</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Mlk_1</td>
+<td align="left">38087</td>
+<td align="left">2020-02-12</td>
+<td align="right">7.553151</td>
+</tr>
+<tr class="even">
+<td align="left">Mlk_2</td>
+<td align="left">05225</td>
+<td align="left">2020-02-16</td>
+<td align="right">12.523592</td>
+</tr>
+<tr class="odd">
+<td align="left">Mlk_3</td>
+<td align="left">27254</td>
+<td align="left">2020-02-16</td>
+<td align="right">13.112550</td>
+</tr>
+<tr class="even">
+<td align="left">Mlk_4</td>
+<td align="left">31038</td>
+<td align="left">2020-02-16</td>
+<td align="right">9.350677</td>
+</tr>
+<tr class="odd">
+<td align="left">Mlk_5</td>
+<td align="left">37971</td>
+<td align="left">2020-02-16</td>
+<td align="right">12.530701</td>
+</tr>
+<tr class="even">
+<td align="left">Mlk_6</td>
+<td align="left">45934</td>
+<td align="left">2020-02-16</td>
+<td align="right">14.697268</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="lookup-tables" class="section level3">
+<h3>Lookup tables</h3>
+<p>This is optional, but we might also want to record the breed codes
+and gait score codes as separate sheets for future reference - the
+information needed to do this was given in the question, and in real
+life it would save you time in the future if you ever forgot what the
+codes meant! Create new sheets like “breed_lookup” and “gait_lookup”,
+and enter something like the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Breed</th>
+<th align="left">BreedText</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">hol</td>
+<td align="left">Holstein</td>
+</tr>
+<tr class="even">
+<td align="left">jer</td>
+<td align="left">Jersey</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="92%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">GaitScore</th>
+<th align="left">GaitDescription</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="left">normal gait: the cow is not lame; the back is flat</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="left">mildly lame: the back is slightly arched when
+walking</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="left">moderately lame: the back is arched when both standing
+and walking, and the cow walks with short strides in one or more
+legs</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="left">lame: the lame cow can still bear some weight on the
+affected foot</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">severely lame: the back is arched, and the cow refuses
+to bear weight on the affected foot</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="back-to-the-description-data" class="section level3">
+<h3>Back to the description data</h3>
+<p>At this point, we are now able to describe all of the tables and
+variables we have included in the data, so we should go back and do that
+in the relevant sheets while we can still remember what everything
+means! You should end up with something that looks like this:</p>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="90%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -493,61 +856,46 @@ in each sheet. An appropriate tables sheet could look like this:</li>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">owner_data</td>
-<td align="left">contact information for the owner of each dog</td>
+<td align="left">farm_data</td>
+<td align="left">farm-level data gathered from the farmer during on-farm
+visits</td>
 </tr>
 <tr class="even">
-<td align="left">dog_data</td>
-<td align="left">dog-level information including owner, breed, date of
-birth</td>
+<td align="left">visit_data</td>
+<td align="left">cow-level information collected from on-farm visits,
+including gait scores (lameness) - the cows to be scored were selected
+randomly using registry data before the visit</td>
 </tr>
 <tr class="odd">
-<td align="left">surgery_data</td>
-<td align="left">information about the surgery performed</td>
+<td align="left">registry_animal</td>
+<td align="left">cow-level data provided from the Danish national
+registries</td>
 </tr>
 <tr class="even">
-<td align="left">clinical_data</td>
-<td align="left">clinical observations made on the severity of patella
-luxation</td>
+<td align="left">registry_calving</td>
+<td align="left">calving data provided from the Danish national
+registries</td>
 </tr>
 <tr class="odd">
+<td align="left">registry_milk</td>
+<td align="left">milk yield data provided from the Danish national
+registries, covering the period from 2 years before the visit dates</td>
+</tr>
+<tr class="even">
 <td align="left">breed_lookup</td>
 <td align="left">codes used to record breed</td>
 </tr>
+<tr class="odd">
+<td align="left">gait_lookup</td>
+<td align="left">codes used to record gait scores</td>
+</tr>
 </tbody>
 </table>
-<ol start="3" style="list-style-type: decimal">
-<li><p>“variables”. This sheet should list each of the columns provided
-in each of the tables given above, including the type of data
-represented and a brief description of what the data represent
-(including the meaning of any code/abbreviations used). We recommend the
-following column headings:</p>
-<ul>
-<li>Variable (i.e. column name)</li>
-<li>Type - for example:
-<ul>
-<li>id: a label or other unique identifier that might be used to link
-observations on e.g. the same animal or the same farm</li>
-<li>number: a number, this could either be continuous (such as height or
-weight) or discrete (such as a count)</li>
-<li>date: a date (or possibly datetime if the time is also
-recorded)</li>
-<li>category: nominal or ordinal categories, such as body condition
-score or breed</li>
-<li>text: any free text entries such as an address of a farm</li>
-</ul></li>
-<li>Description</li>
-</ul></li>
-</ol>
-<p>Notice that the sheet is not given; it is therefore important that if
-a variable name is re-used between different sheets then it means the
-same thing for each sheet! An appropriate variables sheet could look
-like this:</p>
 <table>
 <colgroup>
-<col width="10%" />
-<col width="7%" />
-<col width="82%" />
+<col width="11%" />
+<col width="6%" />
+<col width="81%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -558,606 +906,123 @@ like this:</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Owner</td>
+<td align="left">CHR</td>
 <td align="left">id</td>
-<td align="left">a unique identifier for owner (e.g. CPR number or full
-name)</td>
+<td align="left">a unique identifier for each farm in Denmark</td>
 </tr>
 <tr class="even">
-<td align="left">Address</td>
-<td align="left">text</td>
-<td align="left">address of owner</td>
+<td align="left">Herd</td>
+<td align="left">id</td>
+<td align="left">a unique identifier for the farms visited</td>
 </tr>
 <tr class="odd">
-<td align="left">Phone</td>
-<td align="left">text</td>
-<td align="left">the phone number of the owner</td>
+<td align="left">HerdType</td>
+<td align="left">category</td>
+<td align="left">either conventional or organic farm</td>
 </tr>
 <tr class="even">
-<td align="left">Dog</td>
+<td align="left">HerdSize</td>
+<td align="left">number</td>
+<td align="left">the reported herd size of the farm</td>
+</tr>
+<tr class="odd">
+<td align="left">MilkSystem</td>
+<td align="left">category</td>
+<td align="left">the type of milking system used: either rotary parlour,
+herringbone parlour or robot</td>
+</tr>
+<tr class="even">
+<td align="left">MilkFreq</td>
+<td align="left">number</td>
+<td align="left">the reported milking frequency</td>
+</tr>
+<tr class="odd">
+<td align="left">VisitDate</td>
+<td align="left">date</td>
+<td align="left">the date of on-farm visit</td>
+</tr>
+<tr class="even">
+<td align="left">ObservationID</td>
 <td align="left">id</td>
-<td align="left">a unique identifier for the dog</td>
+<td align="left">an arbitrary index for the lameness observation</td>
+</tr>
+<tr class="odd">
+<td align="left">CKR</td>
+<td align="left">id</td>
+<td align="left">a unique identifier for each cow in Denmark</td>
+</tr>
+<tr class="even">
+<td align="left">GaitScore</td>
+<td align="left">category</td>
+<td align="left">the gait score - a number from 0 to 4 (see gait_lookup
+sheet)</td>
+</tr>
+<tr class="odd">
+<td align="left">GaitDescription</td>
+<td align="left">text</td>
+<td align="left">a description of the gait score code</td>
+</tr>
+<tr class="even">
+<td align="left">DOB</td>
+<td align="left">date</td>
+<td align="left">date of birth of the animal</td>
 </tr>
 <tr class="odd">
 <td align="left">Breed</td>
 <td align="left">category</td>
-<td align="left">a code for the dog breed (see breed_lookup sheet)</td>
+<td align="left">a code for the animal breed (see breed_lookup
+sheet)</td>
 </tr>
 <tr class="even">
 <td align="left">BreedText</td>
 <td align="left">text</td>
-<td align="left">the full name of the dog breed</td>
+<td align="left">the full name of the animal breed</td>
 </tr>
 <tr class="odd">
-<td align="left">DOB</td>
-<td align="left">date</td>
-<td align="left">date of birth of the dog</td>
-</tr>
-<tr class="even">
-<td align="left">Leg</td>
-<td align="left">category</td>
-<td align="left">the affected limb: either right or left (hind leg)</td>
-</tr>
-<tr class="odd">
-<td align="left">SurgeryID</td>
+<td align="left">CalvingID</td>
 <td align="left">id</td>
-<td align="left">a unique identifier for the surgical event</td>
+<td align="left">an arbitrary index for the calving event</td>
 </tr>
 <tr class="even">
-<td align="left">SurgeryType</td>
-<td align="left">category</td>
-<td align="left">the type of surgery: either TTT (tibial tuberosity
-transposition) or RS (recession sulcoplasty)</td>
-</tr>
-<tr class="odd">
-<td align="left">SurgeryDate</td>
-<td align="left">date</td>
-<td align="left">the date of surgery</td>
-</tr>
-<tr class="even">
-<td align="left">ObsID</td>
-<td align="left">id</td>
-<td align="left">a unique identifier for the clinical observation</td>
-</tr>
-<tr class="odd">
-<td align="left">ObsDate</td>
-<td align="left">date</td>
-<td align="left">the date of clinical observation</td>
-</tr>
-<tr class="even">
-<td align="left">Weight</td>
+<td align="left">Lactation</td>
 <td align="left">number</td>
-<td align="left">the weight of the dog in kg</td>
+<td align="left">the lactation number of the cow for this calving
+(i.e. how many times she has given birth, including this time)</td>
 </tr>
 <tr class="odd">
-<td align="left">Severity</td>
-<td align="left">category</td>
-<td align="left">the severity of subluxation as assessed by the vet:
-either none, mild, moderate or severe</td>
+<td align="left">MilkID</td>
+<td align="left">id</td>
+<td align="left">an arbitrary index for the milk recording
+observation</td>
+</tr>
+<tr class="even">
+<td align="left">MilkDate</td>
+<td align="left">date</td>
+<td align="left">date of milk recording observation</td>
+</tr>
+<tr class="odd">
+<td align="left">MilkYield</td>
+<td align="left">number</td>
+<td align="left">the recorded milk yield (in kg) from the animal at this
+milking event</td>
 </tr>
 </tbody>
 </table>
-<p>When you are setting up a dataset in the real world, you might not
-immediately know what the tables and variables will be. So it is OK to
-leave these blank while you enter the data in the rest of the file, as
-long as you come back to the description sheets when you are finished
-entering the data … and before you move on to your analysis!</p>
-<p>It might seem like a lot of work to fill out all of this metadata for
-every dataset you work with. However, investing some time in recording
-this information at an early stage when you can still remember all the
-features of your dataset is much easier than spending a long time trying
-to work it out years later! In the long run, you will thank yourself for
-taking the time to do things properly. Having a permanent record of the
-underlying structure of your data is also a key part of <a href="https://en.wikipedia.org/wiki/Reproducibility">reproducible
-research</a>.</p>
 </div>
-<div id="data-sheets" class="section level4">
-<h4>Data sheets</h4>
-<p>Your observations should be entered into one or more Excel sheets,
-each containing a self-contained set of data (that we will refer to as a
-table). We strongly suggest that you stick to the following rules to
-ensure that you are able to read your data into statistical analysis
-software/programs without unnecessary difficulty:</p>
-<ul>
-<li>Each sheet should ONLY contain the table itself, and not any
-metadata or summarising information</li>
-<li>The first row should always contain variable (column) names, and
-there should not be any blank rows or columns anywhere in the
-document</li>
-<li>The first column should always contain a unique identifier or
-reference number for each row of data (in the same way that an SQL
-database includes row ID for each table). This allows you to remove, add
-and reorder rows and still have a way of uniquely referring to each row
-at a later date. This could be something like an animal ID (assuming
-each animal is only observed once), or could just be a unique number
-that can be used to refer to a specific row of data. If possible, it is
-better to use a mixture of letters and numbers, so for example rather
-than using “1”, “2”, “3” etc you should use “Obs_1”, “Obs_2”, “Obs_3”.
-But if data has been provided to you with a row ID that is a number, it
-is OK to keep it like that. If you want to add a new unique identifier,
-then a handy Excel formula to use is as follows: =“Obs_”&amp;ROW()-1 -
-that creates a value like “Obs_1”, “Obs_2” etc. Once you have entered
-this formula and copied it for the entire column, it is a good idea to
-copy the entire column, then choose “Edit”-&gt;“Paste Special” and click
-the box for “Values”, then click on OK to replace the formulae with the
-values shown. This ensures that Excel remembers the IDs you have just
-given the data, as otherwise the formulae would be updated if you remove
-rows or change the ordering of the rows in the future.</li>
-<li>You should never use special characters like spaces or
-*/-+=“’&amp;^$£()<span></span> etc within column names (or names of
-sheets). Stick to letters, numbers and underscore, for example:
-<ul>
-<li>Bad: weight (in kg)</li>
-<li>Good: weight_kg</li>
-</ul></li>
-<li>All names of columns within the sheet must be unique, but it is a
-good idea to re-use the same name between sheets if the columns contain
-the same data e.g. an animal identification number - this will
-facilitate merging the data from different sheets at a later date. You
-should also make sure that sheets have unique names.</li>
-<li>Do not use dates as headings! Where you have observations on
-different dates across columns, you should stick to descriptions as
-column names e.g. Visit1, Visit2 etc, and then include the corresponding
-dates of these Visit1 and Visit2 in a separate table (sheet)</li>
-<li>If you have any missing data, then simply leave the corresponding
-cell blank: DO NOT enter an explanation of why the data is missing in
-the cell, or even as a comment on the cell. Instead, use a dedicated
-“notes” sheet for this purpose where relevant (see below).</li>
-</ul>
-<p>You may also have some data sheets containing “lookup” information on
-one or more coding systems used in the rest of your data. For example,
-you might have been provided with data using breed codes like “LAB”,
-“GER” etc in the data, in which case you could add a separate sheet like
-the following:</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Breed</th>
-<th align="left">BreedText</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">GER</td>
-<td align="left">German shepherd (Alsatian)</td>
-</tr>
-<tr class="even">
-<td align="left">LAB</td>
-<td align="left">Labrador retriever</td>
-</tr>
-<tr class="odd">
-<td align="left">MIX</td>
-<td align="left">Crossbreed</td>
-</tr>
-</tbody>
-</table>
-<p>In general it is always best to use more descriptive codes directly
-in the data sheets, but if you are provided with data from an external
-source where shorter codes have been used then having a lookup table as
-a separate sheet is a good option.</p>
-</div>
-<div id="notes" class="section level4">
-<h4>Notes</h4>
-<p>A mistake that people frequently make when entering data is to try to
-enter notes about observations in the same place as the observations
-themselves, either as text in place of a missing observation
-(e.g. something like “dog tried to bite me” rather than a number in a
-column containing weights), text in a neighbouring column (or some other
-place that “it will fit”), or as a comment on a cell. None of these are
-very good solutions for various reasons, but the biggest issue you will
-face is that it will be much more difficult to read your data into
-statistical analysis programmes such as R.</p>
-<p>A much better idea is to use a separate sheet dedicated to notes.
-Because this sheet does not contain data, you are free to enter whatever
-information you want to without making it harder to read the data
-itself. We suggest including the following columns:</p>
-<ul>
-<li>the table name you are referring to</li>
-<li>the variable name you are referring to</li>
-<li>the row identifier you are referring to, i.e. the value of the first
-variable for this row in the data</li>
-<li>a note that you want to make, for example the reason that the
-observation is missing.</li>
-</ul>
-<p>You could also use the same notes sheet to record any other relevant
-information about specific data points, e.g. if a value was replaced at
-a later date due to a presumed data entry error (including the date when
-this was done). This provides a modern-day equivalent of an old
-fashioned lab book!</p>
-</div>
-<div id="summary-statistics" class="section level4">
-<h4>Summary statistics</h4>
-<p>Although it is not a requirement, many people like to make some
-summary statistics of their data in the same Excel file as they have
-entered the data. However, it is a BIG mistake to try to use the same
-sheets that contain the data for this purpose. A particularly common
-problem is to add a final row showing e.g. the mean of the other
-observations in that column: this makes it impossible to read the data
-into statistical analysis programmes such as R later on.</p>
-<p>If you want to make summary statistics, then you can use a separate
-sheet for this purpose. For example, create a sheet called “summaries”
-and then use formulae that refer to other sheets to calculate averages,
-counts, or whatever you want. Similarly, if you want to create plots and
-pivot tables then always make sure you add these as a new sheet, not
-within an existing sheet. However, as you will see in the rest of this
-series on data science, it is much easier to do these things in R
-anyway!</p>
-</div>
-</div>
-<div id="data-structures" class="section level3">
-<h3>Data structures</h3>
-<p>Now that you know how an Excel dataset should look, you have to work
-out what the structure of your particular dataset will look like. For
-example, how many different data sheets should you have, and which
-columns should you put into each sheet? If you have a very simple
-dataset with e.g. one observation per animal, then this might be a
-straightforward choice - you could even have a single sheet with all of
-your information in the same place. However, it is almost always the
-case that we will need several different sheets to hold our data in the
-most efficient way possible.</p>
-<p>Before expanding on this point, let’s define a few terms that help us
-think about how to store and enter data.</p>
-<ol style="list-style-type: decimal">
-<li><p>Each table may contain observations at a different level, for
-example “owner level”, “dog level”, “surgery level” and “clinical
-observation level”. Each of these will contain data that is observed at
-that level, i.e. phone number is at owner level, whereas dates of birth
-are at dog level. However, tables are linked together by one or more
-relation column, i.e. they will have one or more column in common with
-another table that can be used to link them. However, each table may
-have a different number of observations matching the same relation - in
-our example we have:</p>
-<ul>
-<li>an “owner_info” table with a unique identifer of owner, along with
-owner-level information such as contact details</li>
-<li>a “dog_level” table with a unique identifier of dog, along with
-dog-lvel information such as breed and date of birth, and a separate
-column giving the owner to which the dog belongs</li>
-<li>a “surgery_info” table with a unique identifier (perhaps a reference
-number) for the surgery, and where the same dog may appear more than
-once (typically up to twice, i.e. once for each hind leg, but repeat
-surgeries on the same leg are possible)</li>
-<li>a “clinical_data” table with clinical observations on the same dogs
-on different dates - note that we still need a unique identifier for
-each observation, but this could just be a sequence number i.e. order in
-which the data were entered.</li>
-<li>a “breed_lookup” table with unique identifier of breed code, and a
-second column giving the corresponding breed as a text description.</li>
-</ul></li>
-<li><p>Tables containing data can either be in “long” or “wide” format.
-The basic difference is that wide data have multiple observations on the
-same individual in different columns within the same row, whereas long
-data have multiple observations of the same variable in different rows
-within the same column. A good example is consecutive weight recordings
-of the same animals: in wide format this might look like:</p></li>
-</ol>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Dog</th>
-<th align="right">Weight_1</th>
-<th align="right">Weight_2</th>
-<th align="right">Weight_3</th>
-<th align="right">Weight_4</th>
-<th align="right">Weight_5</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">scooby_doo</td>
-<td align="right">19.39580</td>
-<td align="right">19.71201</td>
-<td align="right">20.08817</td>
-<td align="right">19.79228</td>
-<td align="right">20.00328</td>
-</tr>
-<tr class="even">
-<td align="left">mutley</td>
-<td align="right">10.53245</td>
-<td align="right">10.41416</td>
-<td align="right">10.15847</td>
-<td align="right">10.13509</td>
-<td align="right">10.29834</td>
-</tr>
-</tbody>
-</table>
-<p>Whereas in long format the same data would look like:</p>
-<table>
-<thead>
-<tr class="header">
-<th align="right">ObsID</th>
-<th align="left">Dog</th>
-<th align="left">VisitNumber</th>
-<th align="right">Weight</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">1</td>
-<td align="left">scooby_doo</td>
-<td align="left">Weight_1</td>
-<td align="right">19.39580</td>
-</tr>
-<tr class="even">
-<td align="right">2</td>
-<td align="left">scooby_doo</td>
-<td align="left">Weight_2</td>
-<td align="right">19.71201</td>
-</tr>
-<tr class="odd">
-<td align="right">3</td>
-<td align="left">scooby_doo</td>
-<td align="left">Weight_3</td>
-<td align="right">20.08817</td>
-</tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="left">scooby_doo</td>
-<td align="left">Weight_4</td>
-<td align="right">19.79228</td>
-</tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="left">scooby_doo</td>
-<td align="left">Weight_5</td>
-<td align="right">20.00328</td>
-</tr>
-<tr class="even">
-<td align="right">6</td>
-<td align="left">mutley</td>
-<td align="left">Weight_1</td>
-<td align="right">10.53245</td>
-</tr>
-<tr class="odd">
-<td align="right">7</td>
-<td align="left">mutley</td>
-<td align="left">Weight_2</td>
-<td align="right">10.41416</td>
-</tr>
-<tr class="even">
-<td align="right">8</td>
-<td align="left">mutley</td>
-<td align="left">Weight_3</td>
-<td align="right">10.15847</td>
-</tr>
-<tr class="odd">
-<td align="right">9</td>
-<td align="left">mutley</td>
-<td align="left">Weight_4</td>
-<td align="right">10.13509</td>
-</tr>
-<tr class="even">
-<td align="right">10</td>
-<td align="left">mutley</td>
-<td align="left">Weight_5</td>
-<td align="right">10.29834</td>
-</tr>
-</tbody>
-</table>
-<p>Notice that the observations are the same; only the format of the
-data (and the first column containing the unique identifier) has
-changed. The advantage of the wide format is that it might be faster to
-type data into Excel this way, particularly if the paper version of the
-data is in the same format. The disadvantage is that you have less
-flexibility to add more information at each measurement: for example in
-the long format you can easily add a column for date of observation, or
-perhaps body condition of the dog, whereas this is not possible in wide
-format.</p>
-<p>So how should you structure your data? The most important point is to
-remember that the purpose of a database is to hold data, and NOT to
-perform analyses of the data. At this stage you should focus on the
-easiest (and least error prone!) way to enter the data, and not even try
-to think about the format that you might eventually need for a
-statistical analysis: converting the input data into the data for
-analysis is a later task (which will be easy if we do our job correctly
-at this stage!). Statistical analysis programmes such as R are extremely
-good at doing that, as you will see later in this series.</p>
-<p>There are a number of general principles that might help to guide the
-structure of your data file:</p>
-<ul>
-<li>Having lots of sheets is usually better than having fewer sheets.
-Many people instinctively try to cram as much data into the same sheet
-as possible: do not fall into this trap!</li>
-<li>You should first consider the different levels for which you have
-collected data: at a minimum, you should have one sheet per level of
-your data. For example, if you have a study on pets, are there multiple
-observations per animal (for example weight), animal-level information
-(for example breed, date of birth), and perhaps also owner-level
-information (if owners can have multiple pets)? If so, you need a
-minimum of three sheets to contain information at these different
-levels. However, it is perfectly fine to have multiple sheets containing
-data at the same level if that makes it easier to enter the data: they
-will be easy to merge later on as long as each sheet contains one or
-more relation column that can be used to identify which rows belong
-together.</li>
-<li>Always choose the path of least resistance:
-<ul>
-<li>If you have already been given data in a particular format, then
-don’t change that format unless there is a particular reason to. If you
-have been given data in separate files then keep them in separate
-sheets, even if they are conceptually at the same level - for example
-you might end up with 2, 3 or even more sheets all at farm level if you
-have data on herd size, farmer contact details, and spatial coordinates
-of the farm in separate files to start with. That is absolutely fine; do
-not try to combine them at this stage!</li>
-<li>If you need to enter data from e.g. hand-written notebook or paper
-forms then choose a format that is most similar to the paper version and
-therefore will make it easiest for you to do the data entry. However,
-you may need to use more than one sheet if the paper contains
-information at different levels, e.g. a visit-level sheet containing
-visit id, herd number, observer(s) and date of observation, and actual
-observations made during that visit on an observation-level sheet that
-also contains a visit id column so that you can merge the two sheets
-later.</li>
-</ul></li>
-<li>You should not have to repeat the same information in different rows
-within the same sheet. For example, if you have observations at cow
-level, then the herd size should not be contained in the same sheet as
-this will be the same for all animals in that herd. You should have one
-sheet at cow level containing a herd number column, and a separate sheet
-at herd level containing the same herd number along with herd size, but
-with a single row per herd.</li>
-<li>Both long and wide format are equally acceptable, so you should
-choose the format that is most convenient for the data in question. If
-you have the same number of weight observations per dog, you might
-choose to use wide format to make data entry easier. However, if the
-data does not naturally fit into this format (for example if you also
-need to record the date of each observation, so that you have
-date-weight pairs per cell), then you may need to use long format. Do
-not try to force too much data into the same row by e.g. using column
-names that contain both observation types and dates or similar;
-complicated compound column names are a clear sign that the format of
-data entry is not optimal!</li>
-<li>A common mistake is to collect data from different herds and enter
-them in different sheets (using the herd number as a sheet name), even
-though the information collected from each herd was the same. It is much
-better to collect all of the data in the same sheet, and include a
-column giving the herd number for each row. If your data contains some
-information that was collected on some farms but not others, then you
-can either have a separate sheet for these observations containing only
-the relevant farms, or you can stick with a single sheet and simply
-leave the relevant columns blank for farms where the data was not
-collected.</li>
-<li>It is perfectly fine to have some rows in one or more of the sheets
-where there is no relational match in the other sheets. For example, if
-you have collected animal-level data from 5 herds but you are given
-herd-level information for a lot more herds, then you can simply leave
-all of this information in the herd-level sheet in case you need it for
-later (for example to compare your 5 herds to the others in terms of
-herd size). You will still be able to merge the sheets later on; herds
-with no animals in your data will simply be dropped at that stage.</li>
-<li>It is usually not a good idea to have a sheet that does not contain
-any relational matches with the other sheets (i.e. one sheet has no
-columns in common with the other sheets). This means that the data from
-this sheet cannot be merged with the other sheets, so they are
-conceptually not part of the same relational database. This is usually
-an indication that the data are in fact separate, and should be kept in
-separate Excel files each with their own respective purpose and
-description.</li>
-</ul>
-<p>In general there is no “right way” to structure your data: any format
-that allows you to easily read the data into statistical analysis
-programmes such as R is fine. As you get more experienced you will start
-to recognise common patterns, and if you work with data enough then it
-will start to become second nature!</p>
-</div>
-</div>
-<div id="excercises" class="section level2">
-<h2>Excercises</h2>
-<p>Let’s try a simple exercise in collecting data into an Excel file
-according to the guidelines above. Try to do the best you can, then
-compare your file with the suggested version given at the end of the
-exercise.</p>
-<div id="background" class="section level3">
-<h3>Background</h3>
-<p>You have been on three farm visits and performed a gait score on 50
-dairy cows per farm, in order to assess whether or not the animals are
-lame. Each farmer has also given permission for you to be provided with
-information on the cows and their milk production from the relevant data
-registries containing information on all herds in Denmark. These files
-were provided to you shortly before your visits, and you used the
-information about which animals were on each farm to randomly select the
-50 cow identifiers (CKR numbers) to be scored during your visit.</p>
-<p>Here is some information on the herds, as provided by the farmer
-during your visit:</p>
-<ul>
-<li>Herd A is a conventional milking herd with 480 animals, which milks
-3 times a day using a rotary parlour milking system. You visited the
-herd on 4th February 2022. The CHR number used in the national
-registries is 9539.</li>
-<li>Herd B is an organic milking herd with 160 animals, which milks 2
-times a day using a herringbone parlour milking system. You visited the
-herd on 16th February 2022. The CHR number used in the national
-registries is 9697.</li>
-<li>Herd C is a conventional milking herd with 210 animals, which milks
-3 times a day using a robotic milking system. You visited the herd on
-26th March 2022. The CHR number used in the national registries is
-9433.</li>
-</ul>
-<p>The data collection was carried out as part of your PhD on lameness
-in dairy cattle, which was funded by SEGES with grant number
-S6716245.</p>
-</div>
-<div id="lameness-observations" class="section level3">
-<h3>Lameness observations</h3>
-<p>In real life you would probably have written down the lameness
-observations on paper and have to type them into Excel, but I will be
-nice and give them to you in an electronic format - you can download the
-file for each herd from here:</p>
-<ul>
-<li><a href="lameness_Herd_A.xlsx">Herd A</a></li>
-<li><a href="lameness_Herd_B.xlsx">Herd B</a></li>
-<li><a href="lameness_Herd_C.xlsx">Herd C</a></li>
-</ul>
-<p>There are only 3 columns in each file:</p>
-<ul>
-<li>Cow is the cow’s ID number (CKR)</li>
-<li>GaitScore is a number between 0-4 as follows:
-<ul>
-<li>0 is normal gait: the cow is not lame; the back is flat.</li>
-<li>1 is mildly lame: the back is slightly arched when walking.</li>
-<li>2 is moderately lame: the back is arched when both standing and
-walking, and the cow walks with short strides in one or more legs.</li>
-<li>3 is lame: the lame cow can still bear some weight on the affected
-foot.</li>
-<li>4 is severely lame: the back is arched, and the cow refuses to bear
-weight on the affected foot.</li>
-</ul></li>
-<li>Note is some free text containing a note about why the observation
-was missing</li>
-</ul>
-</div>
-<div id="animal-level-registry-data" class="section level3">
-<h3>Animal-level registry data</h3>
-<p>You were provided with <a href="registry_animal.xlsx">this file</a>
-from the registry data. The columns indicate:</p>
-<ul>
-<li>CKR: the animal identifier</li>
-<li>Date: the date of birth of the animal</li>
-<li>Breed: the breed code of the animal - either hol (Holstein) or jer
-(Jersey)</li>
-</ul>
-<p>Each animal is represented by a single row in the data.</p>
-</div>
-<div id="calving-data" class="section level3">
-<h3>Calving data</h3>
-<p>You were provided with <a href="registry_calving.xlsx">this file</a>
-from the registry data. The columns indicate:</p>
-<ul>
-<li>CKR: the animal identifier</li>
-<li>Date: the date of calving (i.e. the date on which the lactation
-started)</li>
-<li>Lactation: the lactation number for the cow (i.e. how many times has
-she given birth, including this time)</li>
-<li>CHR: the farm where the animal was during the lactation</li>
-</ul>
-<p>You have only been given data for lactations starting within 2 years
-of your study, but the information is for all cows currently in the
-herd. Note that the same animal may appear several times!</p>
-</div>
-<div id="milk-recording-data" class="section level3">
-<h3>Milk recording data</h3>
-<p>You were provided with <a href="registry_milk.xlsx">this file</a>
-from the registry data. The columns indicate:</p>
-<ul>
-<li>CKR: the animal identifier</li>
-<li>Date: the date on which the milk control was done</li>
-<li>Yield: the amount of milk (in kg) produced by the cow during that
-milking event</li>
-</ul>
-<p>Note that milk recordings are done at 4-week intervals, so the same
-animal will appear several times for each lactation.</p>
-</div>
-<div id="solution" class="section level3">
-<h3>Solution</h3>
-<p>Click <a href="solution1.html">here</a> to see a suggested solution
-(plus some explanation) for this exercise.</p>
-<p>Remember to keep hold of the finished dataset, as you will need it
-for the exercise at the end of the next session!</p>
-<p>Note: the data provided here is synthetic, i.e. it does not represent
-real farms or real animals, so that we can share it publicly without any
-confidentiality problems! However, the observations and scenario are
-chosen to be as realistic as possible.</p>
+<div id="conclusions" class="section level3">
+<h3>Conclusions</h3>
+<p>This was the last step of the process: if you have successfully
+completed the exercise then you should now have a completely
+self-contained dataset. If you want to compare it to something we
+prepared, then have a look at <a href="https://www.costmodds.org/teaching/voc_data_science/topic1/solution_topic_1.xlsx">our
+complete solution file</a></p>
+<p>Your answer does not have to be identical to our file - the order of
+the sheets doesn’t matter (although it is a good idea to start with the
+description sheets), and it is absolutely fine to have named your tables
+and variables slightly differently to the labels we chose. As long as
+you have followed our guidance with choosing names, and the same
+variables are named consistently between tables, you will have a datset
+that is easy to work with!</p>
 </div>
 </div>
 <div id="acknowledgements" class="section level2">
