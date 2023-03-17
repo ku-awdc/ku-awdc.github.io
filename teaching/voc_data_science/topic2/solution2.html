@@ -377,9 +377,22 @@ library(&quot;readxl&quot;)
 # This line will show a different path for you:
 setwd(&quot;~/Documents/DataScience/ErasmusPlusCourse&quot;)
 
+## Read sheets:
 filename &lt;- &quot;solution_topic_1.xlsx&quot;
 sheets &lt;- excel_sheets(filename)
+sheets
 
+
+## Read gait score lookup table:
+gait_lookup &lt;- read_excel(filename, sheet=&quot;gait_lookup&quot;)
+str(gait_lookup)
+
+gait_lookup$GaitScore &lt;- factor(gait_lookup$GaitScore)
+gait_levels &lt;- levels(gait_lookup$GaitScore)
+str(gait_lookup)
+
+
+## Read farm data:
 farm_data &lt;- read_excel(filename, sheet=&quot;farm_data&quot;)
 str(farm_data)
 
@@ -389,14 +402,42 @@ farm_data$VisitDate &lt;- as.Date(farm_data$VisitDate)
 
 str(farm_data)
 summary(farm_data)</code></pre>
+<p>Now we need to write some code ourselves to read the visit data. This
+is not as scary as it sounds; just stick to the pattern shown for the
+gait lookup and farm data sheets above - copy/paste the R code you have
+already been given and just change names of variables etc as needed.</p>
+</div>
+<div id="breed-lookup-table" class="section level3">
+<h3>Breed lookup table</h3>
+<p>We should start by reading the breed lookup table:</p>
+<pre class="r"><code>breed_lookup &lt;- read_excel(filename, sheet=&quot;breed_lookup&quot;)
+str(breed_lookup)</code></pre>
+<pre><code>## tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ Breed    : chr [1:2] &quot;hol&quot; &quot;jer&quot;
+##  $ BreedText: chr [1:2] &quot;Holstein&quot; &quot;Jersey&quot;</code></pre>
+<p>This is a lot like the gait score lookup table in that we need to
+change the unique identifier (Breed) into a factor. Here, the column we
+are changing into a factor is also the unique identifier row, so there
+is no need to specify the valid categories:</p>
+<pre class="r"><code>breed_lookup$Breed &lt;- factor(breed_lookup$Breed)</code></pre>
+<p>But just like for gait_levels, we can save the valid categories to
+help us out later:</p>
+<pre class="r"><code>breed_levels &lt;- levels(breed_lookup$Breed)</code></pre>
+<p>Then we can finish by checking the data to make sure our changes
+worked:</p>
+<pre class="r"><code>str(breed_lookup)</code></pre>
+<pre><code>## tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ Breed    : Factor w/ 2 levels &quot;hol&quot;,&quot;jer&quot;: 1 2
+##  $ BreedText: chr [1:2] &quot;Holstein&quot; &quot;Jersey&quot;</code></pre>
+<pre class="r"><code>summary(breed_lookup)</code></pre>
+<pre><code>##  Breed    BreedText        
+##  hol:1   Length:2          
+##  jer:1   Class :character  
+##          Mode  :character</code></pre>
 </div>
 <div id="visit-data" class="section level3">
 <h3>Visit data</h3>
-<p>Now we need to write some code ourselves to read the visit data. This
-is not as scary as it sounds; just stick to the pattern shown for the
-farm data - copy/paste the R code you have already been given and just
-change names of variables etc as needed.</p>
-<p>We start with reading the data and checking the structure:</p>
+<p>Now we can move on to the visit data:</p>
 <pre class="r"><code>visit_data &lt;- read_excel(filename, sheet=&quot;visit_data&quot;)
 str(visit_data)</code></pre>
 <pre><code>## tibble [150 × 4] (S3: tbl_df/tbl/data.frame)
@@ -405,9 +446,10 @@ str(visit_data)</code></pre>
 ##  $ CKR          : chr [1:150] &quot;62376&quot; &quot;79068&quot; &quot;09421&quot; &quot;76139&quot; ...
 ##  $ GaitScore    : num [1:150] 0 0 0 0 0 0 0 0 0 0 ...</code></pre>
 <p>There is only 1 thing we need to change: GaitScore is a categorical
-variable, so should be a factor in R. Let’s chage that by copy/pasting
-the code from farm_data:</p>
-<pre class="r"><code>visit_data$GaitScore &lt;- factor(visit_data$GaitScore)</code></pre>
+variable, so should be a factor in R. Let’s change that by copy/pasting
+the code we were given before - remember that we saved a handy variable
+called gait_levels to help us:</p>
+<pre class="r"><code>visit_data$GaitScore &lt;- factor(visit_data$GaitScore, levels=gait_levels)</code></pre>
 <p>Now we can re-check the structure and summaries of this data
 frame:</p>
 <pre class="r"><code>str(visit_data)</code></pre>
@@ -415,20 +457,8 @@ frame:</p>
 ##  $ ObservationID: chr [1:150] &quot;Obs_1&quot; &quot;Obs_2&quot; &quot;Obs_3&quot; &quot;Obs_4&quot; ...
 ##  $ Herd         : chr [1:150] &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; ...
 ##  $ CKR          : chr [1:150] &quot;62376&quot; &quot;79068&quot; &quot;09421&quot; &quot;76139&quot; ...
-##  $ GaitScore    : Factor w/ 4 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+##  $ GaitScore    : Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 <pre class="r"><code>summary(visit_data)</code></pre>
-<pre><code>##  ObservationID          Herd               CKR            GaitScore 
-##  Length:150         Length:150         Length:150         0   :121  
-##  Class :character   Class :character   Class :character   1   : 22  
-##  Mode  :character   Mode  :character   Mode  :character   2   :  3  
-##                                                           3   :  1  
-##                                                           NA&#39;s:  3</code></pre>
-<p>We have 3 missing GaitScores (as expected), but otherwise it all
-looks OK. Notice that we don’t have any gait scores of 4 - if we wanted
-R to include this category despite us not seeing it, we could add
-explicit factor levels:</p>
-<pre class="r"><code>visit_data$GaitScore &lt;- factor(visit_data$GaitScore, levels=c(0,1,2,3,4))
-summary(visit_data)</code></pre>
 <pre><code>##  ObservationID          Herd               CKR            GaitScore 
 ##  Length:150         Length:150         Length:150         0   :121  
 ##  Class :character   Class :character   Class :character   1   : 22  
@@ -436,9 +466,10 @@ summary(visit_data)</code></pre>
 ##                                                           3   :  1  
 ##                                                           4   :  0  
 ##                                                           NA&#39;s:  3</code></pre>
-<p>This is optional, but sometimes it is useful to have a count of all
-the potentially valid categories, even if one of them wasn’t actually
-observed.</p>
+<p>We have 3 missing GaitScores (as expected), but otherwise it all
+looks OK. Notice that we don’t have any gait scores of 4 - but because
+we used the gait_lookup sheet to define the levels, we are explicitly
+told that there are zero observations, which is nice!</p>
 </div>
 <div id="register-data-animal" class="section level3">
 <h3>Register data: animal</h3>
@@ -453,24 +484,32 @@ str(registry_animal)</code></pre>
 <p>Only two things need to be changed here: firstly the DOB has come out
 as a date/time (POSIXct), so we will convert this into a plain date to
 make things easier. Secondly, we need to convert the categorical
-variable Breed into a factor. We can copy/paste code from before:</p>
+variable Breed into a factor. We can copy/paste code from before, again
+using the levels we obtained from the relevant lookup table:</p>
 <pre class="r"><code>registry_animal$DOB &lt;- as.Date(registry_animal$DOB)
-registry_animal$Breed &lt;- factor(registry_animal$Breed)</code></pre>
+registry_animal$Breed &lt;- factor(registry_animal$Breed, levels=breed_lookup)</code></pre>
 <p>And re-check:</p>
 <pre class="r"><code>str(registry_animal)</code></pre>
 <pre><code>## tibble [850 × 4] (S3: tbl_df/tbl/data.frame)
 ##  $ CKR  : chr [1:850] &quot;08326&quot; &quot;05225&quot; &quot;03741&quot; &quot;24413&quot; ...
 ##  $ CHR  : chr [1:850] &quot;9433&quot; &quot;9697&quot; &quot;9697&quot; &quot;9697&quot; ...
 ##  $ DOB  : Date[1:850], format: &quot;2012-02-01&quot; &quot;2012-02-11&quot; ...
-##  $ Breed: Factor w/ 2 levels &quot;hol&quot;,&quot;jer&quot;: 1 1 1 1 2 2 2 2 2 2 ...</code></pre>
+##  $ Breed: Factor w/ 2 levels &quot;1:2&quot;,&quot;c(\&quot;Holstein\&quot;, \&quot;Jersey\&quot;)&quot;: NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 <pre class="r"><code>summary(registry_animal)</code></pre>
-<pre><code>##      CKR                CHR                 DOB             Breed    
-##  Length:850         Length:850         Min.   :2012-02-01   hol:166  
-##  Class :character   Class :character   1st Qu.:2016-08-28   jer:684  
-##  Mode  :character   Mode  :character   Median :2018-03-31            
-##                                        Mean   :2017-08-31            
-##                                        3rd Qu.:2019-03-23            
-##                                        Max.   :2019-11-01</code></pre>
+<pre><code>##      CKR                CHR                 DOB            
+##  Length:850         Length:850         Min.   :2012-02-01  
+##  Class :character   Class :character   1st Qu.:2016-08-28  
+##  Mode  :character   Mode  :character   Median :2018-03-31  
+##                                        Mean   :2017-08-31  
+##                                        3rd Qu.:2019-03-23  
+##                                        Max.   :2019-11-01  
+##                      Breed    
+##  1:2                    :  0  
+##  c(&quot;Holstein&quot;, &quot;Jersey&quot;):  0  
+##  NA&#39;s                   :850  
+##                               
+##                               
+## </code></pre>
 </div>
 <div id="register-data-calving" class="section level3">
 <h3>Register data: calving</h3>
@@ -534,46 +573,6 @@ str(registry_milk)</code></pre>
 ##                                        Mean   :2021-05-14   Mean   : 8.8733  
 ##                                        3rd Qu.:2021-10-15   3rd Qu.:10.4119  
 ##                                        Max.   :2022-01-16   Max.   :18.9026</code></pre>
-</div>
-<div id="lookup-tables" class="section level3">
-<h3>Lookup tables</h3>
-<p>We can also read the lookup tables, as it will help us make prettier
-graphs in a future topic. The only difference to the previous sheets is
-that the unique identifier is actually a categorical variable, so we
-will change it into a factor. This is important to be able to allow us
-to merge the tables together in a future topic.</p>
-<pre class="r"><code>breed_lookup &lt;- read_excel(filename, sheet=&quot;breed_lookup&quot;)
-str(breed_lookup)</code></pre>
-<pre><code>## tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
-##  $ Breed    : chr [1:2] &quot;hol&quot; &quot;jer&quot;
-##  $ BreedText: chr [1:2] &quot;Holstein&quot; &quot;Jersey&quot;</code></pre>
-<pre class="r"><code>breed_lookup$Breed &lt;- factor(breed_lookup$Breed)
-str(breed_lookup)</code></pre>
-<pre><code>## tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
-##  $ Breed    : Factor w/ 2 levels &quot;hol&quot;,&quot;jer&quot;: 1 2
-##  $ BreedText: chr [1:2] &quot;Holstein&quot; &quot;Jersey&quot;</code></pre>
-<pre class="r"><code>summary(breed_lookup)</code></pre>
-<pre><code>##  Breed    BreedText        
-##  hol:1   Length:2          
-##  jer:1   Class :character  
-##          Mode  :character</code></pre>
-<pre class="r"><code>gait_lookup &lt;- read_excel(filename, sheet=&quot;gait_lookup&quot;)
-str(gait_lookup)</code></pre>
-<pre><code>## tibble [5 × 2] (S3: tbl_df/tbl/data.frame)
-##  $ GaitScore      : num [1:5] 0 1 2 3 4
-##  $ GaitDescription: chr [1:5] &quot;normal gait: the cow is not lame; the back is flat&quot; &quot;mildly lame: the back is slightly arched when walking&quot; &quot;moderately lame: the back is arched when both standing and walking, and the cow walks with short strides in one or more legs&quot; &quot;lame: the lame cow can still bear some weight on the affected foot&quot; ...</code></pre>
-<pre class="r"><code>gait_lookup$GaitScore &lt;- factor(gait_lookup$GaitScore, levels=c(0,1,2,3,4))
-str(gait_lookup)</code></pre>
-<pre><code>## tibble [5 × 2] (S3: tbl_df/tbl/data.frame)
-##  $ GaitScore      : Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: 1 2 3 4 5
-##  $ GaitDescription: chr [1:5] &quot;normal gait: the cow is not lame; the back is flat&quot; &quot;mildly lame: the back is slightly arched when walking&quot; &quot;moderately lame: the back is arched when both standing and walking, and the cow walks with short strides in one or more legs&quot; &quot;lame: the lame cow can still bear some weight on the affected foot&quot; ...</code></pre>
-<pre class="r"><code>summary(gait_lookup)</code></pre>
-<pre><code>##  GaitScore GaitDescription   
-##  0:1       Length:5          
-##  1:1       Class :character  
-##  2:1       Mode  :character  
-##  3:1                         
-##  4:1</code></pre>
 </div>
 <div id="conclusions" class="section level3">
 <h3>Conclusions</h3>

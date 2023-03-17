@@ -417,6 +417,9 @@ downloaded binary packages are in …”.</p>
 <p>To begin working in R, we first need to set up our R script and save
 it. Copy and paste the following 3 lines of R code from this file and
 paste it at the top of your empty R script file:</p>
+<pre class="r"><code>### A script file to read lameness data, 2023-01-23
+library(&quot;tidyverse&quot;)
+library(&quot;readxl&quot;)</code></pre>
 <p>The first line is a comment - anything that starts with the #
 character is ignored by R. We write comments in code to help us
 understand what we were trying to do when we wrote the code; it is a
@@ -436,21 +439,17 @@ file from <a href="https://www.costmodds.org/teaching/voc_data_science/topic1/so
 all of the code in the R script, and then click on the “Run” button at
 the top right of the R script window. You should see the following
 output:</p>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.0     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.1     ✔ tibble    3.1.8
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ✔ purrr     1.0.1     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──✔ ggplot2 3.4.0     ✔ purrr   1.0.1
+## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
+## ✔ tidyr   1.3.0     ✔ stringr 1.5.0
+## ✔ readr   2.1.3     ✔ forcats 1.0.0── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors</code></pre>
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <p>There is some red text shown here, but that is normal when loading
 the tidyverse package.</p>
 </div>
-<div id="reading-a-dataset-from-file" class="section level3">
-<h3>Reading a dataset from file</h3>
+<div id="setting-variables-in-r" class="section level3">
+<h3>Setting variables in R</h3>
 <p>The next step is to set our working directory. We need to do this so
 that R can find our Excel file when we ask it to read from it. To do
 this, use the “Session” menu and select “Set Working Directory” then
@@ -458,34 +457,134 @@ this, use the “Session” menu and select “Set Working Directory” then
 file with the data. Then click “Open”. You will see some text appear in
 the R console that might look like this (except that the directory names
 will be different):</p>
+<pre class="r"><code>setwd(&quot;~/Documents/DataScience/ErasmusPlusCourse&quot;)</code></pre>
 <p>Copy and paste this text from the R console into your R script file
 (just under the comments you wrote at the top) - this means that R will
 automatically know which working directory to use next time you re-open
 RStudio.</p>
-<p>Now we can actually read the dataset into R! There are two ways to do
-this; either you can copy/paste code that you have from other exercises,
-or you can click on the “Import Dataset” button in the environment
-window and follow the instructions. Here we can just copy/paste the
+<p>Now we can actually start to read the dataset into R! Copy/paste the
 following code into the bottom of our R script (changing the name of the
 file to match your Excel file, if necessary):</p>
+<pre class="r"><code>filename &lt;- &quot;solution_topic_1.xlsx&quot;
+sheets &lt;- excel_sheets(filename)</code></pre>
 <p>You should now see two things have appeared in the environment window
 under “Values”: the filename has been stored with the value we gave it,
 and a new variable called sheets has been created which contains all of
-the names of the sheets in our Excel file. To read a dataset into an R
-data frame, we need to specify which sheet:</p>
+the names of the sheets in our Excel file. To see the value of these
+variables we can type the name of the variable into the R console:</p>
+<pre class="r"><code>sheets</code></pre>
+<p>You should see output like this:</p>
+<pre><code>##  [1] &quot;metadata&quot;         &quot;tables&quot;           &quot;variables&quot;        &quot;farm_data&quot;       
+##  [5] &quot;visit_data&quot;       &quot;registry_animal&quot;  &quot;registry_calving&quot; &quot;registry_milk&quot;   
+##  [9] &quot;breed_lookup&quot;     &quot;gait_lookup&quot;      &quot;notes&quot;</code></pre>
+<p>We can also use functions with the variables we have saved. For
+example, the class() function tells us what format the variable is
+stored in, and the length() function tells us how many elements a
+variable stores:</p>
+<pre class="r"><code>class(sheets)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>length(sheets)</code></pre>
+<pre><code>## [1] 11</code></pre>
+<p>This tells us that the sheets variable is a character vector of
+length 11, which is another way of saying that it is a collection of 11
+text values.</p>
+</div>
+<div id="reading-data-into-r" class="section level3">
+<h3>Reading data into R</h3>
+<p>To read a dataset into R, we need to use the read_excel function, and
+to specify which sheet we want to read. It is usually a good idea to
+start with the lookup tables, as these often define the valid categories
+for our categorical variables:</p>
+<pre class="r"><code>gait_lookup &lt;- read_excel(filename, sheet=&quot;gait_lookup&quot;)</code></pre>
 <p>Now we have a new data frame in our envirnonemt window under “Data”:
-data frames are a special kind of value that represent something very
+data frames are a special kind of variable that represent something very
 similar to a sheet in Excel. If you click on the name of the data frame,
 a new tab will open next to your R script file so that you can look at
 the data. Close the tab to return to your R script when you are
 done.</p>
+<p>Working with data frames is a central feature of doing data science
+in R because they keep all of your related variables together in the
+same place, ensuring that each variable has the same number of rows.
+This approach also allows you to have multiple data frames each
+containing different variables, some of which might have the same name,
+and to combine (merge) them as needed later. Some functions work on
+whole data frames, for example summary(), ncol() and nrow():</p>
+<pre class="r"><code>summary(gait_lookup)</code></pre>
+<pre><code>##    GaitScore GaitDescription   
+##  Min.   :0   Length:5          
+##  1st Qu.:1   Class :character  
+##  Median :2   Mode  :character  
+##  Mean   :2                     
+##  3rd Qu.:3                     
+##  Max.   :4</code></pre>
+<pre class="r"><code>ncol(gait_lookup)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>nrow(gait_lookup)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p>However, we can also look at individual columns within the data frame
+by accessing them using a $ separator between the name of the data frame
+variable and the name of the column we want, for example:</p>
+<pre class="r"><code>gait_lookup$GaitScore</code></pre>
+<pre><code>## [1] 0 1 2 3 4</code></pre>
+<pre class="r"><code>length(gait_lookup$GaitScore)</code></pre>
+<pre><code>## [1] 5</code></pre>
 </div>
-<div id="checking-the-formats-of-your-data" class="section level3">
-<h3>Checking the formats of your data</h3>
+<div id="checking-the-formats-of-your-data-factors" class="section level3">
+<h3>Checking the formats of your data: factors</h3>
 <p>Before we can go any further, we need to check that R has correctly
 read the formats of each of the variables in our data - for example
 numbers are showing as numbers, dates are showing as dates, etc. To do
 this we can use the str() function:</p>
+<pre class="r"><code>str(gait_lookup)</code></pre>
+<pre><code>## tibble [5 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ GaitScore      : num [1:5] 0 1 2 3 4
+##  $ GaitDescription: chr [1:5] &quot;normal gait: the cow is not lame; the back is flat&quot; &quot;mildly lame: the back is slightly arched when walking&quot; &quot;moderately lame: the back is arched when both standing and walking, and the cow walks with short strides in one or more legs&quot; &quot;lame: the lame cow can still bear some weight on the affected foot&quot; ...</code></pre>
+<p>This tells us that we have 5 rows of 2 columns, and gives us the name
+of each column along with the format that R has stored: usually either
+chr for character (text and ID variables), num for numbers, Factor for
+categorical variables, Date for dates, or POSIXct for date/times - but
+sometimes it might be something else! Note that date/times are much more
+difficult to work with than plain dates because we have to worry about
+time zones (including daylight savings time changes); if you don’t
+really need the times I would recommend using plain dates for that
+reason.</p>
+<p>We can already see that one of these are not right: GaitScore is a
+categorical variable, so it should be a factor rather than text. We can
+change that using the factor function, like so:</p>
+<pre class="r"><code>gait_lookup$GaitScore &lt;- factor(gait_lookup$GaitScore)</code></pre>
+<p>You can also specify the valid categories for categorical variables
+by specifying a levels argument to the factor function, for example:</p>
+<pre class="r"><code>gait_lookup$GaitScore &lt;- factor(gait_lookup$GaitScore, levels=c(0,1,2,3,4))</code></pre>
+<p>In this case, the variable we are changing into a factor is also our
+unique row identifier, so we know for certain that all of the valid
+categories are included exactly once. It is therefore not necessary to
+specify the levels unless you want to change the order in which the
+categories appear.</p>
+<p>However, it is necessary to specify levels for categorical variables
+in data sheets, to make sure that you do not have any typos in the data.
+To help us do this when we get to reading the visit_data sheet, we can
+store a variable holding the valid gait scores now:</p>
+<pre class="r"><code>gait_levels &lt;- levels(gait_lookup$GaitScore)
+gait_levels</code></pre>
+<pre><code>## [1] &quot;0&quot; &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot;</code></pre>
+<p>This new variable gait_levels can be used like this:</p>
+<pre class="r"><code>gait_lookup$GaitScore &lt;- factor(gait_lookup$GaitScore, levels=gait_levels)</code></pre>
+<p>Note that it is necessary for factor columns in different data frames
+to have the same levels if you might want to combine the data frames
+using these factors later.</p>
+<p>Now we have fixed the GaitScore column we can re-check the format of
+the data frame:</p>
+<pre class="r"><code>str(gait_lookup)</code></pre>
+<pre><code>## tibble [5 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ GaitScore      : Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: 1 2 3 4 5
+##  $ GaitDescription: chr [1:5] &quot;normal gait: the cow is not lame; the back is flat&quot; &quot;mildly lame: the back is slightly arched when walking&quot; &quot;moderately lame: the back is arched when both standing and walking, and the cow walks with short strides in one or more legs&quot; &quot;lame: the lame cow can still bear some weight on the affected foot&quot; ...</code></pre>
+<p>This looks OK, so we can move onto reading the next sheet.</p>
+</div>
+<div id="checking-the-formats-of-your-data-dates" class="section level3">
+<h3>Checking the formats of your data: dates</h3>
+<p>Let’s skip ahead to reading one of the data sheets:</p>
+<pre class="r"><code>farm_data &lt;- read_excel(filename, sheet=&quot;farm_data&quot;)
+str(farm_data)</code></pre>
 <pre><code>## tibble [3 × 7] (S3: tbl_df/tbl/data.frame)
 ##  $ CHR       : chr [1:3] &quot;9539&quot; &quot;9697&quot; &quot;9433&quot;
 ##  $ Herd      : chr [1:3] &quot;Herd_A&quot; &quot;Herd_B&quot; &quot;Herd_C&quot;
@@ -494,38 +593,52 @@ this we can use the str() function:</p>
 ##  $ MilkSystem: chr [1:3] &quot;Rotary parlour&quot; &quot;Herringbone parlour&quot; &quot;Robotic&quot;
 ##  $ MilkFreq  : num [1:3] 3 2 3
 ##  $ VisitDate : chr [1:3] &quot;2022-02-04&quot; &quot;2022-02-16&quot; &quot;2022-03-26&quot;</code></pre>
-<p>This tells us that we have 3 rows of 7 variables (columns), and gives
-us the name of each variable along with the format that R has stored:
-usually either chr for character (text and ID variables), num for
-numbers, Factor for categorical variables, Date for dates, or POSIXct
-for date/times - but sometimes it might be something else! Note that
-date/times are much more difficult to work with than plain dates because
-we have to worry about time zones (including daylight savings time
-changes); if you don’t really need the times I would recommend using
-plain dates for that reason.</p>
-<p>We can already see that dome of these are not right: we should have
-HerdType and MilkSystem as factors, and VisitDate as a date, rather than
-text. We can do that using the factor and as.Date functions, like
-so:</p>
-<p>Note that these functions only work properly as written if the data
-is formatted correctly; if you have dates that are not in the standard
-YYYY-MM-DD format then you will need to tell as.Date how they are
-formatted using the format argument, for example:</p>
-<p>You can also specify the valid options for categorical variables by
-specifying a levels argument to the factor function, for example:</p>
-<p>This is a good idea to do if you have lots of observations in the
-data.</p>
+<p>This tells us that we have 3 rows of 7 columns, and this time there
+are a mixture of text (chr) and number (num) columns.</p>
+<p>Again, some of these are not right: we should have HerdType and
+MilkSystem as factors, and VisitDate as a date, rather than text. We can
+change the categorical variables into factors - but we don’t have a
+lookup table for valid values, so we have to choose them based on what
+is in the data. This table only has 3 rows so we can easily see what
+they are, but for a bigger table it is easiest to use one of the
+following functions:</p>
+<pre class="r"><code>unique(farm_data$HerdType)</code></pre>
+<pre><code>## [1] &quot;Conventional&quot; &quot;Organic&quot;</code></pre>
+<pre class="r"><code>table(farm_data$HerdType)</code></pre>
+<pre><code>## 
+## Conventional      Organic 
+##            2            1</code></pre>
+<p>Note the table() function by default does not show us how many
+missing values we have; to include a count of missing values (shown as
+<NA>) we can add a useNA argument to the table function:</p>
+<pre class="r"><code>table(farm_data$MilkSystem, useNA=&quot;always&quot;)</code></pre>
+<pre><code>## 
+## Herringbone parlour             Robotic      Rotary parlour                &lt;NA&gt; 
+##                   1                   1                   1                   0</code></pre>
+<p>Now we just need to convert the factors in the data:</p>
+<pre class="r"><code>farm_data$HerdType &lt;- factor(farm_data$HerdType, levels=c(&quot;Conventional&quot;,&quot;Organic&quot;))
+farm_data$MilkSystem &lt;- factor(farm_data$MilkSystem, levels=c(&quot;Rotary parlour&quot;,&quot;Herringbone parlour&quot;,&quot;Robotic&quot;))</code></pre>
+<p>We also need to convert the VisitDate into a date, which we can do
+using the as.Date function:</p>
+<pre class="r"><code>farm_data$VisitDate &lt;- as.Date(farm_data$VisitDate)</code></pre>
+<p>The as.Date function can convert dates from either text or date/time
+formats, but if you are converting from text where the date is not in
+the standard YYYY-MM-DD format then you will need to tell as.Date how
+they are formatted using the format argument, for example:</p>
+<pre class="r"><code>farm_data$VisitDate &lt;- as.Date(farm_data$VisitDate, format=&quot;%d/%m/%Y&quot;)</code></pre>
 <p>Now we can re-check the format of our data:</p>
+<pre class="r"><code>str(farm_data)</code></pre>
 <pre><code>## tibble [3 × 7] (S3: tbl_df/tbl/data.frame)
 ##  $ CHR       : chr [1:3] &quot;9539&quot; &quot;9697&quot; &quot;9433&quot;
 ##  $ Herd      : chr [1:3] &quot;Herd_A&quot; &quot;Herd_B&quot; &quot;Herd_C&quot;
 ##  $ HerdType  : Factor w/ 2 levels &quot;Conventional&quot;,..: 1 2 1
 ##  $ HerdSize  : num [1:3] 480 160 210
-##  $ MilkSystem: Factor w/ 3 levels &quot;Herringbone parlour&quot;,..: 3 1 2
+##  $ MilkSystem: Factor w/ 3 levels &quot;Rotary parlour&quot;,..: 1 2 3
 ##  $ MilkFreq  : num [1:3] 3 2 3
 ##  $ VisitDate : Date[1:3], format: &quot;2022-02-04&quot; &quot;2022-02-16&quot; ...</code></pre>
-<p>This looks much better now! Finally, we can look at a summary of the
-data:</p>
+<p>For data sheets, we should always look at a summary of the data
+before moving on:</p>
+<pre class="r"><code>summary(farm_data)</code></pre>
 <pre><code>##      CHR                Herd                   HerdType    HerdSize    
 ##  Length:3           Length:3           Conventional:2   Min.   :160.0  
 ##  Class :character   Class :character   Organic     :1   1st Qu.:185.0  
@@ -534,9 +647,9 @@ data:</p>
 ##                                                         3rd Qu.:345.0  
 ##                                                         Max.   :480.0  
 ##                MilkSystem    MilkFreq       VisitDate         
-##  Herringbone parlour:1    Min.   :2.000   Min.   :2022-02-04  
-##  Robotic            :1    1st Qu.:2.500   1st Qu.:2022-02-10  
-##  Rotary parlour     :1    Median :3.000   Median :2022-02-16  
+##  Rotary parlour     :1    Min.   :2.000   Min.   :2022-02-04  
+##  Herringbone parlour:1    1st Qu.:2.500   1st Qu.:2022-02-10  
+##  Robotic            :1    Median :3.000   Median :2022-02-16  
 ##                           Mean   :2.667   Mean   :2022-02-24  
 ##                           3rd Qu.:3.000   3rd Qu.:2022-03-07  
 ##                           Max.   :3.000   Max.   :2022-03-26</code></pre>
@@ -546,11 +659,13 @@ max etc, and factors are summarised as an observed tally for each
 category. It is not possible to usefully summarise text. If any of the
 columns include missing data, then you will also see the number of
 missing observations counted at the bottom as “NA’s” (including for text
-variables).</p>
-<p>It is important to check that these summary statistics look sensible
-i.e. the range of number and date variables is sensible, you don’t have
-any unexpected categories for factors, and you don’t have any missing
-data where you weren’t expecting it.</p>
+variables). It is important to check that these summary statistics look
+sensible i.e. the range of number and date variables is sensible, you
+don’t have any unexpected categories for factors, and you don’t have any
+missing data where you weren’t expecting it.</p>
+</div>
+<div id="some-advice" class="section level3">
+<h3>Some advice</h3>
 <p>Working with R coding is tricky when you get started, so try not to
 get frustrated if it is difficult at first. You will improve with a bit
 of practice, and hopefully you will soon get the hang of it! Here is
@@ -577,9 +692,9 @@ top.</p></li>
 <div id="excercise" class="section level2">
 <h2>Excercise</h2>
 <p>Repeat the process shown above for the other tables in your data,
-i.e. visit_data, registry_animal, registry_calving, registry_milk,
-breed_lookup and gait_lookup. There is no need to import the description
-sheets or the notes sheet.</p>
+i.e. breed_lookup, visit_data, registry_animal, registry_calving, and
+registry_milk. There is no need to import the description sheets or the
+notes sheet.</p>
 <p>Once you have finished, make sure that your R script can be run from
 top to bottom without errors. Save the file regularly while you are
 working on it! Once you are happy, quit RStudio and then re-open RStudio
