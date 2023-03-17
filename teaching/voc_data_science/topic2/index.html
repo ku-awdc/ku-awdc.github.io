@@ -444,8 +444,9 @@ file is stored - if you need another copy you can download the solution
 file from <a href="https://www.costmodds.org/teaching/voc_data_science/topic1/solution_topic_1.xlsx">here</a></p>
 <p>Once we have saved the file we can run the code. To do this, select
 all of the code in the R script, and then click on the “Run” button near
-the top right of the R script window. You should see the following
-output:</p>
+the top right of the R script window (alternatively you can use the
+shortcut Ctrl+Enter on Windows or Cmd+Return on macOS). You should see
+the following output:</p>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──✔ ggplot2 3.4.0     ✔ purrr   1.0.1
 ## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
 ## ✔ tidyr   1.3.0     ✔ stringr 1.5.0
@@ -469,16 +470,47 @@ will be different):</p>
 (just under the comments you wrote at the top) - this means that R will
 automatically know which working directory to use next time you re-open
 RStudio.</p>
-<p>Now we can actually start to read the dataset into R! Copy/paste the
-following code into the bottom of our R script (changing the name of the
-file to match your Excel file, if necessary):</p>
-<pre class="r"><code>filename &lt;- &quot;solution_topic_1.xlsx&quot;
-sheets &lt;- excel_sheets(filename)</code></pre>
-<p>You should now see two things have appeared in the environment window
-under “Values”: the filename has been stored with the value we gave it,
-and a new variable called sheets has been created which contains all of
-the names of the sheets in our Excel file. To see the value of these
-variables we can type the name of the variable into the R console:</p>
+<p>Now copy/paste the following code into the bottom of your R script
+(changing the name of the file to match your Excel file, if
+necessary):</p>
+<pre class="r"><code>filename &lt;- &quot;solution_topic_1.xlsx&quot;</code></pre>
+<p>This command tells R to take the text string representing the file
+name of our Excel file, and assign it to a new variable called
+‘filename’. The ‘&lt;-’ is called the left-arrow operator, and can be
+understood as putting the object on the right-hand side of the arrow
+into the variable name on the left-hand side of the arrow. The object
+could be anything from a simple text string like this to a large dataset
+or even the results of a fitted model. We can also reverse the direction
+of the arrow to put the object on the left-hand side of the arrow into
+the variable name on the right-hand side:</p>
+<pre class="r"><code>&quot;solution_topic_1.xlsx&quot; -&gt; filename</code></pre>
+<p>There is no difference between these two commands as far as R is
+concerned, but for single-line commands like this the convention is to
+use the first option.</p>
+<p>Now copy/paste the following code into the bottom of your R script,
+below the previous command:</p>
+<pre class="r"><code>sheets &lt;- excel_sheets(filename)</code></pre>
+<p>This command also creates a new variable (this time called ‘sheets’),
+but now the right hand side is a function call - we know that because of
+the parantheses ( and ). To see what this function does, click on the
+“Help” tab of the plots/help window in the bottom right of your screen,
+type excel_sheets into the search bar, and then hit enter to show the
+help file. The title “List all sheets in an excel spreadsheet” gives us
+a good description of what this function does, but you can read more
+details in the help file if you like. All functions in R have a
+corresponding help file, so if you ever see a function in R code and
+want to find out what it does, just search for it’s help file!</p>
+<p>Now run the two lines of code by highlighting the two lines and
+clicking “Run”. Alternatively, you can place your curser on the first
+line and then click “Run” twice - you will see that each line is run,
+and the curser is automatically moved onto the next line. This is a
+handy way to run through your R script slowly (one line at a time).</p>
+<p>After running these two lines, you should now see two things have
+appeared in the environment window under “Values”: the filename has been
+stored with the value we gave it, and a new variable called sheets has
+been created which contains all of the names of the sheets in our Excel
+file. To see the value of these variables we can type the name of the
+variable into the R console:</p>
 <pre class="r"><code>sheets</code></pre>
 <p>You should see output like this:</p>
 <pre><code>##  [1] &quot;metadata&quot;         &quot;tables&quot;           &quot;variables&quot;        &quot;farm_data&quot;       
@@ -498,10 +530,11 @@ text values.</p>
 </div>
 <div id="reading-data-into-r" class="section level3">
 <h3>Reading data into R</h3>
-<p>To read a dataset into R, we need to use the read_excel function, and
-to specify which sheet we want to read. It is usually a good idea to
-start with the lookup tables, as these often define the valid categories
-for our categorical variables:</p>
+<p>Now we can actually start to read the dataset into R! To do that, we
+need to use the read_excel function, and to specify which sheet we want
+to read. It is usually a good idea to start with the lookup tables, as
+these often define the valid categories for our categorical
+variables:</p>
 <pre class="r"><code>gait_lookup &lt;- read_excel(filename, sheet=&quot;gait_lookup&quot;)</code></pre>
 <p>Now we have a new data frame in our envirnonemt window under “Data”:
 data frames are a special kind of variable that represent something very
