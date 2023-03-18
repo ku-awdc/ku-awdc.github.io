@@ -369,6 +369,8 @@ data sheets later.</p>
 <h3>Metadata</h3>
 <p>Leave the tables and variables sheets blank for now, but you can fill
 out the metadata right away. It should look something like this:</p>
+<pre><code>## Warning in kable_pipe(x = structure(c(&quot;Dataset&quot;, &quot;Date&quot;, &quot;Description&quot;, : The
+## table should have a header (column names)</code></pre>
 <table>
 <colgroup>
 <col width="4%" />
@@ -502,10 +504,9 @@ click on OK to replace the formulae with the values shown.</p>
 <p>The final step is to move the notes to a separate sheet, so that we
 can have an overview of all the missing data in once place. First create
 a new sheet called “notes”, with columns named something like “Table”,
-“Variable”, “RowID” and “Note”. Then you can take the 3 observations
-with a Note from the visit_data sheet, enter the relevant information in
-the notes sheet, then delete the Note column from the visit_data
-sheet.</p>
+“Variable”, “RowID” and “Note”. Then you can take the observations with
+a Note from the visit_data sheet, enter the relevant information in the
+notes sheet, then delete the Note column from the visit_data sheet.</p>
 <p>You should end up with a visit_data sheet that looks like this:</p>
 <table>
 <thead>
@@ -520,37 +521,37 @@ sheet.</p>
 <tr class="odd">
 <td align="left">Obs_1</td>
 <td align="left">Herd_A</td>
-<td align="left">62376</td>
-<td align="right">0</td>
+<td align="left">76490</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
 <td align="left">Obs_2</td>
 <td align="left">Herd_A</td>
-<td align="left">79068</td>
+<td align="left">27588</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">Obs_3</td>
 <td align="left">Herd_A</td>
-<td align="left">09421</td>
-<td align="right">0</td>
+<td align="left">04438</td>
+<td align="right">2</td>
 </tr>
 <tr class="even">
 <td align="left">Obs_4</td>
 <td align="left">Herd_A</td>
-<td align="left">76139</td>
+<td align="left">43840</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
 <td align="left">Obs_5</td>
 <td align="left">Herd_A</td>
-<td align="left">35357</td>
+<td align="left">84609</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">Obs_6</td>
 <td align="left">Herd_A</td>
-<td align="left">93835</td>
+<td align="left">36363</td>
 <td align="right">0</td>
 </tr>
 </tbody>
@@ -575,20 +576,44 @@ sheet.</p>
 <tr class="odd">
 <td align="left">visit_data</td>
 <td align="left">GaitScore</td>
-<td align="left">92563</td>
-<td align="left">Walked in front of another cow</td>
+<td align="left">14473</td>
+<td align="left">Not being milked due to clinical mastitis</td>
 </tr>
 <tr class="even">
 <td align="left">visit_data</td>
 <td align="left">GaitScore</td>
-<td align="left">24673</td>
-<td align="left">Walked in front of another cow</td>
+<td align="left">07868</td>
+<td align="left">Not being milked due to clinical mastitis</td>
 </tr>
 <tr class="odd">
 <td align="left">visit_data</td>
 <td align="left">GaitScore</td>
-<td align="left">70735</td>
+<td align="left">75724</td>
 <td align="left">Not being milked due to clinical mastitis</td>
+</tr>
+<tr class="even">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">67473</td>
+<td align="left">Not being milked due to clinical mastitis</td>
+</tr>
+<tr class="odd">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">07596</td>
+<td align="left">Not being milked due to clinical mastitis</td>
+</tr>
+<tr class="even">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">93218</td>
+<td align="left">Not being milked due to clinical mastitis</td>
+</tr>
+<tr class="odd">
+<td align="left">visit_data</td>
+<td align="left">GaitScore</td>
+<td align="left">96132</td>
+<td align="left">Walked in front of another cow</td>
 </tr>
 </tbody>
 </table>
@@ -616,39 +641,39 @@ You should end up with something like this:</li>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">08326</td>
-<td align="left">9433</td>
-<td align="left">2012-02-01</td>
-<td align="left">hol</td>
-</tr>
-<tr class="even">
-<td align="left">05225</td>
-<td align="left">9697</td>
-<td align="left">2012-02-11</td>
-<td align="left">hol</td>
-</tr>
-<tr class="odd">
-<td align="left">03741</td>
-<td align="left">9697</td>
-<td align="left">2012-02-11</td>
-<td align="left">hol</td>
-</tr>
-<tr class="even">
-<td align="left">24413</td>
-<td align="left">9697</td>
-<td align="left">2012-03-12</td>
-<td align="left">hol</td>
-</tr>
-<tr class="odd">
-<td align="left">75220</td>
-<td align="left">9433</td>
+<td align="left">70368</td>
+<td align="left">9539</td>
 <td align="left">2012-03-22</td>
 <td align="left">jer</td>
 </tr>
 <tr class="even">
-<td align="left">69245</td>
+<td align="left">36363</td>
 <td align="left">9539</td>
-<td align="left">2012-03-22</td>
+<td align="left">2012-05-11</td>
+<td align="left">jer</td>
+</tr>
+<tr class="odd">
+<td align="left">47476</td>
+<td align="left">9539</td>
+<td align="left">2012-05-21</td>
+<td align="left">jer</td>
+</tr>
+<tr class="even">
+<td align="left">00783</td>
+<td align="left">9697</td>
+<td align="left">2012-07-30</td>
+<td align="left">hol</td>
+</tr>
+<tr class="odd">
+<td align="left">07868</td>
+<td align="left">9697</td>
+<td align="left">2012-07-30</td>
+<td align="left">hol</td>
+</tr>
+<tr class="even">
+<td align="left">42489</td>
+<td align="left">9539</td>
+<td align="left">2012-08-09</td>
 <td align="left">jer</td>
 </tr>
 </tbody>
@@ -674,45 +699,45 @@ something like this:</li>
 <tbody>
 <tr class="odd">
 <td align="left">Clv_1</td>
-<td align="left">38087</td>
+<td align="left">90037</td>
 <td align="left">2020-02-03</td>
-<td align="right">1</td>
-<td align="left">9433</td>
+<td align="right">4</td>
+<td align="left">9539</td>
 </tr>
 <tr class="even">
 <td align="left">Clv_2</td>
-<td align="left">84851</td>
-<td align="left">2020-02-04</td>
-<td align="right">1</td>
+<td align="left">72985</td>
+<td align="left">2020-02-05</td>
+<td align="right">2</td>
 <td align="left">9539</td>
 </tr>
 <tr class="odd">
 <td align="left">Clv_3</td>
-<td align="left">05225</td>
-<td align="left">2020-02-05</td>
-<td align="right">7</td>
-<td align="left">9697</td>
+<td align="left">57635</td>
+<td align="left">2020-02-06</td>
+<td align="right">1</td>
+<td align="left">9433</td>
 </tr>
 <tr class="even">
 <td align="left">Clv_4</td>
-<td align="left">31038</td>
-<td align="left">2020-02-05</td>
-<td align="right">1</td>
+<td align="left">28234</td>
+<td align="left">2020-02-06</td>
+<td align="right">2</td>
 <td align="left">9697</td>
 </tr>
 <tr class="odd">
 <td align="left">Clv_5</td>
-<td align="left">17484</td>
-<td align="left">2020-02-05</td>
-<td align="right">1</td>
+<td align="left">23184</td>
+<td align="left">2020-02-06</td>
+<td align="right">2</td>
 <td align="left">9539</td>
 </tr>
 <tr class="even">
 <td align="left">Clv_6</td>
-<td align="left">37971</td>
-<td align="left">2020-02-05</td>
-<td align="right">3</td>
-<td align="left">9697</td>
+<td align="left">02949</td>
+<td align="left">2020-02-08</td>
+<td align="right">1</td>
+<td align="left">9539</td>
 </tr>
 </tbody>
 </table>
@@ -734,39 +759,39 @@ column. You should end up with something like this:</li>
 <tbody>
 <tr class="odd">
 <td align="left">Mlk_1</td>
-<td align="left">38087</td>
+<td align="left">57635</td>
 <td align="left">2020-02-12</td>
-<td align="right">7.553151</td>
+<td align="right">5.633206</td>
 </tr>
 <tr class="even">
 <td align="left">Mlk_2</td>
-<td align="left">05225</td>
+<td align="left">28234</td>
 <td align="left">2020-02-16</td>
-<td align="right">12.523592</td>
+<td align="right">10.114164</td>
 </tr>
 <tr class="odd">
 <td align="left">Mlk_3</td>
-<td align="left">27254</td>
-<td align="left">2020-02-16</td>
-<td align="right">13.112550</td>
+<td align="left">02949</td>
+<td align="left">2020-03-06</td>
+<td align="right">7.807329</td>
 </tr>
 <tr class="even">
 <td align="left">Mlk_4</td>
-<td align="left">31038</td>
-<td align="left">2020-02-16</td>
-<td align="right">9.350677</td>
+<td align="left">10370</td>
+<td align="left">2020-03-06</td>
+<td align="right">7.485271</td>
 </tr>
 <tr class="odd">
 <td align="left">Mlk_5</td>
-<td align="left">37971</td>
-<td align="left">2020-02-16</td>
-<td align="right">12.530701</td>
+<td align="left">16113</td>
+<td align="left">2020-03-06</td>
+<td align="right">7.020368</td>
 </tr>
 <tr class="even">
 <td align="left">Mlk_6</td>
-<td align="left">45934</td>
-<td align="left">2020-02-16</td>
-<td align="right">14.697268</td>
+<td align="left">19119</td>
+<td align="left">2020-03-06</td>
+<td align="right">6.562997</td>
 </tr>
 </tbody>
 </table>

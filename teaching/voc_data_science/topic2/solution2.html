@@ -443,8 +443,8 @@ str(visit_data)</code></pre>
 <pre><code>## tibble [150 × 4] (S3: tbl_df/tbl/data.frame)
 ##  $ ObservationID: chr [1:150] &quot;Obs_1&quot; &quot;Obs_2&quot; &quot;Obs_3&quot; &quot;Obs_4&quot; ...
 ##  $ Herd         : chr [1:150] &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; ...
-##  $ CKR          : chr [1:150] &quot;62376&quot; &quot;79068&quot; &quot;09421&quot; &quot;76139&quot; ...
-##  $ GaitScore    : num [1:150] 0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+##  $ CKR          : chr [1:150] &quot;76490&quot; &quot;27588&quot; &quot;04438&quot; &quot;43840&quot; ...
+##  $ GaitScore    : num [1:150] 1 0 2 0 0 0 0 0 3 0 ...</code></pre>
 <p>There is only 1 thing we need to change: GaitScore is a categorical
 variable, so should be a factor in R. Let’s change that by copy/pasting
 the code we were given before - remember that we saved a handy variable
@@ -456,16 +456,16 @@ frame:</p>
 <pre><code>## tibble [150 × 4] (S3: tbl_df/tbl/data.frame)
 ##  $ ObservationID: chr [1:150] &quot;Obs_1&quot; &quot;Obs_2&quot; &quot;Obs_3&quot; &quot;Obs_4&quot; ...
 ##  $ Herd         : chr [1:150] &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; ...
-##  $ CKR          : chr [1:150] &quot;62376&quot; &quot;79068&quot; &quot;09421&quot; &quot;76139&quot; ...
-##  $ GaitScore    : Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+##  $ CKR          : chr [1:150] &quot;76490&quot; &quot;27588&quot; &quot;04438&quot; &quot;43840&quot; ...
+##  $ GaitScore    : Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: 2 1 3 1 1 1 1 1 4 1 ...</code></pre>
 <pre class="r"><code>summary(visit_data)</code></pre>
 <pre><code>##  ObservationID          Herd               CKR            GaitScore 
-##  Length:150         Length:150         Length:150         0   :121  
-##  Class :character   Class :character   Class :character   1   : 22  
-##  Mode  :character   Mode  :character   Mode  :character   2   :  3  
+##  Length:150         Length:150         Length:150         0   :118  
+##  Class :character   Class :character   Class :character   1   : 20  
+##  Mode  :character   Mode  :character   Mode  :character   2   :  4  
 ##                                                           3   :  1  
 ##                                                           4   :  0  
-##                                                           NA&#39;s:  3</code></pre>
+##                                                           NA&#39;s:  7</code></pre>
 <p>We have 3 missing GaitScores (as expected), but otherwise it all
 looks OK. Notice that we don’t have any gait scores of 4 - but because
 we used the gait_lookup sheet to define the levels, we are explicitly
@@ -477,10 +477,10 @@ told that there are zero observations, which is nice!</p>
 <pre class="r"><code>registry_animal &lt;- read_excel(filename, sheet=&quot;registry_animal&quot;)
 str(registry_animal)</code></pre>
 <pre><code>## tibble [850 × 4] (S3: tbl_df/tbl/data.frame)
-##  $ CKR  : chr [1:850] &quot;08326&quot; &quot;05225&quot; &quot;03741&quot; &quot;24413&quot; ...
-##  $ CHR  : chr [1:850] &quot;9433&quot; &quot;9697&quot; &quot;9697&quot; &quot;9697&quot; ...
-##  $ DOB  : POSIXct[1:850], format: &quot;2012-02-01&quot; &quot;2012-02-11&quot; ...
-##  $ Breed: chr [1:850] &quot;hol&quot; &quot;hol&quot; &quot;hol&quot; &quot;hol&quot; ...</code></pre>
+##  $ CKR  : chr [1:850] &quot;70368&quot; &quot;36363&quot; &quot;47476&quot; &quot;00783&quot; ...
+##  $ CHR  : chr [1:850] &quot;9539&quot; &quot;9539&quot; &quot;9539&quot; &quot;9697&quot; ...
+##  $ DOB  : POSIXct[1:850], format: &quot;2012-03-22&quot; &quot;2012-05-11&quot; ...
+##  $ Breed: chr [1:850] &quot;jer&quot; &quot;jer&quot; &quot;jer&quot; &quot;hol&quot; ...</code></pre>
 <p>Only two things need to be changed here: firstly the DOB has come out
 as a date/time (POSIXct), so we will convert this into a plain date to
 make things easier. Secondly, we need to convert the categorical
@@ -491,17 +491,17 @@ registry_animal$Breed &lt;- factor(registry_animal$Breed, levels=breed_lookup)</
 <p>And re-check:</p>
 <pre class="r"><code>str(registry_animal)</code></pre>
 <pre><code>## tibble [850 × 4] (S3: tbl_df/tbl/data.frame)
-##  $ CKR  : chr [1:850] &quot;08326&quot; &quot;05225&quot; &quot;03741&quot; &quot;24413&quot; ...
-##  $ CHR  : chr [1:850] &quot;9433&quot; &quot;9697&quot; &quot;9697&quot; &quot;9697&quot; ...
-##  $ DOB  : Date[1:850], format: &quot;2012-02-01&quot; &quot;2012-02-11&quot; ...
+##  $ CKR  : chr [1:850] &quot;70368&quot; &quot;36363&quot; &quot;47476&quot; &quot;00783&quot; ...
+##  $ CHR  : chr [1:850] &quot;9539&quot; &quot;9539&quot; &quot;9539&quot; &quot;9697&quot; ...
+##  $ DOB  : Date[1:850], format: &quot;2012-03-22&quot; &quot;2012-05-11&quot; ...
 ##  $ Breed: Factor w/ 2 levels &quot;1:2&quot;,&quot;c(\&quot;Holstein\&quot;, \&quot;Jersey\&quot;)&quot;: NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 <pre class="r"><code>summary(registry_animal)</code></pre>
 <pre><code>##      CKR                CHR                 DOB            
-##  Length:850         Length:850         Min.   :2012-02-01  
-##  Class :character   Class :character   1st Qu.:2016-08-28  
-##  Mode  :character   Mode  :character   Median :2018-03-31  
-##                                        Mean   :2017-08-31  
-##                                        3rd Qu.:2019-03-23  
+##  Length:850         Length:850         Min.   :2012-03-22  
+##  Class :character   Class :character   1st Qu.:2016-08-20  
+##  Mode  :character   Mode  :character   Median :2018-03-21  
+##                                        Mean   :2017-09-14  
+##                                        3rd Qu.:2019-03-16  
 ##                                        Max.   :2019-11-01  
 ##                      Breed    
 ##  1:2                    :  0  
@@ -516,31 +516,31 @@ registry_animal$Breed &lt;- factor(registry_animal$Breed, levels=breed_lookup)</
 <p>This is very similar to the previous sheet:</p>
 <pre class="r"><code>registry_calving &lt;- read_excel(filename, sheet=&quot;registry_calving&quot;)
 str(registry_calving)</code></pre>
-<pre><code>## tibble [1,438 × 5] (S3: tbl_df/tbl/data.frame)
-##  $ CalvingID  : chr [1:1438] &quot;Clv_1&quot; &quot;Clv_2&quot; &quot;Clv_3&quot; &quot;Clv_4&quot; ...
-##  $ CKR        : chr [1:1438] &quot;38087&quot; &quot;84851&quot; &quot;05225&quot; &quot;31038&quot; ...
-##  $ CalvingDate: POSIXct[1:1438], format: &quot;2020-02-03 08:18:40&quot; &quot;2020-02-04 21:20:41&quot; ...
-##  $ Lactation  : num [1:1438] 1 1 7 1 1 3 4 1 2 1 ...
-##  $ CHR        : chr [1:1438] &quot;9433&quot; &quot;9539&quot; &quot;9697&quot; &quot;9697&quot; ...</code></pre>
+<pre><code>## tibble [1,442 × 5] (S3: tbl_df/tbl/data.frame)
+##  $ CalvingID  : chr [1:1442] &quot;Clv_1&quot; &quot;Clv_2&quot; &quot;Clv_3&quot; &quot;Clv_4&quot; ...
+##  $ CKR        : chr [1:1442] &quot;90037&quot; &quot;72985&quot; &quot;57635&quot; &quot;28234&quot; ...
+##  $ CalvingDate: POSIXct[1:1442], format: &quot;2020-02-03 23:24:48&quot; &quot;2020-02-05 18:23:53&quot; ...
+##  $ Lactation  : num [1:1442] 4 2 1 2 2 1 3 5 6 6 ...
+##  $ CHR        : chr [1:1442] &quot;9539&quot; &quot;9539&quot; &quot;9433&quot; &quot;9697&quot; ...</code></pre>
 <p>The only thing to change here is CalvingDate into a plain date:</p>
 <pre class="r"><code>registry_calving$CalvingDate &lt;- as.Date(registry_calving$CalvingDate)
 str(registry_calving)</code></pre>
-<pre><code>## tibble [1,438 × 5] (S3: tbl_df/tbl/data.frame)
-##  $ CalvingID  : chr [1:1438] &quot;Clv_1&quot; &quot;Clv_2&quot; &quot;Clv_3&quot; &quot;Clv_4&quot; ...
-##  $ CKR        : chr [1:1438] &quot;38087&quot; &quot;84851&quot; &quot;05225&quot; &quot;31038&quot; ...
-##  $ CalvingDate: Date[1:1438], format: &quot;2020-02-03&quot; &quot;2020-02-04&quot; ...
-##  $ Lactation  : num [1:1438] 1 1 7 1 1 3 4 1 2 1 ...
-##  $ CHR        : chr [1:1438] &quot;9433&quot; &quot;9539&quot; &quot;9697&quot; &quot;9697&quot; ...</code></pre>
+<pre><code>## tibble [1,442 × 5] (S3: tbl_df/tbl/data.frame)
+##  $ CalvingID  : chr [1:1442] &quot;Clv_1&quot; &quot;Clv_2&quot; &quot;Clv_3&quot; &quot;Clv_4&quot; ...
+##  $ CKR        : chr [1:1442] &quot;90037&quot; &quot;72985&quot; &quot;57635&quot; &quot;28234&quot; ...
+##  $ CalvingDate: Date[1:1442], format: &quot;2020-02-03&quot; &quot;2020-02-05&quot; ...
+##  $ Lactation  : num [1:1442] 4 2 1 2 2 1 3 5 6 6 ...
+##  $ CHR        : chr [1:1442] &quot;9539&quot; &quot;9539&quot; &quot;9433&quot; &quot;9697&quot; ...</code></pre>
 <pre class="r"><code>summary(registry_calving)</code></pre>
 <pre><code>##   CalvingID             CKR             CalvingDate           Lactation    
-##  Length:1438        Length:1438        Min.   :2020-02-03   Min.   :1.000  
-##  Class :character   Class :character   1st Qu.:2020-09-28   1st Qu.:1.000  
-##  Mode  :character   Mode  :character   Median :2021-03-30   Median :2.000  
-##                                        Mean   :2021-03-08   Mean   :2.816  
-##                                        3rd Qu.:2021-08-22   3rd Qu.:4.000  
-##                                        Max.   :2022-01-31   Max.   :9.000  
+##  Length:1442        Length:1442        Min.   :2020-02-03   Min.   :1.000  
+##  Class :character   Class :character   1st Qu.:2020-09-27   1st Qu.:1.000  
+##  Mode  :character   Mode  :character   Median :2021-03-27   Median :2.000  
+##                                        Mean   :2021-03-06   Mean   :2.744  
+##                                        3rd Qu.:2021-08-26   3rd Qu.:4.000  
+##                                        Max.   :2022-01-31   Max.   :8.000  
 ##      CHR           
-##  Length:1438       
+##  Length:1442       
 ##  Class :character  
 ##  Mode  :character  
 ##                    
@@ -552,27 +552,27 @@ str(registry_calving)</code></pre>
 <p>More of the same:</p>
 <pre class="r"><code>registry_milk &lt;- read_excel(filename, sheet=&quot;registry_milk&quot;)
 str(registry_milk)</code></pre>
-<pre><code>## tibble [12,245 × 4] (S3: tbl_df/tbl/data.frame)
-##  $ MilkID   : chr [1:12245] &quot;Mlk_1&quot; &quot;Mlk_2&quot; &quot;Mlk_3&quot; &quot;Mlk_4&quot; ...
-##  $ CKR      : chr [1:12245] &quot;38087&quot; &quot;05225&quot; &quot;27254&quot; &quot;31038&quot; ...
-##  $ MilkDate : POSIXct[1:12245], format: &quot;2020-02-12&quot; &quot;2020-02-16&quot; ...
-##  $ MilkYield: num [1:12245] 7.55 12.52 13.11 9.35 12.53 ...</code></pre>
+<pre><code>## tibble [12,351 × 4] (S3: tbl_df/tbl/data.frame)
+##  $ MilkID   : chr [1:12351] &quot;Mlk_1&quot; &quot;Mlk_2&quot; &quot;Mlk_3&quot; &quot;Mlk_4&quot; ...
+##  $ CKR      : chr [1:12351] &quot;57635&quot; &quot;28234&quot; &quot;02949&quot; &quot;10370&quot; ...
+##  $ MilkDate : POSIXct[1:12351], format: &quot;2020-02-12&quot; &quot;2020-02-16&quot; ...
+##  $ MilkYield: num [1:12351] 5.63 10.11 7.81 7.49 7.02 ...</code></pre>
 <p>Again, we only change MilkDate into a plain date:</p>
 <pre class="r"><code>registry_milk$MilkDate &lt;- as.Date(registry_milk$MilkDate)
 str(registry_milk)</code></pre>
-<pre><code>## tibble [12,245 × 4] (S3: tbl_df/tbl/data.frame)
-##  $ MilkID   : chr [1:12245] &quot;Mlk_1&quot; &quot;Mlk_2&quot; &quot;Mlk_3&quot; &quot;Mlk_4&quot; ...
-##  $ CKR      : chr [1:12245] &quot;38087&quot; &quot;05225&quot; &quot;27254&quot; &quot;31038&quot; ...
-##  $ MilkDate : Date[1:12245], format: &quot;2020-02-12&quot; &quot;2020-02-16&quot; ...
-##  $ MilkYield: num [1:12245] 7.55 12.52 13.11 9.35 12.53 ...</code></pre>
+<pre><code>## tibble [12,351 × 4] (S3: tbl_df/tbl/data.frame)
+##  $ MilkID   : chr [1:12351] &quot;Mlk_1&quot; &quot;Mlk_2&quot; &quot;Mlk_3&quot; &quot;Mlk_4&quot; ...
+##  $ CKR      : chr [1:12351] &quot;57635&quot; &quot;28234&quot; &quot;02949&quot; &quot;10370&quot; ...
+##  $ MilkDate : Date[1:12351], format: &quot;2020-02-12&quot; &quot;2020-02-16&quot; ...
+##  $ MilkYield: num [1:12351] 5.63 10.11 7.81 7.49 7.02 ...</code></pre>
 <pre class="r"><code>summary(registry_milk)</code></pre>
-<pre><code>##     MilkID              CKR               MilkDate            MilkYield      
-##  Length:12245       Length:12245       Min.   :2020-02-12   Min.   : 0.5625  
-##  Class :character   Class :character   1st Qu.:2021-01-08   1st Qu.: 7.1554  
-##  Mode  :character   Mode  :character   Median :2021-06-02   Median : 8.7233  
-##                                        Mean   :2021-05-14   Mean   : 8.8737  
-##                                        3rd Qu.:2021-10-15   3rd Qu.:10.4119  
-##                                        Max.   :2022-01-16   Max.   :18.9026</code></pre>
+<pre><code>##     MilkID              CKR               MilkDate            MilkYield     
+##  Length:12351       Length:12351       Min.   :2020-02-12   Min.   : 0.612  
+##  Class :character   Class :character   1st Qu.:2021-01-08   1st Qu.: 7.207  
+##  Mode  :character   Mode  :character   Median :2021-06-02   Median : 8.765  
+##                                        Mean   :2021-05-12   Mean   : 8.912  
+##                                        3rd Qu.:2021-10-15   3rd Qu.:10.478  
+##                                        Max.   :2022-01-16   Max.   :18.863</code></pre>
 </div>
 <div id="conclusions" class="section level3">
 <h3>Conclusions</h3>
