@@ -636,12 +636,14 @@ str(farm_data)</code></pre>
 <p>This tells us that we have 3 rows of 7 columns, and this time there
 are a mixture of text (chr) and number (num) columns.</p>
 <p>Again, some of these are not right: we should have HerdType and
-MilkSystem as factors, and VisitDate as a date, rather than text. We can
-change the categorical variables into factors - but we don’t have a
-lookup table for valid values, so we have to choose them based on what
-is in the data. This table only has 3 rows so we can easily see what
-they are, but for a bigger table it is easiest to use one of the
-following functions:</p>
+MilkSystem as factors, and VisitDate as a date, rather than text. The
+unique row identifier is CHR - we could turn this into a factor if we
+wanted to, but it is also OK to keep it as text because it is not really
+a categorical variable. But we should change the categorical variables
+into factors; we don’t have a lookup table for valid values, so we have
+to choose them based on what is in the data. This table only has 3 rows
+so we can easily see what they are, but for a bigger table it is easiest
+to use one of the following functions:</p>
 <pre class="r"><code>unique(farm_data$HerdType)</code></pre>
 <pre><code>## [1] &quot;Conventional&quot; &quot;Organic&quot;</code></pre>
 <pre class="r"><code>table(farm_data$HerdType)</code></pre>
