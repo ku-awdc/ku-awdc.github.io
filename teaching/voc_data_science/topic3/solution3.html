@@ -358,35 +358,12 @@ Students</h1>
 </div>
 
 
-<p><a href="https://www.costmodds.org/teaching/voc_data_science/">Return
-to home page</a></p>
-<div id="topic-3-introduction-to-working-with-datasets-in-r" class="section level2">
-<h2>Topic 3: introduction to working with datasets in R</h2>
-<p>This online learning material is part of a series on data science
-created for the <a href="https://veterinary-online-collection.eu">Veterinary Online
-Collection</a>. This topic is part 3 in the series, and aims to give an
-introduction to working with datasets in <a href="https://cran.r-project.org">the statistical programming language
-R</a>. It is targeted primarily at veterinary undergraduate students,
-but anybody is welcome to use the material for other undergraduate and
-postgraduate courses as well as for self-directed study. It is assumed
-that you have already worked through parts 1-2 of <a href="https://www.costmodds.org/teaching/voc_data_science/">this series
-on data science</a>.</p>
-<div id="reading-data" class="section level3">
-<h3>Reading data</h3>
-<p>Before we can work with data in R, we need to read a dataset that we
-can use. Here we will continue with the lameness dataset that we created
-in part 1, and read into R uing the R script that we created in part 2.
-If you need another copy of these files you can download the dataset
-from <a href="https://www.costmodds.org/teaching/voc_data_science/topic1/solution_topic_1.xlsx">here</a>
-and the R script to read the data from <a href="https://www.costmodds.org/teaching/voc_data_science/topic2/solution_topic_2.R">here</a></p>
-<p>It is a good idea to keep the R code for reading data separate from
-the R code you will write to work with the data. Among other reasons,
-this allows you to have multiple different anlaysis files (perhaps with
-different objectives) all based on the same dataset and using the same
-code to read the data. So let’s create a new R script file for this
-analysis, and put the usual comment at the top, followed by the same
-library(“tidyverse”) command that we used in part 2:</p>
-<pre class="r"><code>## Some code to work with the lameness data, 2023-02-15
+<div id="solution-for-exercise-under-topic-3" class="section level2">
+<h2>Solution for exercise under topic 3</h2>
+<p>Here is a walk-through of how to build up the dataset requested in
+the exercise. We start by reading the data using source on the R script
+we generated for topic 2:</p>
+<pre class="r"><code>## Solution file for topic 3
 library(&quot;tidyverse&quot;)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──✔ ggplot2 3.4.0     ✔ purrr   1.0.1
 ## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
@@ -394,373 +371,120 @@ library(&quot;tidyverse&quot;)</code></pre>
 ## ✔ readr   2.1.3     ✔ forcats 1.0.0── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<p>Now we need to tell this R script to read the data reading script.
-The easiest way to do that is to open the data reading script
-(e.g. solution_topic_2.R) and click on “Source”. Lots of output will be
-shown in the R console, but if you scroll up to the top you will see
-something like the following:</p>
-<pre class="r"><code>source(&quot;~/Documents/DataScience/ErasmusPlusCourse/solution_topic_2.R&quot;)</code></pre>
-<p>Copy this code and paste into your analysis script file underneath
-the library(“tidyverse”) line; this ensures that the data reading script
-is run every time your analysis script is run! Note: if it takes a long
-time to read your data, then you can save the processed versions of your
-data frames using the save() function and then later read them using the
-load() function - this will be much faster than reading from Excel
-files. However, unless the code takes more than a few seconds to run, I
-would recommend using the source() method shown here.</p>
-<p>The final step to set up this script file is to set the working
-directory to somewhere that we might want to save outputs such as
-figures and tables for manuscripts. You can use the same working
-directory as the data, but it might help you to organise tour files to
-use a separate folder - that is entirely up to you. Choose a relevant
-working directory using the same method as shown in topic 1, and then
-copy/paste the R code from the console into your R script file e.g.:</p>
-<pre class="r"><code>setwd(&quot;~/Documents/DataScience/ErasmusPlusCourse/&quot;)</code></pre>
-<p>Now save your R script using an informative name; it is a good idea
-to save it in the same location as the working directory you have just
-chosen so that you keep the outputs together with the R script that
-produces them. Then click “Source” to make sure that the tidyverse
-package is loaded, your data is read into R, and your working directory
-is set correctly.</p>
-</div>
-<div id="subsetting-data-frames-with-filter-and-select" class="section level3">
-<h3>Subsetting data frames with filter and select</h3>
-<p>There are many ways to work with data frames in R, but I am going to
-teach you a method that relies on a technique called “piping” because I
-think it is the simplest to learn and most robust to potential coding
-errors. However, piping is a relatively recent feature of the language,
-so you might see code on the internet and from collaborators that does
-not look like this (particularly if it is older R code). So just
-remember that there are other ways of achieving what I will show you
-here using code that looks very different but gets to the same end
-result!</p>
-<p>The idea with piping is that we start with a data frame, and then use
-the pipe operator ‘|&gt;’ to tell R to do something with it. Then on the
-next line of our R script, we tell R what to do with the data frame, and
-then maybe tell it to do something else with the result of that. Once we
-have finished doing things, we can save the end result of our pipe chain
-into a new data frame. For example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  filter(CKR == &quot;38087&quot;) |&gt;
-  select(MilkDate, MilkYield) -&gt;
-  milk_cow_38087</code></pre>
-<p>Each of the 4 lines does the following:</p>
-<ol style="list-style-type: decimal">
-<li>Starts with the data frame ‘registry_milk’, and then tells R we want
-to do something with it (‘|&gt;’)</li>
-<li>Use the filter function to only select rows where the CKR column
-matches the cow numnber provided, and then tells R we want to do
-something else with the filtered data frame (‘|&gt;’)</li>
-<li>Use the select function to only select the columns MilkDate and
-MilkYield, and then then tells R we want to assign the filtered and
-selected data frame to a new variable (‘-&gt;’)</li>
-<li>Tell R to use the variable name ‘milk_cow_38087’ for our new data
-frame</li>
-</ol>
-<p>Note that the central idea of this process is that everything happens
-within a data frame - the input at the top MUST therefore be a data
-frame, and the output at the bottom WILL always be guaranteed to be a
-data frame (although it might be a very simple data frame with e.g. 1
-row and 1 column; this is still a data frame).</p>
-<p>Run this code by placing your cursor anywhere in the pipe chain and
-click Run (RStudio will automatically run the full pipe chain for you,
-regardless of where your cursor is within the chain). You should now see
-a new data frame available under Data in the environment window - this
-only contains rows from cow number 38087, and only contains the columns
-MilkDate and MilkYield.</p>
-<p>There are a few things to note:</p>
-<ul>
-<li>The functions filter and select know that you are working within the
-data frame registry_milk, so you can just refer to columns within that
-data frame directly (i.e. you don’t need to use the full qualifier
-registry_milk$CKR)</li>
-<li>We use a right-arrow operator at the end of the pipe chain rather
-than the usual left-arrow operator because it makes more sense to read
-the code ‘top to bottom’ this way</li>
-<li>We can have as many lines ending in |&gt; as we want to, but the
-first line must always start with an existing data frame, the
-second-last line will usually end in -&gt;, and the very last line is
-usually the name of the new data frame</li>
-<li>If you make a mistake anywhere in the pipe chain, then the R console
-might show a prompt with + because it is waiting for you to complete the
-command - if this happens then click in the console window and press
-escape to abort the command</li>
-</ul>
-<p>This bit of R code also introduced two new functions from the dplyr
-package (which is part of tidyverse): filter and select. These functions
-also give us some other options for flexibility, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  filter(CKR %in% c(&quot;38087&quot;,&quot;84851&quot;)) -&gt;
-  milk_two_cows</code></pre>
-<p>This gives us all rows matching either of the two cows. We can also
-use multiple conditions in filter, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  filter(MilkDate &gt; &quot;2021-01-01&quot;, MilkDate &lt;= &quot;2021-12-31&quot;) -&gt;
-  milk_2021</code></pre>
-<p>Gives us only milk recordings from 2021. A common thing to do with
-filter is to remove missing values, in which case you need to use the
-is.na() function in combination with the ! symbol to reverse the logical
-test of if something is missing. For example, the following could be
-used to filter the visit data to remove the rows with missing GaitScore
-values:</p>
-<pre class="r"><code>visit_data |&gt;
-  filter(!is.na(GaitScore)) -&gt;
-  visit_no_missing</code></pre>
-<p>For the select function, we can specify columns in different ways,
-for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  select(starts_with(&quot;Milk&quot;)) -&gt;
-  milk_3_cols</code></pre>
-<p>Gives us any column starting with “Milk”. The select function can
-also be used to re-order the columns in a data frame, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  select(MilkYield, MilkDate, CKR, MilkID) -&gt;
-  registry_milk_reordered</code></pre>
-<p>We can also remove columns by putting a - in front of the name:</p>
-<pre class="r"><code>registry_milk |&gt;
-  select(-MilkYield) -&gt;
-  registry_milk_no_yield</code></pre>
-<p>And rename columns like so:</p>
-<pre class="r"><code>registry_milk |&gt;
-  select(ID=MilkID, Date=MilkDate, Yield=MilkYield) -&gt;
-  milk_renamed_no_ckr</code></pre>
-<p>For more options, see the help file for the select function.</p>
-<p>There are two other points to note before moving on. The first is
-that we can re-use the same data frame name at the start and and of the
-pipe chain, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  select(MilkID, MilkDate, CKR, MilkYield) -&gt;
-  registry_milk</code></pre>
-<p>This changes the existing registry_milk data frame so that the
-MilkDate column is shown before CKR. Now, if we want to go back to the
-original data frame, we will have to re-load the data from the original
-Excel file.</p>
-<p>The second is that we do not have to save the result of a pipe chain,
-for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  filter(CKR == &quot;38087&quot;) |&gt;
-  filter(MilkDate &gt; &quot;2021-01-01&quot;, MilkDate &lt; &quot;2021-07-01&quot;)</code></pre>
-<pre><code>## # A tibble: 0 × 4
-## # … with 4 variables: MilkID &lt;chr&gt;, MilkDate &lt;date&gt;, CKR &lt;chr&gt;, MilkYield &lt;dbl&gt;</code></pre>
-<p>This filters only a single cow, and then only observations in the
-first half of 2021, before showing us the 5 matching rows. But the
-result of this has only been printed to screen: it is not saved.</p>
-<p>We can also end a pipe chain using a function like summary:</p>
-<pre class="r"><code>registry_milk |&gt;
-  filter(CKR == &quot;38087&quot;) |&gt;
-  filter(MilkDate &gt; &quot;2021-01-01&quot;, MilkDate &lt; &quot;2021-07-01&quot;) |&gt;
-  summary()</code></pre>
-<pre><code>##     MilkID             MilkDate       CKR              MilkYield  
-##  Length:0           Min.   :NA    Length:0           Min.   : NA  
-##  Class :character   1st Qu.:NA    Class :character   1st Qu.: NA  
-##  Mode  :character   Median :NA    Mode  :character   Median : NA  
-##                     Mean   :NaN                      Mean   :NaN  
-##                     3rd Qu.:NA                       3rd Qu.: NA  
-##                     Max.   :NA                       Max.   : NA</code></pre>
-<p>Notice that we don’t need to give summary() the name of the data
-frame like when we have used this function previously; the pipe chain
-ensures that summary already knows which data frame we want it to
+<pre class="r"><code># Read data:
+source(&quot;~/Documents/DataScience/ErasmusPlusCourse/solution_topic_2.R&quot;)
+# Set working directory:
+setwd(&quot;~/Documents/DataScience/ErasmusPlusCourse/&quot;)</code></pre>
+<div id="step-1-joining-animal-level-data-with-gait-scores-and-farm-data" class="section level3">
+<h3>Step 1: joining animal-level data with gait scores and farm
+data</h3>
+<p>We know that the data frame we want has 1 row per animal, so we can
+start with the animal-level data, and join with the breed lookup table
+to include BreedText.</p>
+<p>Then we join with the visit data to add the gait scores for the
+animals that were scored - notice that not all animals in the left-hand
+data frame are present in the right-hand data frame, so some GaitScore
+will end up missing, but that’s OK. However, before we do the join, we
+make a simple modification to the right-hand data frame to add a new
+column indicating that the animal was selected for gait scoring -
+everything in the visit data was selected for scoring so they all get
+the same value (“yes”) - then we select only the 3 columns we need (CKR,
+GaitScore and Selected). After the join, the animals not selected for
+scoring will have a missing value for Selected, so we use replace_na to
+convert these to “no”, then convert to a factor. This allows us to
+distinguish the animals that were selected but have a missing score from
+the animals that were not selected and therefore also have a missing
+score.</p>
+<p>We can then join with the farm data to add a few more columns we
+need, and finally use select to end up with the first part of the data
+frame we want. We then save the intermediate data frame for later
 use.</p>
+<p>Here is some code to achieve this:</p>
+<pre class="r"><code>registry_animal |&gt;
+  left_join(
+    breed_lookup,
+    by=&quot;Breed&quot;
+  ) |&gt;
+  left_join(
+    visit_data |&gt; mutate(Selected = &quot;yes&quot;) |&gt; select(CKR, GaitScore, Selected),
+    by=&quot;CKR&quot;
+  ) |&gt;
+  replace_na(list(Selected = &quot;no&quot;)) |&gt;
+  mutate(Selected = factor(Selected, levels=c(&quot;no&quot;,&quot;yes&quot;))) |&gt;
+  left_join(
+    farm_data |&gt; select(CHR, Herd, MilkFreq, VisitDate),
+    by=&quot;CHR&quot;
+  ) |&gt;
+  select(CKR, DOB, Breed, BreedText, Selected, GaitScore, Herd, CHR, MilkFreq, VisitDate) -&gt;
+  data_step_1</code></pre>
+<p>We can now quickly check the data frame to make sure it looks OK:</p>
+<pre class="r"><code>str(data_step_1)</code></pre>
+<pre><code>## tibble [850 × 10] (S3: tbl_df/tbl/data.frame)
+##  $ CKR      : chr [1:850] &quot;70368&quot; &quot;36363&quot; &quot;47476&quot; &quot;00783&quot; ...
+##  $ DOB      : Date[1:850], format: &quot;2012-03-22&quot; &quot;2012-05-11&quot; ...
+##  $ Breed    : Factor w/ 2 levels &quot;hol&quot;,&quot;jer&quot;: 2 2 2 1 1 2 2 2 2 2 ...
+##  $ BreedText: chr [1:850] &quot;Jersey&quot; &quot;Jersey&quot; &quot;Jersey&quot; &quot;Holstein&quot; ...
+##  $ Selected : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 2 1 1 2 1 1 2 2 1 ...
+##  $ GaitScore: Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: NA 1 NA NA NA NA NA 1 1 NA ...
+##  $ Herd     : chr [1:850] &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_B&quot; ...
+##  $ CHR      : chr [1:850] &quot;9539&quot; &quot;9539&quot; &quot;9539&quot; &quot;9697&quot; ...
+##  $ MilkFreq : num [1:850] 3 3 3 2 2 3 3 3 3 3 ...
+##  $ VisitDate: Date[1:850], format: &quot;2022-02-04&quot; &quot;2022-02-04&quot; ...</code></pre>
+<pre class="r"><code>summary(data_step_1)</code></pre>
+<pre><code>##      CKR                 DOB             Breed      BreedText         Selected 
+##  Length:850         Min.   :2012-03-22   hol:169   Length:850         no :700  
+##  Class :character   1st Qu.:2016-08-20   jer:681   Class :character   yes:150  
+##  Mode  :character   Median :2018-03-21             Mode  :character            
+##                     Mean   :2017-09-14                                         
+##                     3rd Qu.:2019-03-16                                         
+##                     Max.   :2019-11-01                                         
+##  GaitScore      Herd               CHR               MilkFreq    
+##  0   :118   Length:850         Length:850         Min.   :2.000  
+##  1   : 20   Class :character   Class :character   1st Qu.:3.000  
+##  2   :  4   Mode  :character   Mode  :character   Median :3.000  
+##  3   :  1                                         Mean   :2.812  
+##  4   :  0                                         3rd Qu.:3.000  
+##  NA&#39;s:707                                         Max.   :3.000  
+##    VisitDate         
+##  Min.   :2022-02-04  
+##  1st Qu.:2022-02-04  
+##  Median :2022-02-04  
+##  Mean   :2022-02-18  
+##  3rd Qu.:2022-02-16  
+##  Max.   :2022-03-26</code></pre>
 </div>
-<div id="modifying-data-frames-using-arrange-group_by-and-slice" class="section level3">
-<h3>Modifying data frames using arrange, group_by and slice</h3>
-<p>Sometimes we want to change the ordering of a data frame based on a
-column within the data (like sorting in Excel). We can do that using the
-arrange function:</p>
-<pre class="r"><code>registry_milk |&gt;
-  arrange(CKR, MilkDate) -&gt;
-  registry_milk_sorted</code></pre>
-<p>Now we have a new version of the registry_milk data frame, but sorted
-first by animal and then by MilkDate. If we wanted to reverse the
-ordering we can use a descending arrange like so:</p>
-<pre class="r"><code>registry_milk |&gt;
-  arrange(CKR, desc(MilkDate)) -&gt;
-  registry_milk_sorted</code></pre>
-<p>The arrange function is often used in combination with the slice
-function. This allows us to extract only a specific row of the data
-(often the first or the last), and discard the rest. For example, to get
-the most recent milk yield observation, we can do:</p>
-<pre class="r"><code>registry_milk |&gt;
-  arrange(desc(MilkDate)) |&gt;
-  slice(1)</code></pre>
-<pre><code>## # A tibble: 1 × 4
-##   MilkID    MilkDate   CKR   MilkYield
-##   &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;
-## 1 Mlk_12205 2022-01-16 00475      12.9</code></pre>
-<p>This first arranges the data in descending order of MilkDate, and
-then extracts only the first row (although note that milk recordings are
-taken on the same date for several cows in the same date in the herd, so
-the cow that is chosen also depends on how the data frame was sorted by
-CKR!).</p>
-<p>There are other variants of the slice function which can also be
-useful - for example slice_sample randomly selects a specified number of
-rows (which we will use in some of the code below for the purposes of
-illustration). See the help file for slice for more details.</p>
-<p>The slice function is much more useful when it is used in connection
-with the group_by function. This allows us to set one or more
-stratifying columns in the data, so that subsequent use of the slice
-function takes the first value for every value of the stratifying
-variable. For example, let’s say we want the most recent milk yield
-observation for each cow. All we need to do is modify the previous code
-so that a group_by function comes before the slice function:</p>
-<pre class="r"><code>registry_milk |&gt;
+<div id="step-2-filtering-calving-data-to-a-single-row-per-animal" class="section level3">
+<h3>Step 2: filtering calving data to a single row per animal</h3>
+<p>The calving data that we were provided with has multiple observations
+per animal; we therefore need to filter out only the most relevant row
+per animal (the latest calving date before the visit date). This is a
+bit tricky, but still uses the same tools and approaches that we covered
+in topic 3.</p>
+<p>We need to use the calving data but we also need the visit date, so
+we start by joining the calving data with the relevant columns from farm
+data. We can then remove any rows in the calving data where the calving
+date is later than the visit date (in this case we got the data before
+the visits so there shouldn’t be any, but it is a good idea to do this
+anyway just for safety).</p>
+<p>Then we need to arrange by descending order of calving date, so that
+the most recent calving date for each animal comes before the older
+calving dates in the data frame. Then we group by animal, slice the data
+frame to select the first row for each animal, and ungroup.</p>
+<p>The last step is to create a parity group column based on the parity
+of the cow, which we do using case_when and then turn the resulting
+column into a factor using the code given in topic 3. Finally, we select
+the columns we need, and save the intermediate result.</p>
+<p>Here is the code:</p>
+<pre class="r"><code>registry_calving |&gt;
+  left_join(
+    farm_data |&gt; select(CHR, VisitDate),
+    by=&quot;CHR&quot;
+  ) |&gt;
+  filter(CalvingDate &lt;= VisitDate) |&gt;
+  arrange(desc(CalvingDate)) |&gt;
   group_by(CKR) |&gt;
-  arrange(desc(MilkDate)) |&gt;
   slice(1) |&gt;
-  ungroup() -&gt;
-  last_obs_per_cow</code></pre>
-<p>Whereas before we ended up with a data frame with a single row, we
-now have a data frame with a single row per cow (846 rows in total). We
-can also stratify by several different columns at the same time with
-group_by by separating the column names with commas, like we did for
-select.</p>
-<p>Note that we finished this pipe chain with the ungroup function -
-this should be used every time we use group_by before slice, and should
-be put immediately following the slice function. If we forget to add
-ungroup() then anything we do with the same data frame after this point
-(either in this pipe chain or in a new pipe chain) will be affected by
-the grouping, which we probably don’t want!</p>
-</div>
-<div id="adding-new-columns-to-data-frames-using-mutate" class="section level3">
-<h3>Adding new columns to data frames using mutate</h3>
-<p>Sometimes we want to add a new column to a data frame, or modify the
-value of an existing column, within a pipe chain. We can do this using
-the mutate function, for example we can extract the year from the date
-and add this as a new column:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(MilkYear = strftime(MilkDate, format=&quot;%Y&quot;)) |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 5
-##    MilkID   MilkDate   CKR   MilkYield MilkYear
-##    &lt;chr&gt;    &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;   
-##  1 Mlk_9030 2021-09-22 76997      7.11 2021    
-##  2 Mlk_8636 2021-09-17 39001      7.63 2021    
-##  3 Mlk_354  2020-05-29 98883      9.03 2020    
-##  4 Mlk_2274 2020-11-18 59663     11.4  2020    
-##  5 Mlk_8713 2021-09-17 57404     12.5  2021    
-##  6 Mlk_4014 2021-03-05 04438      5.75 2021    
-##  7 Mlk_1302 2020-09-18 41414      8.51 2020    
-##  8 Mlk_1478 2020-09-23 69577      6.61 2020    
-##  9 Mlk_250  2020-05-10 63031     12.1  2020    
-## 10 Mlk_4034 2021-03-05 11606      8.12 2021</code></pre>
-<p>Here we see a new function strftime, which allows us to convert dates
-into text strings. Have a look at the help file for that function to see
-what it does, and what other information we can extract from a date
-(hint: there are a lot of possibilities!).</p>
-<p>While we are on the subject of text strings, there are a lot of handy
-functions in tidyverse for working with text columns - these are in the
-<a href="https://stringr.tidyverse.org">stringr package</a> (which is
-part of tidyverse) and all start with str_ - for example str_c,
-str_detect, str_sub. For example, if we want to paste two bits of text
-together we can use str_c:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(MilkYear = strftime(MilkDate, format=&quot;%Y&quot;)) |&gt;
-  mutate(MilkYearPasted = str_c(&quot;Year_&quot;, MilkYear)) |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 6
-##    MilkID    MilkDate   CKR   MilkYield MilkYear MilkYearPasted
-##    &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;         
-##  1 Mlk_6795  2021-06-25 98883     11.7  2021     Year_2021     
-##  2 Mlk_4249  2021-03-05 77719      9.98 2021     Year_2021     
-##  3 Mlk_3076  2021-01-08 55609     11.2  2021     Year_2021     
-##  4 Mlk_11115 2021-12-10 79964      9.88 2021     Year_2021     
-##  5 Mlk_5041  2021-04-07 81712     15.3  2021     Year_2021     
-##  6 Mlk_206   2020-05-06 08159      8.07 2020     Year_2020     
-##  7 Mlk_7119  2021-07-23 07914      8.54 2021     Year_2021     
-##  8 Mlk_7030  2021-07-04 63196      9.98 2021     Year_2021     
-##  9 Mlk_11988 2022-01-07 96882      4.90 2022     Year_2022     
-## 10 Mlk_8946  2021-09-22 28571      7.03 2021     Year_2021</code></pre>
-<p>This also works for pasting two variables together as text, which can
-be useful in some situations.</p>
-<p>Note that the mutate function requires us to specify a name for the
-new column, then use an assignment using the = operator, then define
-what value the column should take. We can refer to existing columns
-(e.g. MilkDate), fixed values, or other variables not within the data
-frame. For example, we can look at how many days ago each milk
-observation was taken by taking the MilkDate away from the current date
-and then converting this into a number of days:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(DateLag = as.numeric(as.Date(&quot;2023-02-15&quot;) - MilkDate, units=&quot;days&quot;)) |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 5
-##    MilkID    MilkDate   CKR   MilkYield DateLag
-##    &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
-##  1 Mlk_1211  2020-08-30 86112      9.08     899
-##  2 Mlk_1680  2020-10-16 49136      8.75     852
-##  3 Mlk_11220 2021-12-15 01629     10.7      427
-##  4 Mlk_8438  2021-08-29 80369     11.8      535
-##  5 Mlk_4592  2021-04-02 03441      8.73     684
-##  6 Mlk_9445  2021-10-15 51246      9.17     488
-##  7 Mlk_2395  2020-11-22 90999      9.71     815
-##  8 Mlk_10954 2021-12-10 41414     10.3      432
-##  9 Mlk_7822  2021-08-20 15092      7.17     544
-## 10 Mlk_11374 2021-12-15 81712      9.61     427</code></pre>
-<p>If you are only interested in the number of days between two events
-(and not which comes first) then you can use the abs function (abs =
-absolute):</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(DateDifference = abs(as.numeric(as.Date(&quot;2021-01-01&quot;) - MilkDate, units=&quot;days&quot;))) |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 5
-##    MilkID    MilkDate   CKR   MilkYield DateDifference
-##    &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;          &lt;dbl&gt;
-##  1 Mlk_3749  2021-02-05 98581     11.2              35
-##  2 Mlk_10697 2021-11-21 60670     11.2             324
-##  3 Mlk_11204 2021-12-10 99137      5.83            343
-##  4 Mlk_9183  2021-09-26 82048      9.96            268
-##  5 Mlk_360   2020-06-03 08159      9.02            212
-##  6 Mlk_11816 2022-01-07 56395      9.32            371
-##  7 Mlk_2248  2020-11-18 29668     11.3              44
-##  8 Mlk_11875 2022-01-07 72432      8.92            371
-##  9 Mlk_6123  2021-05-28 93744      5.24            147
-## 10 Mlk_1565  2020-09-27 94710     11.0              96</code></pre>
-<p>If we want to add a new variable that is a more complicated function
-of other variables, then it can help to use the case_when function. This
-allows us to set a series of condition ~ value pairs, with conditions on
-the left-hand side and value to use when matching that condition on the
-right-hand side, for example we could combine lactations into different
-lactation groups:</p>
-<pre class="r"><code>registry_calving |&gt;
-  mutate(LactationGroup = case_when(
-    Lactation &lt;= 1 ~ &quot;First parity&quot;,
-    Lactation &lt;= 2 ~ &quot;Second parity&quot;,
-    TRUE ~ &quot;Later parity&quot;
-  )) |&gt;
-  mutate(LactationGroup = factor(LactationGroup, levels=c(&quot;First parity&quot;, &quot;Second parity&quot;, &quot;Later parity&quot;))) |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 6
-##    CalvingID CKR   CalvingDate Lactation CHR   LactationGroup
-##    &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;         
-##  1 Clv_944   77627 2021-07-02          1 9539  First parity  
-##  2 Clv_615   39400 2021-02-09          1 9539  First parity  
-##  3 Clv_1358  04793 2021-12-18          2 9433  Second parity 
-##  4 Clv_957   08880 2021-07-08          1 9539  First parity  
-##  5 Clv_718   66094 2021-03-26          1 9433  First parity  
-##  6 Clv_923   71984 2021-06-25          3 9697  Later parity  
-##  7 Clv_647   67468 2021-02-23          2 9539  Second parity 
-##  8 Clv_1219  00093 2021-10-14          3 9433  Later parity  
-##  9 Clv_628   25384 2021-02-17          2 9697  Second parity 
-## 10 Clv_869   66156 2021-06-04          2 9539  Second parity</code></pre>
-<p>There can be as many condition ~ value pairs as you need within a
-case_when function - they just need to be separated by a comma (i.e. a
-comma follows every condition ~ value pair, except for the last one). If
-a particular row matches multiple conditions, then it is always the
-first value that is used - we use this feature in the example above by
-simply testing the condition “is less than or equal to” for increasing
-values of lactation so that the values are taken from the first match.
-This is also why we use the “catch-all” condition TRUE for the last
-condition ~ value pair - it ensures that everything gets assigned a
-value from the last condition that has not already matched one of the
-conditions above. Note also that we put each condition ~ value within
-the case_when function on a new line: this is just to help us read the
-code.</p>
-<p>In this case we know that all of the Lactation observations are 1 or
-above, but it might be a good idea to make our R code more robust to
-errors in the data by detecting invalid lactation observations and
-giving them a missing parity group. We can do this using case_when by
-making them missing if they match a condition that indicates implausible
-data, for example:</p>
-<pre class="r"><code>registry_calving |&gt;
+  ungroup() |&gt;
   mutate(LactationGroup = case_when(
     # Make missing if lactation is below 1 (should not be possible):
     Lactation &lt; 1 ~ NA_character_,
@@ -771,605 +495,166 @@ data, for example:</p>
     TRUE ~ &quot;Later parity&quot;
   )) |&gt;
   mutate(LactationGroup = factor(LactationGroup, levels=c(&quot;First parity&quot;, &quot;Second parity&quot;, &quot;Later parity&quot;))) |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 6
-##    CalvingID CKR   CalvingDate Lactation CHR   LactationGroup
-##    &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt;         
-##  1 Clv_1     90037 2020-02-03          4 9539  Later parity  
-##  2 Clv_1018  57598 2021-08-01          1 9539  First parity  
-##  3 Clv_689   17304 2021-03-09          1 9539  First parity  
-##  4 Clv_992   10951 2021-07-22          1 9539  First parity  
-##  5 Clv_1199  29533 2021-10-08          1 9697  First parity  
-##  6 Clv_101   18232 2020-04-10          5 9433  Later parity  
-##  7 Clv_265   16650 2020-07-25          4 9697  Later parity  
-##  8 Clv_219   44725 2020-06-26          1 9697  First parity  
-##  9 Clv_496   33234 2020-12-11          4 9433  Later parity  
-## 10 Clv_126   94565 2020-04-25          3 9433  Later parity</code></pre>
-<p>Notice that to make these observations missing we assign the special
-value NA_character_ - this is the type of missing value that is used for
-text, which matches the format of the column we are creating. If we were
-creating a column with integer values then we would need to use
-NA_integer_ and if we were creating a column with continuous numbers we
-would need to use NA_real_</p>
-<p>We can also use mutate in combination with group_by, which can be
-useful if we want to add a new variable representing e.g. the
-cow-stratified mean of the milk dates:</p>
-<pre class="r"><code>registry_milk |&gt;
-  group_by(CKR) |&gt;
-  mutate(MeanYield = mean(MilkYield)) |&gt;
-  ungroup() |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 5
-##    MilkID    MilkDate   CKR   MilkYield MeanYield
-##    &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-##  1 Mlk_1089  2020-08-26 00196      9.28      8.88
-##  2 Mlk_5016  2021-04-07 67507      5.00      6.80
-##  3 Mlk_7451  2021-07-23 96517      9.54      8.09
-##  4 Mlk_242   2020-05-10 42259     13.0      11.3 
-##  5 Mlk_9518  2021-10-15 72432      6.97      8.19
-##  6 Mlk_10349 2021-11-12 84761      9.88      8.81
-##  7 Mlk_4259  2021-03-05 80733      7.25      8.03
-##  8 Mlk_9228  2021-10-15 03187      7.92      7.03
-##  9 Mlk_3237  2021-01-13 19699      7.14      7.05
-## 10 Mlk_9307  2021-10-15 21043      9.62      8.14</code></pre>
-<p>Just like with slice, we need to remember to use ungroup afterwards,
-otherwise the grouping will be retained longer than we want to!</p>
-<p>Sometimes we want to compare each row to the row above it somehow -
-usually after arranging by a column representing a date and/or grouping
-by a stratifying variable. For this we can use the lead or lag
-functions. For example, to find the number of days between the previous
-milk recording and the current one:</p>
-<pre class="r"><code>registry_milk |&gt;
-  arrange(CKR, MilkDate) |&gt;
-  group_by(CKR) |&gt;
-  mutate(DateInterval = as.numeric(MilkDate - lag(MilkDate), units=&quot;days&quot;)) |&gt;
-  ungroup() |&gt;
-  slice_sample(n = 10)</code></pre>
-<pre><code>## # A tibble: 10 × 5
-##    MilkID    MilkDate   CKR   MilkYield DateInterval
-##    &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt;        &lt;dbl&gt;
-##  1 Mlk_4169  2021-03-05 49492      6.97           28
-##  2 Mlk_7796  2021-08-20 09507      9.20           28
-##  3 Mlk_12003 2022-01-07 99577      8.97           28
-##  4 Mlk_5890  2021-05-28 25698      9.18           28
-##  5 Mlk_8700  2021-09-17 54079     10.6            28
-##  6 Mlk_7855  2021-08-20 22251      6.10           28
-##  7 Mlk_2783  2020-12-16 83275      9.48           NA
-##  8 Mlk_1035  2020-08-21 72432      9.43           28
-##  9 Mlk_3866  2021-02-10 81009     11.8            NA
-## 10 Mlk_92    2020-04-03 98883      9.18           28</code></pre>
-<p>One thing to note with lag is that the first observation will always
-be missing because there is no previous observation - likewise for lead
-the last observation will always be missing because there is no next
-observation. Other functions that are sometimes useful to use in this
-way are cumulative sums, minimums and maximums - see the help file for
-cumsum for more information.</p>
+  select(CKR, CalvingDate, Lactation, LactationGroup) -&gt;
+  data_step_2</code></pre>
+<p>We should be left with a single row per animal:</p>
+<pre class="r"><code>str(data_step_2)</code></pre>
+<pre><code>## tibble [850 × 4] (S3: tbl_df/tbl/data.frame)
+##  $ CKR           : chr [1:850] &quot;00093&quot; &quot;00100&quot; &quot;00194&quot; &quot;00196&quot; ...
+##  $ CalvingDate   : Date[1:850], format: &quot;2021-10-14&quot; &quot;2021-05-28&quot; ...
+##  $ Lactation     : num [1:850] 3 1 3 3 1 2 1 7 1 5 ...
+##  $ LactationGroup: Factor w/ 3 levels &quot;First parity&quot;,..: 3 1 3 3 1 2 1 3 1 3 ...</code></pre>
+<pre class="r"><code>summary(data_step_2)</code></pre>
+<pre><code>##      CKR             CalvingDate           Lactation           LactationGroup
+##  Length:850         Min.   :2020-12-15   Min.   :1.000   First parity :246   
+##  Class :character   1st Qu.:2021-05-02   1st Qu.:1.000   Second parity:206   
+##  Mode  :character   Median :2021-08-01   Median :2.000   Later parity :398   
+##                     Mean   :2021-07-28   Mean   :2.848                       
+##                     3rd Qu.:2021-10-17   3rd Qu.:4.000                       
+##                     Max.   :2022-01-31   Max.   :8.000</code></pre>
 </div>
-<div id="summarising-data-frames-using-summarise-and-count" class="section level3">
-<h3>Summarising data frames using summarise and count</h3>
-<p>The mutate function creates a new column with the same number of rows
-as the current data frame. If we want to summarise lots of rows down to
-a single row, for example a mean, then we use the summarise
-function:</p>
-<pre class="r"><code>registry_milk |&gt;
-  summarise(MeanMilk = mean(MilkYield), N = n())</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   MeanMilk     N
-##      &lt;dbl&gt; &lt;int&gt;
-## 1     8.91 12351</code></pre>
-<p>Note that the functions ‘summarise’ and ‘summary’ do very different
-things - remember not to mix them up! We also see a new function called
-n() here: this simple function just calculates the number of rows that
-are being summarised - alternatively we could achieve the same thing
-using the length function: N = length(MilkYield)</p>
-<p>We very often use summarise in conjunction with group_by, so that we
-can stratify the summary statistics by some other column in the data,
-for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(MilkYear = strftime(MilkDate, format=&quot;%Y&quot;)) |&gt;
-  group_by(MilkYear) |&gt;
-  summarise(MeanMilk = mean(MilkYield), N = n(), .groups=&quot;drop&quot;)</code></pre>
-<pre><code>## # A tibble: 3 × 3
-##   MilkYear MeanMilk     N
-##   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;
-## 1 2020         9.00  2900
-## 2 2021         8.88  8656
-## 3 2022         8.98   795</code></pre>
-<p>There is one difference when using summarise with group_by compared
-to using slice or mutate with group_by: we should remember to include
-the special argument .groups=“drop” when using summarise. This ensures
-that the resulting data frame does not have any grouping, and means that
-we don’t need an explicit ungroup function afterwards.</p>
-<p>Very occasionally we might want to summarise a data frame in a way
-that gives us more than 1 row per match, for example if we are using a
-function to summarise the data that produces a collection of numbers
-(known as a vector) as output. In these situations we need to use the
-reframe function:</p>
-<pre class="r"><code>registry_milk |&gt;
-  reframe(Prob = c(0.25,0.5,0.75), MilkQuantile = quantile(MilkYield, Prob))</code></pre>
-<pre><code>## # A tibble: 3 × 2
-##    Prob MilkQuantile
-##   &lt;dbl&gt;        &lt;dbl&gt;
-## 1  0.25         7.21
-## 2  0.5          8.77
-## 3  0.75        10.5</code></pre>
-<p>The reframe function is really just a more flexible version of
-summarise - so if you prefer you can always use reframe and forget about
-summarise completely, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(MilkYear = strftime(MilkDate, format=&quot;%Y&quot;)) |&gt;
-  group_by(MilkYear) |&gt;
-  reframe(MeanMilk = mean(MilkYield), N = n())</code></pre>
-<pre><code>## # A tibble: 3 × 3
-##   MilkYear MeanMilk     N
-##   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;
-## 1 2020         9.00  2900
-## 2 2021         8.88  8656
-## 3 2022         8.98   795</code></pre>
-<p>One advantage of reframe over summarise is that it always removes
-grouping for us, so we don’t need to worry about either .groups=“drop”
-or ungroup!</p>
-<p>We will frequently use a combination of group_by(), summarise() and
-n() to count the number of observations within a number of different
-strata, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(MilkYear = strftime(MilkDate, format=&quot;%Y&quot;)) |&gt;
-  group_by(MilkYear) |&gt;
-  summarise(N = n(), .groups=&quot;drop&quot;)</code></pre>
-<pre><code>## # A tibble: 3 × 2
-##   MilkYear     N
-##   &lt;chr&gt;    &lt;int&gt;
-## 1 2020      2900
-## 2 2021      8656
-## 3 2022       795</code></pre>
-<p>This situation is so common that there is a helper function
-specifically for this purpose, called count, which adds a new column
-called “n” containing the number of observations of each combination of
-values for the columns specified:</p>
-<pre class="r"><code>registry_milk |&gt;
-  mutate(MilkYear = strftime(MilkDate, format=&quot;%Y&quot;)) |&gt;
-  count(MilkYear)</code></pre>
-<pre><code>## # A tibble: 3 × 2
-##   MilkYear     n
-##   &lt;chr&gt;    &lt;int&gt;
-## 1 2020      2900
-## 2 2021      8656
-## 3 2022       795</code></pre>
-<p>For more information on this and related functions (like add_count,
-which adds a count as a new column like you would get with mutate) see
-the help file for count. A related function is distinct - this extracts
-the unique combinations of the specified columns, so basically does the
-same thing as count except that it doesn’t return a count column!</p>
-</div>
-<div id="merging-data-frames" class="section level3">
-<h3>Merging data frames</h3>
-<p>So far we have done a lot of work with a single data frame, but
-achieving a specific task will usually require us to combine different
-data frames in some way. The good news is that tidyverse provides us
-with some very simple but powerful tools to achieve this: the join
-family and the bind family of functions.</p>
-<p>Let’s say that we want to add animal-level information (CHR, DOB and
-Breed) from registry_animal to the milk observations in registry_milk.
-We can achieve this using left_join like so:</p>
+<div id="step-3" class="section level3">
+<h3>Step 3:</h3>
+<p>Now we need to include milk yield data. Like with the calving data,
+we have multiple observations per animal, so we need to filter down to a
+single row per animal.</p>
+<p>We want to find the closest milk yield observation to the visit date
+for each cow, so once again we need to join with the farm data to get
+the visit date. To do this, we first need to join with the animal-level
+data to get the CHR corresponding to each animal.</p>
+<p>Then we add a column “Interval” representing the number of days
+between the visit date and milk recording date, and use the abs function
+so that we make the negative numbers positive. We will remove this
+column later, but adding a column to a data frame temporarily is a
+useful way to help us achieve more complex processing tasks such as
+this. Then we arrange by Interval, group by animal, take the first row,
+and then ungroup.</p>
+<p>To add the DaysInMilk we need to find the relevant calving date: we
+therefore join with the calving data, telling left_join that it is OK to
+have multiple matches per animal, then use arrange, group_by and slice
+to extract the row corresponding to the most recent calving date before
+the milk date. Then we can calculate DaysInMilk based on the calving
+date and milk date.</p>
+<p>Finally we select the columns we need and save the intermediate
+result.</p>
+<p>Here is the code:</p>
 <pre class="r"><code>registry_milk |&gt;
   left_join(
-    registry_animal,
+    registry_animal |&gt; select(CKR, CHR),
     by=&quot;CKR&quot;
   ) |&gt;
-  slice_sample(n=10)</code></pre>
-<pre><code>## # A tibble: 10 × 7
-##    MilkID    MilkDate   CKR   MilkYield CHR   DOB        Breed
-##    &lt;chr&gt;     &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;date&gt;     &lt;fct&gt;
-##  1 Mlk_10284 2021-11-12 70817     11.9  9539  2013-01-16 jer  
-##  2 Mlk_7593  2021-07-28 78078      9.42 9433  2018-11-16 jer  
-##  3 Mlk_11601 2022-01-07 08880      8.66 9539  2019-06-24 jer  
-##  4 Mlk_6155  2021-06-02 00194      7.73 9433  2017-07-14 jer  
-##  5 Mlk_4148  2021-03-05 45232      9.01 9539  2018-07-09 jer  
-##  6 Mlk_9004  2021-09-22 64015      6.80 9433  2016-03-01 jer  
-##  7 Mlk_5414  2021-04-30 69023      6.09 9539  2018-12-16 jer  
-##  8 Mlk_8332  2021-08-29 00604     10.9  9697  2015-05-26 hol  
-##  9 Mlk_3945  2021-02-14 56825     12.7  9697  2018-03-21 hol  
-## 10 Mlk_1897  2020-10-25 27134     11.6  9697  2018-10-07 hol</code></pre>
-<p>Use the left_join function in a pipe chain like this means that the
-data frame piped in from above is the “left-hand” data frame, and the
-new data frame we introduce within the function is the “right-hand” data
-frame. We also need another argument called by - this specifies the
-columns that the data frames have in common (notice that the name of
-this column is quoted using “” - this is different to when we use column
-names in select etc). Just like when using case_when, it is a good idea
-to put these arguments on different lines, so that it is easier for us
-to read the code.</p>
-<p>The left_join function finds all rows in the “right-hand” data frame
-(registry_animal in this example) that match a row in the “left-hand”
-data frame (registry_milk in this example) based on the column(s) that
-we specify (by=“CKR”), and then adds the columns from the right-hand
-data frame to the left-hand data frame based on this matching. Rows from
-the right-hand data frame are re-used if necessary for multiple rows in
-the left-hand data frame (in this case multiple matches with the same
-animal). Any rows from the left-hand data frame without a match get
-missing data in the new columns, and any rows from the right-hand data
-frame without a match are discarded. The left_join function expects a
-maximum of 1 match in the right-hand data frame per row in the left-hand
-data frame, and gives you a warning if this is not the case (e.g. if the
-same CKR is found several times in the right-hand data frame).</p>
-<p>There are other functions that are related to left_join:</p>
-<ul>
-<li>inner_join returns only rows that have a match in both data
-frames</li>
-<li>full_join returns all rows from both data frames, regardless of if
-they have a match</li>
-<li>right_join does the same thing as left_join but backwards, i.e. only
-rows in the left-hand data frame with a match in the right-hand data
-frame will be returned</li>
-</ul>
-<p>Sometimes the data frames we want to join have multiple columns in
-common, for example registry_calving and registry_animal both have CKR
-and CHR. We can do this by providing multiple column names to the by
-argument using the c() function:</p>
-<pre class="r"><code>registry_calving |&gt;
   left_join(
-    registry_animal,
-    by=c(&quot;CKR&quot;,&quot;CHR&quot;)
+    farm_data |&gt; select(CHR, VisitDate),
+    by=&quot;CHR&quot;
   ) |&gt;
-  slice_sample(n=10)</code></pre>
-<pre><code>## # A tibble: 10 × 7
-##    CalvingID CKR   CalvingDate Lactation CHR   DOB        Breed
-##    &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;date&gt;     &lt;fct&gt;
-##  1 Clv_488   82922 2020-12-07          3 9539  2016-12-16 jer  
-##  2 Clv_524   19699 2020-12-21          1 9433  2018-12-26 jer  
-##  3 Clv_1426  34867 2022-01-22          3 9539  2017-12-21 jer  
-##  4 Clv_4     28234 2020-02-06          2 9697  2017-02-14 jer  
-##  5 Clv_823   96077 2021-05-11          5 9539  2015-04-26 jer  
-##  6 Clv_1322  07263 2021-11-27          6 9433  2014-12-17 jer  
-##  7 Clv_230   29015 2020-06-30          2 9539  2017-06-24 jer  
-##  8 Clv_1315  25879 2021-11-22          3 9433  2017-12-01 hol  
-##  9 Clv_840   60555 2021-05-19          1 9433  2019-05-15 jer  
-## 10 Clv_942   28354 2021-07-02          2 9539  2018-07-09 jer</code></pre>
-<p>If the two data frames have several columns in common and you forget
-to specify them all to by, then the join will rename the additional
-matching columns with .x and .y after their names to indicate which of
-the two data frames they came from (.x = left-hand, .y = right-hand).
-This is usually an error on our part (i.e. we forgot to include a column
-that we wanted to match on), but sometimes we have two columns with the
-same name that we deliberately don’t want to match on. In that case it
-might be better to rename or remove the extra column if we don’t need
-it. It is usually most convenient to change the right-hand data frame
-directly inside the left_join function call, for example:</p>
-<pre class="r"><code>registry_calving |&gt;
-  left_join(
-    registry_animal |&gt; select(-CHR),
-    by=&quot;CKR&quot;
-  ) |&gt;
-  slice_sample(n=10)</code></pre>
-<pre><code>## # A tibble: 10 × 7
-##    CalvingID CKR   CalvingDate Lactation CHR   DOB        Breed
-##    &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;date&gt;     &lt;fct&gt;
-##  1 Clv_193   81448 2020-06-10          2 9433  2017-06-24 hol  
-##  2 Clv_834   10519 2021-05-14          1 9697  2019-05-05 hol  
-##  3 Clv_787   98575 2021-04-26          1 9539  2019-04-15 jer  
-##  4 Clv_182   92145 2020-06-02          2 9539  2017-05-25 jer  
-##  5 Clv_419   05848 2020-10-28          7 9697  2012-11-07 jer  
-##  6 Clv_418   13709 2020-10-28          2 9697  2017-11-11 jer  
-##  7 Clv_952   36175 2021-07-06          4 9539  2016-06-09 jer  
-##  8 Clv_1344  80614 2021-12-08          2 9433  2018-12-16 jer  
-##  9 Clv_1101  50774 2021-09-03          3 9433  2017-08-13 jer  
-## 10 Clv_801   75024 2021-05-01          1 9697  2019-05-15 hol</code></pre>
-<p>As stated above, the join functions assume that the left-hand data
-frame has at most 1 match in the right-hand data frame. This makes sense
-when joining using a column that is also the unique indexing variable
-for the right-hand data frame, and has the advantage that the number of
-rows of the joined data frame will be the same as the number of rows of
-the left-hand data frame when using left_join. But sometimes we want to
-do a merge where we need multiple rows per match, for example:</p>
-<pre class="r"><code>registry_milk |&gt;
+  mutate(Interval = abs(as.numeric(VisitDate - MilkDate, units=&quot;days&quot;))) |&gt;
+  arrange(Interval) |&gt;
+  group_by(CKR) |&gt;
+  slice(1) |&gt;
+  ungroup() |&gt;
   left_join(
     registry_calving,
     by=&quot;CKR&quot;,
-    multiple = &quot;all&quot;
+    multiple=&quot;all&quot;
   ) |&gt;
-  str()</code></pre>
-<pre><code>## tibble [22,930 × 8] (S3: tbl_df/tbl/data.frame)
-##  $ MilkID     : chr [1:22930] &quot;Mlk_1&quot; &quot;Mlk_1&quot; &quot;Mlk_1&quot; &quot;Mlk_2&quot; ...
-##  $ MilkDate   : Date[1:22930], format: &quot;2020-02-12&quot; &quot;2020-02-12&quot; ...
-##  $ CKR        : chr [1:22930] &quot;57635&quot; &quot;57635&quot; &quot;57635&quot; &quot;28234&quot; ...
-##  $ MilkYield  : num [1:22930] 5.63 5.63 5.63 10.11 10.11 ...
-##  $ CalvingID  : chr [1:22930] &quot;Clv_3&quot; &quot;Clv_531&quot; &quot;Clv_1389&quot; &quot;Clv_4&quot; ...
-##  $ CalvingDate: Date[1:22930], format: &quot;2020-02-06&quot; &quot;2020-12-24&quot; ...
-##  $ Lactation  : num [1:22930] 1 2 3 2 3 1 2 6 7 2 ...
-##  $ CHR        : chr [1:22930] &quot;9433&quot; &quot;9433&quot; &quot;9433&quot; &quot;9697&quot; ...</code></pre>
-<p>In this case, we add the argument multiple=“all” to tell left_join
-that it is OK to return multiple matches, and we end up with roughly
-twice the number of rows as we had to start with.</p>
-<p>In practice we will mostly use the join family of functions to join
-data frames together based on matching column names, but sometimes we
-want to simply stack two data frames on top of each other, for example
-if we have the same data from different farms in different data frames.
-To see how to do this, look at the help file for bind_rows - but
-remember that the column names and formats in the two (or more) data
-frames you are stacking on top of each other must be identical.</p>
-<p>Another related function is complete - this allows us to add rows to
-a data frame representing combinations of columns that are currently
-missing from our data. For example, if we look at the GaitScores in the
-visit data, we can see that we don’t have any scores of 4:</p>
-<pre class="r"><code>visit_data |&gt;
-  count(GaitScore)</code></pre>
-<pre><code>## # A tibble: 5 × 2
-##   GaitScore     n
-##   &lt;fct&gt;     &lt;int&gt;
-## 1 0           118
-## 2 1            20
-## 3 2             4
-## 4 3             1
-## 5 &lt;NA&gt;          7</code></pre>
-<p>To add this implicitly missing row we can use complete:</p>
-<pre class="r"><code>visit_data |&gt;
-  count(GaitScore) |&gt;
-  complete(GaitScore)</code></pre>
-<pre><code>## # A tibble: 6 × 2
-##   GaitScore     n
-##   &lt;fct&gt;     &lt;int&gt;
-## 1 0           118
-## 2 1            20
-## 3 2             4
-## 4 3             1
-## 5 4            NA
-## 6 &lt;NA&gt;          7</code></pre>
-<p>This works because GaitScore is a factor, so complete knows which
-categories have not been observed because the factor levels contain all
-possible categories However, we now have missing values for n in gait
-scores that were not observed in the herd, but these should really be 0.
-We can make the missing values into 0 in two ways - either use the
-replace_na function or add a fill argument to complete:</p>
-<pre class="r"><code>visit_data |&gt;
-  count(GaitScore) |&gt;
-  complete(GaitScore) |&gt;
-  replace_na(list(n = 0))</code></pre>
-<pre><code>## # A tibble: 6 × 2
-##   GaitScore     n
-##   &lt;fct&gt;     &lt;int&gt;
-## 1 0           118
-## 2 1            20
-## 3 2             4
-## 4 3             1
-## 5 4             0
-## 6 &lt;NA&gt;          7</code></pre>
-<pre class="r"><code>visit_data |&gt;
-  count(GaitScore) |&gt;
-  complete(GaitScore, fill = list(n = 0))</code></pre>
-<pre><code>## # A tibble: 6 × 2
-##   GaitScore     n
-##   &lt;fct&gt;     &lt;int&gt;
-## 1 0           118
-## 2 1            20
-## 3 2             4
-## 4 3             1
-## 5 4             0
-## 6 &lt;NA&gt;          7</code></pre>
-<p>Both of these options need us to specify a named list for the columns
-that we want to complete - this is useful when we have multiple columns
-that should be completed (possibly with different values).</p>
-<p>A related function to complete is expand_grid - this allows us to
-expand data frames based on different combinations of column values.
-This function is out of the scope of this introduction, but you can look
-at the help file for examples if you are interested.</p>
+  filter(CalvingDate &lt;= MilkDate) |&gt;
+  arrange(desc(CalvingDate)) |&gt;
+  group_by(CKR) |&gt;
+  slice(1) |&gt;
+  ungroup() |&gt;
+  mutate(DaysInMilk = as.numeric(MilkDate - CalvingDate, unit=&quot;days&quot;)) |&gt;
+  select(CKR, DaysInMilk, MilkYield) -&gt;
+  data_step_3</code></pre>
+<p>Again, we should have a single row per animal:</p>
+<pre class="r"><code>str(data_step_3)</code></pre>
+<pre><code>## tibble [850 × 3] (S3: tbl_df/tbl/data.frame)
+##  $ CKR       : chr [1:850] &quot;00093&quot; &quot;00100&quot; &quot;00194&quot; &quot;00196&quot; ...
+##  $ DaysInMilk: num [1:850] 90 224 182 196 212 36 219 101 89 234 ...
+##  $ MilkYield : num [1:850] 8.63 7.81 9.8 8.42 7.26 ...</code></pre>
+<pre class="r"><code>summary(data_step_3)</code></pre>
+<pre><code>##      CKR              DaysInMilk      MilkYield     
+##  Length:850         Min.   :  2.0   Min.   : 2.811  
+##  Class :character   1st Qu.: 99.0   1st Qu.: 7.207  
+##  Mode  :character   Median :178.5   Median : 8.708  
+##                     Mean   :181.6   Mean   : 8.945  
+##                     3rd Qu.:266.8   3rd Qu.:10.720  
+##                     Max.   :340.0   Max.   :17.564</code></pre>
 </div>
-<div id="converting-data-frames-between-wide-and-long-format" class="section level3">
-<h3>Converting data frames between wide and long format</h3>
-<p>There is one final commonly used tool to look at for this topic: how
-to convert data between wide and long formats. We discussed wide and
-long data back in topic 1 when we were considering how to do data entry
-- at the time we said it didn’t matter which we chose for data entry
-because it is easy to convert between them in R. For example, let’s say
-we have the following weight observations in wide format:</p>
-<pre class="r"><code>weights &lt;- tibble(ObsID = 1:10, Dog = rep(c(&quot;scooby_doo&quot;, &quot;mutley&quot;), each=5), VisitNumber = str_c(&quot;Weight_&quot;, rep(1:5, 2)), Weight = c(19.8,19.5,20.5,19.7,20.8,10.1,9.8,9.7,10.5,9.6))
-weights</code></pre>
-<pre><code>## # A tibble: 10 × 4
-##    ObsID Dog        VisitNumber Weight
-##    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;dbl&gt;
-##  1     1 scooby_doo Weight_1      19.8
-##  2     2 scooby_doo Weight_2      19.5
-##  3     3 scooby_doo Weight_3      20.5
-##  4     4 scooby_doo Weight_4      19.7
-##  5     5 scooby_doo Weight_5      20.8
-##  6     6 mutley     Weight_1      10.1
-##  7     7 mutley     Weight_2       9.8
-##  8     8 mutley     Weight_3       9.7
-##  9     9 mutley     Weight_4      10.5
-## 10    10 mutley     Weight_5       9.6</code></pre>
-<p>We can convert to wide format using pivot_wider:</p>
-<pre class="r"><code>weights |&gt; 
-  select(-ObsID) |&gt;
-  pivot_wider(names_from=&quot;VisitNumber&quot;, values_from=&quot;Weight&quot;) -&gt;
-  weights_wide</code></pre>
-<p>The names_from argument specifies the column that will become column
-names, and the values_from argument specifies the column that will be
-used to fill up the data. Notice that we first remove the ObsID column,
-as it won’t fit into the wide format. Here is the result:</p>
-<pre class="r"><code>weights_wide</code></pre>
-<pre><code>## # A tibble: 2 × 6
-##   Dog        Weight_1 Weight_2 Weight_3 Weight_4 Weight_5
-##   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-## 1 scooby_doo     19.8     19.5     20.5     19.7     20.8
-## 2 mutley         10.1      9.8      9.7     10.5      9.6</code></pre>
-<p>Converting from wide to long uses pivot_longer:</p>
-<pre class="r"><code>weights_wide |&gt;
-  pivot_longer(cols = starts_with(&quot;Weight&quot;), names_to=&quot;VisitNumber&quot;, values_to=&quot;Weight&quot;)</code></pre>
-<pre><code>## # A tibble: 10 × 3
-##    Dog        VisitNumber Weight
-##    &lt;chr&gt;      &lt;chr&gt;        &lt;dbl&gt;
-##  1 scooby_doo Weight_1      19.8
-##  2 scooby_doo Weight_2      19.5
-##  3 scooby_doo Weight_3      20.5
-##  4 scooby_doo Weight_4      19.7
-##  5 scooby_doo Weight_5      20.8
-##  6 mutley     Weight_1      10.1
-##  7 mutley     Weight_2       9.8
-##  8 mutley     Weight_3       9.7
-##  9 mutley     Weight_4      10.5
-## 10 mutley     Weight_5       9.6</code></pre>
-<p>The cols arguments specifies the columns to convert from wide to long
-(here we use the handy starts_with function that we learned about from
-using it with select), and the names_to and values_to specify the names
-of the columns that will hold the current column names and contents,
-respectively.</p>
-<p>Let’s look at a more complicated example based on the lameness data,
-using a few of the different tools we have learned in this lesson. We
-want to create a data frame of the number of gait scores in categories 0
-to 4 by farm, join with the farm data, and then convert this into wide
-format. This is a complicated task, so we need to break it down into
-steps as follows:</p>
-<ul>
-<li>Start with the visit data, which contains the GaitScore
-observations</li>
-<li>Remove the missing gait scores, as we are not interested in
-them</li>
-<li>Count the number of occurences of each gait score in each herd</li>
-<li>Use complete to add the implicitly missing counts of gait scores
-that were not observed</li>
-<li>Use left_join to merge with the farm data (possibly only a few
-columns, e.g. CHR, HerdType and VisitDate)</li>
-<li>Use mutate to add some text to the gait score, so that we do not end
-up with column names that are just numbers after making the data
-wide</li>
-<li>Use pivot_wider to make the data wide</li>
-</ul>
-<p>The code for this could look like:</p>
-<pre class="r"><code>visit_data |&gt;
-  filter(!is.na(GaitScore)) |&gt;
-  count(Herd, GaitScore) |&gt;
-  complete(Herd, GaitScore, fill = list(n=0)) |&gt;
+<div id="joining-intermediate-steps-together" class="section level3">
+<h3>Joining intermediate steps together</h3>
+<p>The only thing left is to join the 3 intermediate data frames we
+have, and then calculate DaysInMilk based on CalvingDate and MilkDate.
+This is a relatively simple process, as we can just join each of the 3
+data frames by animal:</p>
+<pre class="r"><code>data_step_1 |&gt;
   left_join(
-    farm_data |&gt; select(Herd, CHR, HerdType, VisitDate),
-    by=&quot;Herd&quot;
+    data_step_2,
+    by=&quot;CKR&quot;
   ) |&gt;
-  mutate(GaitScore = str_c(&quot;GaitScore_&quot;, GaitScore)) |&gt;
-  pivot_wider(names_from = GaitScore, values_from = n, values_fill = 0)</code></pre>
-<pre><code>## # A tibble: 3 × 9
-##   Herd   CHR   HerdType     VisitDate  GaitSco…¹ GaitS…² GaitS…³ GaitS…⁴ GaitS…⁵
-##   &lt;chr&gt;  &lt;chr&gt; &lt;fct&gt;        &lt;date&gt;         &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
-## 1 Herd_A 9539  Conventional 2022-02-04        39       7       2       1       0
-## 2 Herd_B 9697  Organic      2022-02-16        34      11       2       0       0
-## 3 Herd_C 9433  Conventional 2022-03-26        45       2       0       0       0
-## # … with abbreviated variable names ¹​GaitScore_0, ²​GaitScore_1, ³​GaitScore_2,
-## #   ⁴​GaitScore_3, ⁵​GaitScore_4</code></pre>
-<p>Note that there are other ways to achieve the same end result - the
-exact code you come up with doesn’t matter, and the more complex the
-task the more different options there are to go about it! The important
-thing to remember is to break complex tasks down into smaller steps that
-work towards the ultimate goal.</p>
-<p>For really complicated tasks with pipe chains of more than 10 or so
-steps, you should consider breaking the task down into sub-tasks, and
-creating intermediate data frames for each of the sub-tasks. For example
-we could have broken this task down into sub-tasks of (1) count gait
-scores and merge with herd, and (2) make the data wide:</p>
-<pre class="r"><code>visit_data |&gt;
-  filter(!is.na(GaitScore)) |&gt;
-  count(Herd, GaitScore) |&gt;
-  complete(Herd, GaitScore, fill = list(n=0)) |&gt;
   left_join(
-    farm_data |&gt; select(Herd, CHR, HerdType, VisitDate),
-    by=&quot;Herd&quot;
+    data_step_3,
+    by=&quot;CKR&quot;
   ) -&gt;
-  gait_counts
-
-gait_counts |&gt;
-  mutate(GaitScore = str_c(&quot;GaitScore_&quot;, GaitScore)) |&gt;
-  pivot_wider(names_from = GaitScore, values_from = n, values_fill = 0)</code></pre>
-<pre><code>## # A tibble: 3 × 9
-##   Herd   CHR   HerdType     VisitDate  GaitSco…¹ GaitS…² GaitS…³ GaitS…⁴ GaitS…⁵
-##   &lt;chr&gt;  &lt;chr&gt; &lt;fct&gt;        &lt;date&gt;         &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
-## 1 Herd_A 9539  Conventional 2022-02-04        39       7       2       1       0
-## 2 Herd_B 9697  Organic      2022-02-16        34      11       2       0       0
-## 3 Herd_C 9433  Conventional 2022-03-26        45       2       0       0       0
-## # … with abbreviated variable names ¹​GaitScore_0, ²​GaitScore_1, ³​GaitScore_2,
-## #   ⁴​GaitScore_3, ⁵​GaitScore_4</code></pre>
+  solution_3_data</code></pre>
+<p>Here is the final result:</p>
+<pre class="r"><code>str(solution_3_data)</code></pre>
+<pre><code>## tibble [850 × 15] (S3: tbl_df/tbl/data.frame)
+##  $ CKR           : chr [1:850] &quot;70368&quot; &quot;36363&quot; &quot;47476&quot; &quot;00783&quot; ...
+##  $ DOB           : Date[1:850], format: &quot;2012-03-22&quot; &quot;2012-05-11&quot; ...
+##  $ Breed         : Factor w/ 2 levels &quot;hol&quot;,&quot;jer&quot;: 2 2 2 1 1 2 2 2 2 2 ...
+##  $ BreedText     : chr [1:850] &quot;Jersey&quot; &quot;Jersey&quot; &quot;Jersey&quot; &quot;Holstein&quot; ...
+##  $ Selected      : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 1 2 1 1 2 1 1 2 2 1 ...
+##  $ GaitScore     : Factor w/ 5 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,..: NA 1 NA NA NA NA NA 1 1 NA ...
+##  $ Herd          : chr [1:850] &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_A&quot; &quot;Herd_B&quot; ...
+##  $ CHR           : chr [1:850] &quot;9539&quot; &quot;9539&quot; &quot;9539&quot; &quot;9697&quot; ...
+##  $ MilkFreq      : num [1:850] 3 3 3 2 2 3 3 3 3 3 ...
+##  $ VisitDate     : Date[1:850], format: &quot;2022-02-04&quot; &quot;2022-02-04&quot; ...
+##  $ CalvingDate   : Date[1:850], format: &quot;2021-04-26&quot; &quot;2021-05-01&quot; ...
+##  $ Lactation     : num [1:850] 8 8 8 8 8 8 8 8 8 8 ...
+##  $ LactationGroup: Factor w/ 3 levels &quot;First parity&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
+##  $ DaysInMilk    : num [1:850] 256 251 251 147 165 123 123 124 140 94 ...
+##  $ MilkYield     : num [1:850] 10.46 9.85 8.18 11.35 11.82 ...</code></pre>
+<pre class="r"><code>summary(solution_3_data)</code></pre>
+<pre><code>##      CKR                 DOB             Breed      BreedText         Selected 
+##  Length:850         Min.   :2012-03-22   hol:169   Length:850         no :700  
+##  Class :character   1st Qu.:2016-08-20   jer:681   Class :character   yes:150  
+##  Mode  :character   Median :2018-03-21             Mode  :character            
+##                     Mean   :2017-09-14                                         
+##                     3rd Qu.:2019-03-16                                         
+##                     Max.   :2019-11-01                                         
+##  GaitScore      Herd               CHR               MilkFreq    
+##  0   :118   Length:850         Length:850         Min.   :2.000  
+##  1   : 20   Class :character   Class :character   1st Qu.:3.000  
+##  2   :  4   Mode  :character   Mode  :character   Median :3.000  
+##  3   :  1                                         Mean   :2.812  
+##  4   :  0                                         3rd Qu.:3.000  
+##  NA&#39;s:707                                         Max.   :3.000  
+##    VisitDate           CalvingDate           Lactation           LactationGroup
+##  Min.   :2022-02-04   Min.   :2020-12-15   Min.   :1.000   First parity :246   
+##  1st Qu.:2022-02-04   1st Qu.:2021-05-02   1st Qu.:1.000   Second parity:206   
+##  Median :2022-02-04   Median :2021-08-01   Median :2.000   Later parity :398   
+##  Mean   :2022-02-18   Mean   :2021-07-28   Mean   :2.848                       
+##  3rd Qu.:2022-02-16   3rd Qu.:2021-10-17   3rd Qu.:4.000                       
+##  Max.   :2022-03-26   Max.   :2022-01-31   Max.   :8.000                       
+##    DaysInMilk      MilkYield     
+##  Min.   :  2.0   Min.   : 2.811  
+##  1st Qu.: 99.0   1st Qu.: 7.207  
+##  Median :178.5   Median : 8.708  
+##  Mean   :181.6   Mean   : 8.945  
+##  3rd Qu.:266.8   3rd Qu.:10.720  
+##  Max.   :340.0   Max.   :17.564</code></pre>
 </div>
 <div id="perspectives" class="section level3">
 <h3>Perspectives</h3>
-<p>The tools that are covered in this topic allow you to tackle a huge
-number of different data-related tasks in R. The real power of this
-approach is that you only need to master a few different functions (like
-filter, select, mutate, left_join etc) and then you will be able to
-complete almost any task simply by combining the functions in different
-ways. In fact, the system we are using is conceptually similar to using
-words to create sentences with completely different meanings based on
-the order of the words. That is the reason that the dplyr package refers
-to the functions in this topic as ‘verbs’ within a ‘grammer of data’ -
-for more detils see: <a href="https://dplyr.tidyverse.org" class="uri">https://dplyr.tidyverse.org</a></p>
-</div>
-</div>
-<div id="excercise" class="section level2">
-<h2>Excercise</h2>
-<p>The ultimate goal of the study for our lameness example is to see if
-there is an association between lameness and milk yield in dairy cattle,
-taking into account other factors such as herd, lactation group and
-breed. For this exercise, you should end up with a data frame with the
-following columns:</p>
-<ul>
-<li>CKR</li>
-<li>DOB</li>
-<li>Breed</li>
-<li>BreedText</li>
-<li>Selected (either “yes” if the animal was selected for gait scoring,
-or “no” if the animal was not selected)</li>
-<li>GaitScore (this will be missing for animals that do not have a gait
-score)</li>
-<li>Herd</li>
-<li>CHR</li>
-<li>MilkFreq</li>
-<li>VisitDate</li>
-<li>CalvingDate, based on the last calving date before the time of the
-farm visit</li>
-<li>Lactation at the time of the farm visit</li>
-<li>LactationGroup (1st, 2nd or later parity) at the time of the farm
-visit</li>
-<li>DaysInMilk - the difference (in days) between the relevant
-CalvingDate and the MilkDate corresponding to MilkYield</li>
-<li>MilkYield, based on the closest milk recording to the time of the
-farm visit</li>
-</ul>
-<p>There should be 1 row for each animal, i.e. 850, in your final data
-frame.</p>
-<p>Some parts of this exercise are a bit tricky, but all of the tools
-you need are given in this topic! Remember to copy and paste lines of R
-code from what is shown above, then modify it to do what you need -
-don’t try to write the code from scratch. If you are struggling to see a
-way forward then try to break the task down into smaller sub-tasks, each
-of which gets you closer to the end result. If you are really stuck then
-look at the hint below.</p>
-<div id="exercise-hint" class="section level3">
-<h3>Exercise hint</h3>
-<p>Try to solve the exercise without looking at this hint first! Only
-proceed if you are really stuck…</p>
-<p>Here are some sub-tasks that will help you get towards achieving the
-overall task:</p>
-<ol style="list-style-type: decimal">
-<li>Join the animal-level data with the columns you need from breed
-lookup, visit data and farm data and save the intermediate result. This
-gets you the first 10 columns of what is asked for!</li>
-<li>The calving data needs to be filtered to 1 row per animal based on
-the calving date. You will need to join with the farm data to get visit
-date. Save this as another intermediate result.</li>
-<li>The milk data also needs to be filtered to 1 row per animal,
-representing the closest observation to the visit date. Before merging
-with the farm data you will first need to join with the animal-level
-data to obtain the corresponding CHR. To calculate DaysInMilk you will
-need to join with the calving data; that will give you multiple rows per
-animal so you will need to filter it back down to 1 row per animal,
-representing the last calving date before the milk date. Remember that
-you can use the as.numeric function on the difference between two dates,
-and the abs function is helpful if we don’t care which of the dates came
-first. Save this as your third intermediate result.</li>
-<li>Join all three of the intermediate results to get your final data
-frame. Check it using str and summary to make sure it looks right!</li>
-</ol>
-</div>
-<div id="solution" class="section level3">
-<h3>Solution</h3>
-<p>Click <a href="solution3.html">here</a> to see a suggested solution
-(plus some explanation) for this exercise.</p>
-<p>Remember to keep hold of the finished R script, as you will need it
-for the exercise at the end of the next session!</p>
+<p>The key to solving this task was to break it down into smaller
+sub-tasks, and tackle a small part of the problem at a time. It can also
+be very helpful to copy and paste code from previous examples you have,
+to make sure that you don’t make any small errors in the way the code
+needs to be written. In fact, using this strategy allows you to solve
+almost any data science task!</p>
+<p>If you want to compare your code to something we prepared, then you
+can find <a href="https://www.costmodds.org/teaching/voc_data_science/topic2/solution_topic_2.R">our
+complete solution script here</a></p>
 </div>
 </div>
 <div id="acknowledgements" class="section level2">
@@ -1377,8 +662,6 @@ for the exercise at the end of the next session!</p>
 <p>Development of this training material was partly funded by the <a href="https://veterinary-online-collection.eu">Veterinary Online
 Collection</a>.</p>
 <p><img src="data:image/png;base64,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" /></p>
-<p><a href="https://www.costmodds.org/teaching/voc_data_science/">Return
-to home page</a></p>
 </div>
 
 
