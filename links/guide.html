@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>A guide for running the welfare index model</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{A guide for running the welfare index model}
+-->
+
+<hr/>
+
+<p><center> <h1>A guide for running the welfare index model</h1> </center> </p>
+
+<hr/>
+
+<p><center> <h2>Introduction</h2> </center> </p>
+
+<hr/>
+
+<p>This R package was created as part of the animal welfare index project, for delivery to FVST as part of the end deliverables of the project.  It contains all of the code necessary to run the index model as developed during this project, and also the code necessary to modify the model as may become necessary in the future.  </p>
+
+<p>This guide describes how to use the R package, and is divided into the following sections:</p>
+
+<ol>
+<li><p>Running the default index model</p>
+
+<ul>
+<li>Understanding the data key</li>
+<li>Adding data</li>
+<li>Running the model</li>
+<li>Outputing results</li>
+</ul></li>
+<li><p>Modifying the index model</p>
+
+<ul>
+<li>Modifying expert weightings</li>
+<li>Removing measures</li>
+<li>Modifying function definitions</li>
+<li>Modifying the data key</li>
+</ul></li>
+</ol>
+
+<p>The package is designed to be as user friendly as possible, but some basic competence with R is required.</p>
+
+<hr/>
+
+<p><center> <h2>Running the default index model</h2> </center> </p>
+
+<hr/>
+
+<p>The first step is to install and then load the WelfareIndex package that provides the index model functions.  You must first install the 3 required packages (and their dependencies): readxl, ggplot2 and knitr in the usual way (these packages are available on CRAN).  The source package for WelfareIndex contains no compiled code, and therefore should install on any operaing system (Windows, Max or Linux) on which R version 3.3.0 or later is installed by selecting to &#39;Install Local Source Package&#39; from the package installer within R.  Alternatively, a Windows binary (.zip) version of the package is also provided which may give fewer problems during installation on Windows systems.  Once the package is installed it must be loaded using:</p>
+
+<pre><code class="r">library(&#39;WelfareIndex&#39;)
+</code></pre>
+
+<pre><code>## 
+## Attaching package: &#39;WelfareIndex&#39;
+</code></pre>
+
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     %in%, as.factor
+</code></pre>
+
+<p>The index model itself is written using an OOP-style of programming, so that the various elements of the model can be set/modified/accessed at any point using a single R object as the point of reference.  This minimises the possibilities for programming mistakes by the end user, but does result in code that may look a little strange to users who may be more used to the standard procedural style of R programming.  The best way to understand the code is using an example, as follows.  A small anonymised dataset corresponding to each of the animal groups is embedded within the R package - the data can be made available as follows - here we will use cows as an example:</p>
+
+<pre><code class="r">model &lt;- index_example(&#39;Cows&#39;)
+</code></pre>
+
+<pre><code>## Data was written to the &quot;CowsExample&quot; folder in your current working directory
+</code></pre>
+
+<pre><code class="r">list.files(&#39;CowsExample&#39;)
+</code></pre>
+
+<pre><code>## [1] &quot;Data.xlsx&quot;     &quot;Mortality.csv&quot; &quot;Slaughter.csv&quot;
+</code></pre>
+
+<h3>Creating the model</h3>
+
+<p>The first step is to create an index model using the WelfareIndex() function with argument giving the type:</p>
+
+<pre><code class="r">model &lt;- WelfareIndex(&#39;Cows&#39;, baseline=75)
+</code></pre>
+
+<pre><code>## Setting new weights
+## Setting new measure values
+## Setting new function values
+## Setting new key values
+</code></pre>
+
+<p>This creates a new model with a given index baseline, and then loads the default weights, measure names, function specifications and data key for this animal group into the model.  Of these, only the data key is relevant to users that only wish to run the default models.  Note that the baseline value will be determined from the &#39;year 0&#39; data when this becomes available, and future versions of this R package can be preset with the correct values as default.</p>
+
+<h3>Understanding the data key</h3>
+
+<p>The data key is central to the data verification stage, which ensures that the data to be used for calculating the welfare index is in the correct format and contains values that are at least superficially valid.  Any data that does not match the formats stipulated by the key will not be usable for the index model until the formatting has been transposed.  The key itself can either be written to file or returned as an R data frame using methods of the model object as follows:</p>
+
+<pre><code class="r">model$WriteKey(&#39;default_cow_key.csv&#39;)
+key &lt;- model$GetKey()
+str(key)
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    45 obs. of  11 variables:
+##  $ DataName       : chr  &quot;AvoidanceDistanceAtFeedingTable&quot; &quot;BodyConditionScore&quot; &quot;CleanlinessHindQuarters&quot; &quot;CleanlinessLowerHind&quot; ...
+##  $ DataRelation   : chr  &quot;Avoidance&quot; &quot;ClinicalIndex&quot; &quot;ClinicalIndex&quot; &quot;ClinicalIndex&quot; ...
+##  $ MissingOK      : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 2 2 2 2 2 2 2 1 1 ...
+##  $ Type           : Factor w/ 6 levels &quot;date&quot;,&quot;time&quot;,..: 3 5 5 5 5 5 5 5 6 5 ...
+##  $ NumUnits       : chr  &quot;Centimeters&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ NumMin         : chr  &quot;0&quot; NA NA NA ...
+##  $ NumMax         : chr  &quot;250&quot; NA NA NA ...
+##  $ CategoriesValid: chr  NA &quot;0-1-2&quot; &quot;0-1&quot; &quot;0-1&quot; ...
+##  $ ExcelColumn    : chr  &quot;AvoidanceDistanceAtFeedingTable&quot; &quot;BodyConditionScore&quot; &quot;CleanlinessHindQuarters&quot; &quot;CleanlinessLowerHind&quot; ...
+##  $ ExcelSheet     : chr  &quot;Avoidance&quot; &quot;ClinicalIndex&quot; &quot;ClinicalIndex&quot; &quot;ClinicalIndex&quot; ...
+##  $ Notes          : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+</code></pre>
+
+<pre><code class="r">head(key)
+</code></pre>
+
+<pre><code>##                          DataName  DataRelation MissingOK        Type
+## 1 AvoidanceDistanceAtFeedingTable     Avoidance       yes     numeric
+## 2              BodyConditionScore ClinicalIndex       yes categorical
+## 3         CleanlinessHindQuarters ClinicalIndex       yes categorical
+## 4            CleanlinessLowerHind ClinicalIndex       yes categorical
+## 5                CleanlinessUdder ClinicalIndex       yes categorical
+## 6           IntegumentAlterations ClinicalIndex       yes categorical
+##      NumUnits NumMin NumMax CategoriesValid
+## 1 Centimeters      0    250            &lt;NA&gt;
+## 2               &lt;NA&gt;   &lt;NA&gt;           0-1-2
+## 3               &lt;NA&gt;   &lt;NA&gt;             0-1
+## 4               &lt;NA&gt;   &lt;NA&gt;             0-1
+## 5               &lt;NA&gt;   &lt;NA&gt;             0-1
+## 6               &lt;NA&gt;   &lt;NA&gt;           0-1-2
+##                       ExcelColumn    ExcelSheet Notes
+## 1 AvoidanceDistanceAtFeedingTable     Avoidance      
+## 2              BodyConditionScore ClinicalIndex      
+## 3         CleanlinessHindQuarters ClinicalIndex      
+## 4            CleanlinessLowerHind ClinicalIndex      
+## 5                CleanlinessUdder ClinicalIndex      
+## 6           IntegumentAlterations ClinicalIndex
+</code></pre>
+
+<pre><code class="r">tail(key)
+</code></pre>
+
+<pre><code>##             DataName        DataRelation MissingOK    Type    NumUnits
+## 40       PyemiaTotal           Slaughter       yes integer            
+## 41  CleanWaterPoints WaterIndexGroupCows       yes integer       Count
+## 42      TotalNoBowls WaterIndexGroupCows       yes numeric       Count
+## 43 TotalTroughLength WaterIndexGroupCows       yes numeric Centimeters
+## 44  TotalWaterPoints WaterIndexGroupCows       yes integer       Count
+## 45      WaterAnimals WaterIndexGroupCows       yes integer       Count
+##    NumMin           NumMax CategoriesValid       ExcelColumn
+## 40      0              Inf            &lt;NA&gt;           Code141
+## 41      0 TotalWaterPoints            &lt;NA&gt;  CleanWaterPoints
+## 42      0              Inf            &lt;NA&gt;      TotalNoBowls
+## 43      0              Inf            &lt;NA&gt; TotalTroughLength
+## 44      0              Inf            &lt;NA&gt;  TotalWaterPoints
+## 45      0              Inf            &lt;NA&gt;      WaterAnimals
+##             ExcelSheet Notes
+## 40        __external__      
+## 41 WaterIndexGroupCows      
+## 42 WaterIndexGroupCows      
+## 43 WaterIndexGroupCows      
+## 44 WaterIndexGroupCows      
+## 45 WaterIndexGroupCows
+</code></pre>
+
+<p>The columns of the data key are as follows:</p>
+
+<ul>
+<li>DataName gives the name of the data as used by the R functions.  This is unique to each data key entry (row).</li>
+<li>DataRelation gives the data group that this DataName belongs to;  either a sheet within the Excel file or some other relational database structure.  It is necessary for all data from the same DataRelation to be read in simulaneously as a single data frame.</li>
+<li>MissingOK specifies if it is an error or merely a warning for this data to contain missing values.</li>
+<li>Type specifies the storage type of the data: one of numeric, integer, categorical, group, date or time.  The storage type of the data to be read in must match this specification exactly.  Note that group is only used for CHR.</li>
+<li>NumUnits is optional, and contains a text entry explaining the units that this number is measured in (for example animals, water sources, lesions etc).</li>
+<li>NumMin specifies the minimum value for numeric/integer data, either as a number or in relation to another DataName within the same DataRelation.</li>
+<li>NumMax specifies the maximum value for numeric/integer data, either as a number or in relation to another DataName within the same DataRelation.</li>
+<li>CategoriesValid specifies the permitted category entries for categorical data, separated by a dash (-).  It is possible to enter multiple categories per observation in the data by separating them with a dash in the same way as is done for the key.</li>
+<li>ExcelColumn is optional, and specifies the column name relating to this DataName in Excel (column names may be repeated in different sheets).  It is recommended to keep ExcelColumn the same as DataName where possible to avoid confusion.</li>
+<li>ExcelSheet is optional, and specifies the sheet name relating to this DataRelation in Excel.  It is recommended to keep ExcelSheet the same as DataRelation where possible to avoid confusion, although any DataRelation that is not intended to be read from Excel (e.g. Slaughter and Mortality) must be entered as __external__</li>
+<li>Notes is an optional column containing additional clarification for the end-user (e.g. the definition of categories)</li>
+</ul>
+
+<p>The data key is crucial for all users to understand as it specifies the extent and format that is required by the model.  It is highly recommended to study the data key carefully BEFORE data are collected in order to minimise difficulties at the data entry stage.</p>
+
+<h3>Adding data</h3>
+
+<p>Adding data to the model corresponds to the data verification phase of the index model.  Data can be added to the model in one of two ways;  either directly from an Excel file, or as a data frame from within R.  The latter option is provided to facilitate automated data provision directly into R from e.g. a SQL database.  </p>
+
+<p>A small (fictitious/anonymised) dataset of two farms is provided within this package for illustration of the basic recommended process.  There is an Excel file covering the majority of the data, but there are separate files for slaughter and mortality data in the format originally provided by FVST.  We can load the Excel data first using the ReadData() method of model.  The first two arguments of this function specify the file path (which may be a vector giving multiple Excel files to be read), and the second is the name of a text file (or a different text file for each Excel file) to which any errors/warnings encountered in the data will be written.  This text file can be returned to the provider of the Excel data file to investigate and correct the issues.  In this case however we specify output=&ldquo;&rdquo; which means the errors/warnings are printed to the console rather than to file:</p>
+
+<pre><code class="r">model$ReadData(&quot;CowsExample/Data.xlsx&quot;, output=&quot;&quot;)
+</code></pre>
+
+<pre><code>## Reading and checking data from file  CowsExample/Data.xlsx 
+##  
+## Checking DataRelation Farm:
+##  No issues detected
+## Checking DataRelation Avoidance:
+##  No issues detected
+## Checking DataRelation ClinicalIndex:
+##  [Warning:  Missing observations (rows 10 ) were found for DataName  Lameness of DataRelation ClinicalIndex ]
+## Checking DataRelation GettingUp:
+##  No issues detected
+## Checking DataRelation IndexCalvingPenSickPen:
+##  No issues detected
+## Checking DataRelation IndexRessourcesGroupCows:
+##  No issues detected
+## Checking DataRelation LyingDown:
+##  No issues detected
+## Checking DataRelation LyingOutside:
+##  [Warning:  Missing observations (rows 12 ) were found for DataName  LyingOutsideNumber of DataRelation LyingOutside ]
+##  [Warning:  Missing observations (rows 12 ) were found for DataName  LyingOutsideTotal of DataRelation LyingOutside ]
+## Checking DataRelation RegisterData:
+##  No issues detected
+## Checking DataRelation WaterIndexGroupCows:
+##  No issues detected
+## Finished reading and checking data in 0.491003 seconds
+## 
+## 
+## Setting new Farm values
+## Setting new data values
+</code></pre>
+
+<p>The errors/warnings are grouped by DataRelation, and the function will continue to identify as many issues as possible even after the data has hit a critical error, in order to facilitate data checking.  Even so, the process of checking and correcting of errors is likely to take several iterations and some time to complete successfully.  Careful study of the data key BEFORE data are collected to ensure that the format of the collected data matches the requirements will minimise the difficulties at the data checking stage.</p>
+
+<p>If using the ReadData() function then it is necessary for the Farm DataRelation to be specified in Excel, but not necessarily all other data sources.  Additional data sources can be set using the SetData() method using a named list of data frames that matches one or more DataRelation as specified in the key.  The supplied data will be verified against the data key as for the ReadData() function, with all errors/warnings output to the R console.  If not using the ReadData() function at all, then the first call to SetData() must specify the (complete) Farm DataRelation:  this allows data provided with subsequent calls to SetData() to be checked against the Farm information.  Note that if data is to come from a source such as SQL then additional R code will be needed to convert the data into a suitable format, but helper functions (extract_mortality and extract_slaughter) are provided that will work for slaughter and mortality data in the format provided by FVST for this project:</p>
+
+<pre><code class="r">visits &lt;- model$GetCHRdates()
+
+mtdata &lt;- read.csv(&quot;CowsExample/Mortality.csv&quot;, stringsAsFactors=FALSE)
+# Or:
+# mtdata &lt;- haven::read_sas(&#39;grl_kvaegdoedelighed_bes_matt.sas7bdat&#39;)
+mortality &lt;- extract_mortality(mtdata, visits, &#39;BESAETNING_NR&#39;, &#39;MAANED&#39;, &#39;AAR&#39;, &#39;ANTAL_DOEDE_KOEER&#39;, &#39;ANTAL_AARSKOEER&#39;, Months=12)
+head(mortality)
+</code></pre>
+
+<pre><code>##      CHR  VisitDate MortalityNumber MortalityTotal MortalityMonths
+## 1 100000 2015-07-01               6       182.5492              12
+## 2 100001 2015-07-14              13       313.8700              12
+</code></pre>
+
+<pre><code class="r">sldata &lt;- read.csv(&quot;CowsExample/Slaughter.csv&quot;, stringsAsFactors=FALSE)
+# Or:
+# sldata &lt;- haven::read_sas(&#39;kvaeg_samplenkeltdyr1216.sas7bdat&#39;)
+
+# Restrict to animals of &gt; 180 days of age:
+sldata$SLAGTEDATO &lt;- as.Date(sldata$SLAGTEDATO)
+sldata$FOEDSESLDATO &lt;- as.Date(sldata$FOEDSESLDATO)
+sldata &lt;- sldata[as.numeric(difftime(sldata$SLAGTEDATO, sldata$FOEDSESLDATO, units=&#39;days&#39;)) &gt; 180,]
+
+slaughter &lt;- extract_slaughter(codes=list(Pyemia=141, LiverDisease=c(375,381), HealedFracture=c(505,507)), sldata, visits, &#39;BESNR&#39;, &#39;SLAGTEDATO&#39;, paste0(&#39;S&#39;,1:10), Days=365)
+head(slaughter)
+</code></pre>
+
+<pre><code>##      CHR  VisitDate PyemiaNumber PyemiaTotal LiverDiseaseNumber
+## 1 100000 2015-07-01            0          59                  3
+## 2 100001 2015-07-14            1          77                  2
+##   LiverDiseaseTotal HealedFractureNumber HealedFractureTotal
+## 1                59                    0                  59
+## 2                77                    1                  77
+</code></pre>
+
+<pre><code class="r">model$SetData(list(Slaughter=slaughter, Mortality=mortality))
+</code></pre>
+
+<pre><code>## Checking DataRelation Slaughter:
+##  No issues detected
+## Checking DataRelation Mortality:
+##  No issues detected
+## Setting new data values
+</code></pre>
+
+<p>Note the requirement to restrict the slaughter data to adult (&gt; 180 days) cattle so that the data reflects only the age group of interest.  A similar process is required for the pig slaughter data based on the animal weight (with &lt;=120kg categorised as weaners and &gt;120kg categorised as sows).  Also note that the extract_mortality and extract_slaughter functions require an argument specifying the CHR and VisitDate information to be extracted - this is retrieved from the model using the GetCHRdates() method.  It is possible for some visits to be to premises with multiple CHR registrations, in which case the CHR DataName can be specified as all of the applicable CHR numbers separated by a dash (-):  the extract_mortality and extract_slaughter functions will match the individual CHR numbers and combine them as necessary.</p>
+
+<h3>Running the model</h3>
+
+<p>Once all data has been added to the model (and assuming that the data passes the verification stage), then the process moves on to the transformation and aggregation stages.  These two stages are run using a single call to the RunModel() method as follows:</p>
+
+<pre><code class="r">model$RunModel()
+</code></pre>
+
+<pre><code>## Running the model...
+## A total of 60 functions (from 2 farms) were analysed with no errors or warnings
+## 
+## Finished running the model in 0.263689 seconds
+</code></pre>
+
+<p>This first applies the functions to the data specified (the transformation stage) to obtain measure scores that are weighted for welfare relevance using expert weights, and then combines these measure scores to criteria and finally farm score levels using simple unweighted means (aggregation stage).  The results are stored internally for future use.  Any error/warning messages produced by the functions are output to the R console as the functions are applied, but it may be more convinient to extract the full results including all errors and warnings either as a data frame within R or written to a CSV file:</p>
+
+<pre><code class="r">longresults &lt;- model$GetResults()
+head(longresults)
+</code></pre>
+
+<pre><code>##   measure_index    CHR Observer  VisitDate               Measure
+## 1             1 100000     mare 2015-07-01       ValidationCheck
+## 2             2 100000     mare 2015-07-01      AccessCalvingPen
+## 3             3 100000     mare 2015-07-01         AccessSickPen
+## 4             4 100000     mare 2015-07-01        HealedFracture
+## 5             5 100000     mare 2015-07-01 IntegumentAlterations
+## 6             6 100000     mare 2015-07-01              Lameness
+##   entry_index     Value NumberOfErrors NumberOfWarnings AllErrors
+## 1           1 210.00000              0                0          
+## 2           1 100.00000              0                0          
+## 3           1 100.00000              0                0          
+## 4           1 100.00000              0                0          
+## 5           1  40.18469              0                0          
+## 6           1  91.47381              0                0          
+##   AllWarnings
+## 1            
+## 2            
+## 3            
+## 4            
+## 5            
+## 6            
+##                                                                 Nobs
+## 1                                                    TotalAnimals: 1
+## 2    Complete: 1 -:- NoCalvingPens: 1 -:- NoAnimalsSickCalvingPen: 1
+## 3       Complete: 1 -:- NoSickPens: 1 -:- NoAnimalsSickCalvingPen: 1
+## 4 Complete: 1 -:- HealedFractureNumber: 1 -:- HealedFractureTotal: 1
+## 5                         Complete: 64 -:- IntegumentAlterations: 64
+## 6                                      Complete: 63 -:- Lameness: 63
+</code></pre>
+
+<pre><code class="r">model$WriteResults(&#39;longresults.csv&#39;)
+</code></pre>
+
+<p>This output also gives the total number of (non-missing) observations of each DataName.  The errors in particular should be checked for anything unexpected, although all scores associated with a function that returned an error (for that CHR) will be set to missing.</p>
+
+<h3>Outputing a report</h3>
+
+<p>The final stage of the process is the collation stage.  This takes the measure, criteria and overall farm scores, and calculates the overall index using an average of these farm scores weighted by the number of animals on each farm.  The index can be returned using:</p>
+
+<pre><code class="r">model$GetIndex()
+</code></pre>
+
+<pre><code>## The welfare index calculated from 548 on 2 farms is: 109.15
+## [Bootstrapped confidence intervals cannot be calculated with fewer than 20 farms]
+</code></pre>
+
+<p>A more detailed report document giving the overall index as well as summary statistics for each measure, criterion and farm scores can be written to file using:</p>
+
+<pre><code class="r">model$WriteIndex(&#39;example_cows_summary.html&#39;)
+</code></pre>
+
+<pre><code>## The report document &quot;example_cows_summary.html&quot; was created in your current working directory.  Double-click the file to open.
+</code></pre>
+
+<p>The report is standardised between animal groups and fully anonymised, so can be distributed without fear of identifying individual farms.  To see an example of a report generated using the 2016 data for cows, run the following code in your R session:</p>
+
+<pre><code class="r">vignette(&#39;cows_2016_report&#39;, package=&#39;WelfareIndex&#39;)
+</code></pre>
+
+<h3>Outputting additional results</h3>
+
+<p>In addition to the standardised report, it is also possible to output the full distribution of individual measure, criteria and/or overall farm scores either at the farm or individual level.  These can either be written to file or returned to the R session for further examination, either including CHR information or in an anonymised form, as follows:</p>
+
+<pre><code class="r">model$WriteFarmScores(&#39;farmscores.csv&#39;)
+
+scores &lt;- model$GetAnimalScores(c(&#39;ComfortAroundResting&#39;,&#39;CleanlinessUdder&#39;), anonymise=TRUE)
+head(scores)
+</code></pre>
+
+<pre><code>##   ComfortAroundResting CleanlinessUdder
+## 1             77.68988         90.85938
+## 2             77.68988         90.85938
+## 3             77.68988         90.85938
+## 4             77.68988         90.85938
+## 5             77.68988         90.85938
+## 6             77.68988         90.85938
+</code></pre>
+
+<pre><code class="r">plot.ecdf(scores$ComfortAroundResting, col=&#39;blue&#39;, xlim=c(75,100))
+plot.ecdf(scores$CleanlinessUdder, col=&#39;red&#39;, add=TRUE)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-15"/></p>
+
+<h3>Additional options</h3>
+
+<p>There are a number of other methods provided for the WelfareIndex class which are not illustrated here but may be useful:  consult the help file for WelfareIndex for more information:</p>
+
+<pre><code class="r">?WelfareIndex
+</code></pre>
+
+<h3>Additional examples</h3>
+
+<p>A full example for each of the animal types is embedded within this R package - to extract the relevant files and save them to your working directoy use:</p>
+
+<pre><code class="r">index_example(type=&#39;weaners&#39;, folder=&#39;WeanersExample&#39;, write_script=TRUE)
+list.files(&#39;WeanersExample&#39;)
+</code></pre>
+
+<pre><code>## [1] &quot;Data.xlsx&quot;     &quot;Mortality.csv&quot; &quot;Slaughter.csv&quot; &quot;rscript.R&quot;
+</code></pre>
+
+<p>See also the help file for ?index_example for more options regarding the format of the data.</p>
+
+<hr/>
+
+<p><center> <h2>Modifying the index model</h2> </center> </p>
+
+<hr/>
+
+<p>An important requirement of this model was flexibility to changes in e.g. expert weightings and data availability, so methods are provided to modify all aspects of the model.  This also facilitates transparency of the model, in that it allows the user to inspect (in as much or as little detail as desired) the precise processes underlying the model. </p>
+
+<p>This section describes how to examine and modify the expert weightings, measures, functions and data key using the existing defaults as template specifications, and then run the model using the modified specifications.  However, it should be noted that substantial changes to the model will result in a lack of comparability to previous years, and so it may be necessary to &#39;reset&#39; the index from the beginning of the period after changes have been made unless it is possible to re-calculate the index for the original data using the updated specifications.</p>
+
+<h3>Modifying expert weightings</h3>
+
+<p>The easiest method to modify expert weightings is to create a default model (with the correct type), and then extract the default weights before modifying the file and reading the modified file back into the model.  This is the process for extracting the weights, either as a data frame into R or as a csv file:</p>
+
+<pre><code class="r">library(&#39;WelfareIndex&#39;)
+model &lt;- WelfareIndex(&#39;cows&#39;, baseline=75)
+</code></pre>
+
+<pre><code>## Setting new weights
+## Setting new measure values
+## Setting new function values
+## Setting new key values
+</code></pre>
+
+<pre><code class="r">weights &lt;- model$GetWeights()
+head(weights)
+</code></pre>
+
+<pre><code>##     Variable  Value
+## 1 wBodyCond0 100.00
+## 2 wBodyCond1  28.67
+## 3 wBodyCond2  28.67
+## 4    wWater0 100.00
+## 5    wWater1  58.19
+## 6    wWater2  34.17
+</code></pre>
+
+<pre><code class="r">model$WriteWeights(&#39;weights.csv&#39;)
+</code></pre>
+
+<p>The values can be modified as desired and then reset either from a data frame or csv file:</p>
+
+<pre><code class="r">model$SetWeights(weights)
+</code></pre>
+
+<pre><code>## Setting new weights
+</code></pre>
+
+<pre><code class="r">model$ReadWeights(&#39;weights.csv&#39;)
+</code></pre>
+
+<pre><code>## Setting new weights
+</code></pre>
+
+<p>Any data entry mistakes in the new weights will trigger an informative error message.</p>
+
+<p>If a model has already been run, then resetting the weights will remove the results (although not the data) so the model can be rerun with the new weights.</p>
+
+<h3>Modifying measures</h3>
+
+<p>The measure file can be modified in a similar manner to the weights, although setting the measures triggers the model to remove functions and data key, so it is a good idea to also either save these in R or write these to file before resetting the measures:</p>
+
+<pre><code class="r">measures &lt;- model$GetMeasures()
+head(measures)
+</code></pre>
+
+<pre><code>##                 Measure         Criteria Min Max
+## 1       ValidationCheck  ValidationCheck   1 Inf
+## 2      AccessCalvingPen AbsenceOfDisease   1 100
+## 3         AccessSickPen AbsenceOfDisease   1 100
+## 4        HealedFracture AbsenceOfDisease   1 100
+## 5 IntegumentAlterations AbsenceOfDisease   1 100
+## 6              Lameness AbsenceOfDisease   1 100
+</code></pre>
+
+<pre><code class="r">functions &lt;- model$GetFunctions()
+key &lt;- model$GetKey()
+</code></pre>
+
+<p>Alternatively, these can be saved to file:</p>
+
+<pre><code class="r">model$WriteMeasures(&#39;measures.csv&#39;)
+model$WriteFunctions(&#39;functions.R&#39;)
+model$WriteKey(&#39;key.csv&#39;)
+</code></pre>
+
+<p>Note that this will over-write (without warning) any existing files at these locations.</p>
+
+<p>The measures and key are extracted as data frames and/or saved as CSV files, which can be edited in the same way as for the weights. Removing measures is simply a case of removing the relevant line in the CSV file; any function definitions provided for these measures (and consequently any data required only by these defunct functions) will then be ignored.  Adding a new measure should follow the same format as the others: a measure name is supplied (excluding spaces and special characters), along with corresponding Criteria group and relevant min/max values (which will typically be 1 and 100).  The file can then be re-read (with informative error messages being given where appropriate) as follows:</p>
+
+<pre><code class="r">model$ReadMeasures(&#39;measures.csv&#39;)
+</code></pre>
+
+<pre><code>## Setting new measure values (this means that the functions, key and data will have to be reset)
+</code></pre>
+
+<h3>Modifying functions</h3>
+
+<p>Modifying functions is the most complex part of this process, and will require a user with some experience using R.  It is strongly recommended to closely examine all functions (for all animal types) before trying to modify any function.  The functions are checked in as much detail as possible when being read in, but it is impossible to detect all possible coding errors.  It is therefore very important to inspect carefully the long results after running a model with modified functions, as new errors may become apparent that need to be rectified in the functions.</p>
+
+<p>The functions are extracted as a named list of functions, and saved as an R script file (see above).  It is possible to edit the named list within R, but much easier to edit the R script file.  However, editing the functions requires some familiariy with R, and is much more difficult to do correctly than editing the measures, weights and key files.  Once the R code has been edited, it can be re-read (with informative error messages being given where appropriate) as follows:</p>
+
+<pre><code class="r">model$ReadFunctions(&#39;functions.R&#39;)
+</code></pre>
+
+<pre><code>## Setting new function values
+</code></pre>
+
+<p>Note that it is not necessary to edit the functions file if only removing measures, but the functions do need to be re-read (and checked against the new measures definitons) using the above line of code.</p>
+
+<p>The function arguments and bodies (definitions of the functions) can be edited as usual R code, although a number of restrictions are enforced when re-reading the functions to minimise the possibility of coding mistakes.  These restrictions are checked when the functions are read, and are detailed below:</p>
+
+<h4>Function argument definitions</h4>
+
+<p>All standard arguments must be defined within the same data relation.  If data is required from separate data relations, then this must be defined as a data.frame within each data relation.  For example, the Cows Cubicles function takes two data sources from the same data relation:</p>
+
+<pre><code class="r">functions$Cubicles
+</code></pre>
+
+<pre><code>## function (TotalCubicles, NoResourceAnimal) 
+## {
+##     CheckNumeric(TotalCubicles)
+##     CheckNumeric(NoResourceAnimal)
+##     scores &lt;- ifelse(TotalCubicles &gt;= NoResourceAnimal, wTotalCubicles0, 
+##         wTotalCubicles1)
+##     return(WeightedAverage(scores, NoResourceAnimal))
+## }
+## &lt;environment: namespace:WelfareIndex&gt;
+</code></pre>
+
+<p>Whereas the Calves AccessToArtificialTeat function requires three data sources from two different data relations:</p>
+
+<pre><code class="r">calvesmodel &lt;- WelfareIndex(&#39;calves&#39;, baseline=80)
+</code></pre>
+
+<pre><code>## Setting new weights
+## Setting new measure values
+## Setting new function values
+## Setting new key values
+</code></pre>
+
+<pre><code class="r">calvesfunctions &lt;- calvesmodel$GetFunctions()
+calvesfunctions$AccessToArtificialTeat
+</code></pre>
+
+<pre><code>## function (Group = data.frame(AccessToArtificialTeatGroup, NoResourcesAnimals), 
+##     Individual = data.frame(AccessToArtificialTeatIndivid)) 
+## {
+##     connect(Individual)
+##     CheckCategories(AccessToArtificialTeatIndivid, c(&quot;0&quot;, &quot;1&quot;, 
+##         &quot;2&quot;))
+##     wIndivid0 &lt;- NumberEqual(AccessToArtificialTeatIndivid, &quot;0&quot;) * 
+##         wAccessToArtificialTeat0
+##     wIndivid1 &lt;- NumberEqual(AccessToArtificialTeatIndivid, &quot;1&quot;) * 
+##         wAccessToArtificialTeat1
+##     wIndivid2 &lt;- NumberEqual(AccessToArtificialTeatIndivid, &quot;2&quot;) * 
+##         wAccessToArtificialTeat2
+##     connect(Group)
+##     CheckCategories(AccessToArtificialTeatGroup, c(&quot;0&quot;, &quot;1&quot;, 
+##         &quot;2&quot;))
+##     CheckNumeric(NoResourcesAnimals)
+##     wGroup0 &lt;- WeightedNumberEqual(AccessToArtificialTeatGroup, 
+##         &quot;0&quot;, NoResourcesAnimals) * wAccessToArtificialTeat0
+##     wGroup1 &lt;- WeightedNumberEqual(AccessToArtificialTeatGroup, 
+##         &quot;1&quot;, NoResourcesAnimals) * wAccessToArtificialTeat1
+##     wGroup2 &lt;- WeightedNumberEqual(AccessToArtificialTeatGroup, 
+##         &quot;2&quot;, NoResourcesAnimals) * wAccessToArtificialTeat2
+##     totalanimals &lt;- NumberObs(AccessToArtificialTeatIndivid) + 
+##         sum(NoResourcesAnimals)
+##     if (totalanimals == 0) 
+##         log$Error(&quot;No non-missing observations for either individual or group&quot;)
+##     score &lt;- (wGroup0 + wGroup1 + wGroup2 + wIndivid0 + wIndivid1 + 
+##         wIndivid2)/totalanimals
+##     return(score)
+## }
+## &lt;environment: namespace:WelfareIndex&gt;
+</code></pre>
+
+<p>Note that for any rows within the same data relation where any of the data entries are missing, the entire row is removed.  This ensures that no missing data is ever provided as arguments to the functions, but preserves the row-wise relationship within each data frame.  These points do not apply to the ValidationCheck function.</p>
+
+<h4>Checking function arguments</h4>
+
+<p>All specified arguments must be checked within the function definition using e.g. CheckNumeric(), CheckPercent(), CheckCategories().  It is also a good idea (although not enforced) to use CheckLength1() where an argument is expected to take a single value per farm.  For example:</p>
+
+<pre><code class="r">functions$MilkSomaticCellCount
+</code></pre>
+
+<pre><code>## function (MilkSomaticCellCount) 
+## {
+##     CheckLength1(MilkSomaticCellCount)
+##     CheckPercent(MilkSomaticCellCount)
+##     ratio &lt;- MilkSomaticCellCount/100
+##     score &lt;- (1 - ratio) * wMilkSomaticCellCount0 + ratio * wMilkSomaticCellCount1
+##     return(score)
+## }
+## &lt;environment: namespace:WelfareIndex&gt;
+</code></pre>
+
+<pre><code class="r">functions$IntegumentAlterations
+</code></pre>
+
+<pre><code>## function (IntegumentAlterations) 
+## {
+##     CheckCategories(IntegumentAlterations, c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;))
+##     w0 &lt;- NumberEqual(IntegumentAlterations, &quot;0&quot;) * wIntegumentAlterations0
+##     w1 &lt;- NumberEqual(IntegumentAlterations, &quot;1&quot;) * wIntegumentAlterations1
+##     w2 &lt;- NumberEqual(IntegumentAlterations, &quot;2&quot;) * wIntegumentAlterations2
+##     score &lt;- (w0 + w1 + w2)/NumberObs(IntegumentAlterations)
+##     return(score)
+## }
+## &lt;environment: namespace:WelfareIndex&gt;
+</code></pre>
+
+<h4>Calculating the measure score</h4>
+
+<p>The method of calculating the measure score is entirely up to the end user, although a number of helper functions are provided by the WelfareIndex package such as NumberEqual(), WeghtedAverage() etc and may be used if desired.  The output of the function must be a single number between the specified Min and Max (although it can be NA if required).  Weighting values can be used as required, and it is suggested to continue the convention of naming these with a preceeding lowercase w and ending with the weight for each category.  For example, AvoidanceDistance has four associated weights (including weight for category 0):</p>
+
+<pre><code class="r">functions$AvoidanceDistance
+</code></pre>
+
+<pre><code>## function (AvoidanceDistanceAtFeedingTable) 
+## {
+##     CheckNumeric(AvoidanceDistanceAtFeedingTable)
+##     w0 &lt;- NumberBetween(AvoidanceDistanceAtFeedingTable, -Inf, 
+##         0) * wAvoidanceDistanceAtFeedingTable0
+##     w1 &lt;- NumberBetween(AvoidanceDistanceAtFeedingTable, 0, 50) * 
+##         wAvoidanceDistanceAtFeedingTable1
+##     w2 &lt;- NumberBetween(AvoidanceDistanceAtFeedingTable, 50, 
+##         100) * wAvoidanceDistanceAtFeedingTable2
+##     w3 &lt;- NumberBetween(AvoidanceDistanceAtFeedingTable, 100, 
+##         Inf) * wAvoidanceDistanceAtFeedingTable3
+##     score &lt;- (w0 + w1 + w2 + w3)/NumberObs(AvoidanceDistanceAtFeedingTable)
+##     return(score)
+## }
+## &lt;environment: namespace:WelfareIndex&gt;
+</code></pre>
+
+<p>All weights used by the functions must be specified using exactly the same (case sensitive!) syntax in the weights file.</p>
+
+<h4>Errors and warnings</h4>
+
+<p>It is strongly encouraged that function definitions make liberal use of stopifnot(), stop() and warning() as for any R code.  These warnings/errors will be captured and reported appropriately, with the measure score set to missing in the case of errors.  Alternatively, calls to log$Warning(&#39;&#39;) and log$Error(&#39;&#39;) may be made directly.</p>
+
+<h3>Modifying the data key</h3>
+
+<p>The key file can be modified in a similar manner to the measures and weights.  A common requirement may be to add (or remove) possible observed categories for the Observer: these should be added as a list separated by a dash (-) in the same manner as the existing categories.  It may also be necessary to modify the registered NumMin and NumMax values for numeric variables, or to change the MissingOK column for one or more variables.  These three modifications are unlikely to require modifictions to the functions, so can be done and the key simply re-read using:</p>
+
+<pre><code class="r">model$ReadKey(&#39;key.csv&#39;)
+</code></pre>
+
+<pre><code>## NOTE: DataName(s) BodyConditionScore (row 2), CleanlinessHindQuarters (row 3), CleanlinessLowerHind (row 4), CleanlinessUdder (row 5), IntegumentAlterations (row 6) [and others] have categories that can be interpreted as numbers - this is not recommended 
+## Setting new key values
+</code></pre>
+
+<p>All other modifications to the data key, such as adding/removing data entries, modifying data relations etc, are likely to follow corresponding modifications to the functions.  Note that the functions must be modified first, and the data key afterwards to reflect the changes to the functions.  Any data entries not required by the specified functions are simply ignored.</p>
+
+<p>Making large-scale changes to the functions and data key will require some experience with both R, and the requirements enforced by the welfare index model.  It is strongly recommended to &#39;build up&#39; changes incrementally by making a small number of changes to the functions and data key at a time, and then re-reading the files and responding to any error messages as you go along.  Error messages will be triggered by any data entry mistakes in the new measures, discrepancies between the functions and new measures, or data required by the functions but not specified in the data key.  It is also strongly suggested to closely examine the definitions of other functions to get a feel for the likely problems and solutions that you will encounter.  </p>
+
+<h3>Running the modified model</h3>
+
+<p>The process of reading data, running the model and outputting results is identical to that given previously.  However, when modifying the measures/functions/key it is necessary to re-specify any elements following the earliest modified element in the following chain of progression:</p>
+
+<ol>
+<li> Measures</li>
+<li> Functions</li>
+<li> Data key</li>
+<li> Farm DataRelation</li>
+<li> All other data sources</li>
+<li> Run model</li>
+<li> Output results</li>
+</ol>
+
+<p>The expert weights can be modified at any of the stages 1-6.</p>
+
+<hr/>
+
+<h3>This vignette was built with:</h3>
+
+<pre><code class="r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.4.0 (2017-04-21)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Sierra 10.12.5
+## 
+## Matrix products: default
+## BLAS: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.4/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C/en_US.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] WelfareIndex_1.0.1-1
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.10     plyr_1.8.4       grid_3.4.0       cellranger_1.1.0
+##  [5] gtable_0.2.0     magrittr_1.5     evaluate_0.10    scales_0.4.1    
+##  [9] highr_0.6        ggplot2_2.2.1    stringi_1.1.5    lazyeval_0.2.0  
+## [13] readxl_1.0.0     tools_3.4.0      stringr_1.2.0    munsell_0.4.3   
+## [17] markdown_0.8     compiler_3.4.0   colorspace_1.3-2 knitr_1.16      
+## [21] tibble_1.3.0
+</code></pre>
+
+</body>
+
+</html>
