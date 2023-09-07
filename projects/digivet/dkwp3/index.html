@@ -382,11 +382,23 @@ provide instructions and assistance during the workshop.</p>
 </div>
 <div id="installing-the-goldeneye-and-sdubcontrol-packages" class="section level2">
 <h2>Installing the goldeneye and sdubcontrol packages</h2>
-<p>This section will be added closer to the workshop</p>
+<p>To install both packages, open R and then copy and paste this line of
+code at the command prompt, then hit enter:</p>
+<pre class="r"><code>install.packages(c(&quot;goldeneye&quot;,&quot;sdubcontrol&quot;),  repos=c(&quot;https://cran.rstudio.com/&quot;,&quot;https://ku-awdc.github.io/drat/&quot;))</code></pre>
+<p>You should see lots of text being produced, but (hopefully)
+containing the words “DONE (goldeneye)” and “DONE (sdubcontrol)”.</p>
+<p>You only need to install the packages once (unless you
+update/reinstall R, in which case you might have to re-install the
+packages).</p>
 </div>
 <div id="using-the-packages" class="section level2">
 <h2>Using the packages</h2>
-<p>This section will be added closer to the workshop</p>
+<p>To launch the sdubcontrol app run the following line of code:</p>
+<pre class="r"><code>sdubcontrol::app_launch()</code></pre>
+<p>And to launch the goldeneye app run this code:</p>
+<pre class="r"><code>goldeneye::run_app()</code></pre>
+<p>Then follow the instructions provided within the app.</p>
+<p>To close the app, just close your browser window and then quit R.</p>
 </div>
 
 
