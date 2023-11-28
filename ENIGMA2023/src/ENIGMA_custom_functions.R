@@ -1,4 +1,17 @@
 
+## Copyright © 2023 Lene J. Kjær, Michael P. Ward, Anette E. Boklund, Lars E. Larsen, Charlotte K. Hjulsager, and Carsten T. Kirkeby ”
+
+##############################################################################################
+# This file is part of the Shiny app for the ENIGMA HPAI model version 1.0.   
+
+# The ENIGMA HPAI model is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.                                   
+
+# The ENIGMA HPAI model is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.                                                
+
+# You should have received a copy of the GNU General Public License along with the ENIGMA HPAI model. If not, see <https://www.gnu.org/licenses/>.
+##############################################################################################
+
+
 
 #model_predictions=one-week-ahead predictions, model=model used for predictions
 selectBestModel <- function(model_predictions, metrics = c("rps", "logs"), verbose = TRUE, plot = FALSE){

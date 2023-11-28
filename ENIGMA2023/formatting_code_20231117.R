@@ -1,4 +1,17 @@
 
+## Copyright © 2023 Lene J. Kjær, Michael P. Ward, Anette E. Boklund, Lars E. Larsen, Charlotte K. Hjulsager, and Carsten T. Kirkeby ”
+
+##############################################################################################
+# This file is part of the Shiny app for the ENIGMA HPAI model version 1.0.   
+
+# The ENIGMA HPAI model is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.                                   
+
+# The ENIGMA HPAI model is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.                                                
+
+# You should have received a copy of the GNU General Public License along with the ENIGMA HPAI model. If not, see <https://www.gnu.org/licenses/>.
+##############################################################################################
+
+
 # Load a bunch of libraries for preformatting the code:
 library(tidyverse)
 library(sf)
@@ -16,7 +29,8 @@ library(qs)
 
 ####### 1) Download seneste infur fil til denne folder: ############
 
-setwd("C:/ENIGMAdata/")
+#setwd("C:/ENIGMAdata/")
+setwd("C:/Users/zxd598/Documents/GitHub/ku-awdc.github.io/ENIGMA2023/")
 # Find the file:
 ff <- list.files(pattern="infur")
 # Define filename:
@@ -98,6 +112,8 @@ final_model <-hhh4(stsObj = AI_sts,control = final_model_base)
 # Save the date:
 save_date <- Sys.Date()
 # Save the data in an (arbitrarily names file format) ".car"  format:
+# We set the wd temporarily to tmp, to save a ".car" file:
+setwd("C:/Users/zxd598/Documents/GitHub/ku-awdc.github.io/ENIGMA2023/tmp")
 qs::qsave(list(ai_data=ai_data, 
                save_date=save_date, 
                filename=filename,
@@ -117,6 +133,7 @@ qs::qsave(list(ai_data=ai_data,
                AI_sts=AI_sts,
                final_model=final_model), 
           file="for_ai.car", preset="archive")
+save()
 file.copy(file.path(getwd(), "for_ai.car"), "C:/Users/zxd598/Documents/GitHub/ku-awdc.github.io/ENIGMA2023/for_ai.car", overwrite=TRUE)
 # Clean up:
 rm(ai_data)
