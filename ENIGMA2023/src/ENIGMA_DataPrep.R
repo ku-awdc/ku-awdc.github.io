@@ -24,7 +24,7 @@ europeanCountries$area_sqkm <- as.numeric(st_area(europeanCountries)) / 1000000
 # tt <- tempfile()
 # download.file("http://www.costmodds.org/ENIGMA2023/for_ai.car", tt, mode="wb")
 # qs::qload(tt)
-# updateDate <-strftime(as.Date(substring(filename, 7,14), format='%Y%m%d'),format = '%d/%m/%Y')
+ updateDate <-strftime(as.Date(substring(filename, 7,14), format='%Y%m%d'),format = '%d/%m/%Y')
 # file.remove(tt)
 
 # the code above downloaded the data set called ai_data, here we select only HPAI and only select some of the variables in the WOAH-WAHIS data, as we do not need them all
