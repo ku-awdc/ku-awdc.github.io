@@ -133,7 +133,7 @@ qs::qsave(list(ai_data=ai_data,
                AI_sts=AI_sts,
                final_model=final_model), 
           file="for_ai.car", preset="archive")
-save()
+#save()
 file.copy(file.path(getwd(), "for_ai.car"), "C:/Users/zxd598/Documents/GitHub/ku-awdc.github.io/ENIGMA2023/for_ai.car", overwrite=TRUE)
 # Clean up:
 rm(ai_data)
