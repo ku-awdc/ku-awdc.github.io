@@ -52,6 +52,7 @@ source('./src/ENIGMA_custom_functions.R')
 ### RUN THE DATA PREPARATION SCRIPT ###
 source('./src/ENIGMA_DataPrep.R') 
 
+
 ### NOW RUN MODEL BASED ON THR LATEST DATA, BUT STARTING IN WEEK 39 IN  2021
 
 # get week and year for the last date of data, to create a yearweek variable to be used later in the shiny app
@@ -105,7 +106,7 @@ final_model <-hhh4(stsObj = AI_sts,control = final_model_base)
 
 ################################################################################
 
-
+filename
 
 
 
