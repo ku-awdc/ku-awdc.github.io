@@ -1,0 +1,240 @@
+---
+title: "New features in template_huiwalter"
+author: "Matt Denwood"
+date: '2024-01-31'
+output:
+  html_document: default
+  beamer_presentation:
+    pandoc_args:
+    - -t
+    - beamer
+    slide_level: 2
+theme: metropolis
+aspectratio: 169
+colortheme: seahorse
+params:
+  presentation: no
+subtitle: Installation and usage guide
+---
+
+## Overview and disclaimers {.fragile}
+
+The development version of runjags::template_huiwalter contains some useful modifications/extra features (as discussed at the 2024 SBED conference).  This brief guide illustrates how to use the features in their current partly finished state.
+
+DISCLAIMER:  these features are in development, so the code WILL CHANGE before the final version has been released.  There may also be things that don't work as expected.  So please don't put this into production code just yet...
+
+## Installing compilers 
+
+You will need to install the development version of runjags from source - this requires C++ compilers.  See the relevant platform-specific instructions below:
+
+### Windows
+
+You will need to install Rtools from here: https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html
+
+You will also need to set JAGS_ROOT in your Makevars.win file - see this file for more instructions:  https://cran.r-project.org/web/packages/runjags/INSTALL
+
+Note that your HOME folder is the default starting directory for an R session - this is NOT the same as R.home.  It will typically be C:/Users/your_user_name
+
+Note also that the JAGS_ROOT path must match your installed version - to see what this is you can use:
+
+```{r eval=FALSE}
+runjags::findjags()
+```
+
+Something like the following code might work (untested!):
+
+```{r eval=FALSE}
+# Change this:
+HOME <- "C:/Users/your_user_name"
+# And maybe also change this:
+jags_path <- "C:/Progra~1/JAGS/JAGS-4.3.1"
+
+stopifnot(dir.exists(HOME))
+if(!dir.exists(file.path(HOME, ".R"))) dir.create(file.path(HOME, ".R"))
+cat("JAGS_ROOT=", jags_path, " \n", sep="", file=file.path(HOME, ".R", "Makevars.win"), append=TRUE)
+```
+
+
+### macOS
+
+You need to install the command line tools - to do this open a terminal (e.g. Applications/Utilities/Terminal) and type:
+
+```{r eval=FALSE}
+xcode-select --install
+```
+
+And follow the instructions.  That should be all you need, unless you have a non-standard installation of JAGS (e.g. via homebrew), in which case you will also need to set up pkg-config to point to your JAGS installation.
+
+### Linux
+
+Your OS already includes compilers and pkg-config, so you don't need to do anything!
+
+
+## Install runjags
+
+You can install runjags from GitHub using the remotes package (which you may need to install if you don't already have it).  The code is:
+
+```{r eval=FALSE}
+remotes::install_github("ku-awdc/runjags")
+```
+
+This will take longer than usual, and will be more verbose.  Look out for errors - these will most likely be due to problems with JAGS_ROOT on Windows!
+
+As this is the development version, updates to the package will occur much more frequently than for the stable version on CRAN - so it is worth re-running this every few weeks to see if anything new is available (and so that you get bug fixes etc).
+
+
+## Install tidyverse and pbapply
+
+The code below also requires the tidyverse and pbapply packages, which you can install from CRAN.
+
+```{r}
+library("runjags")
+library("tidyverse")
+library("pbapply")
+```
+
+```{r include=FALSE}
+runjags.options(silent.jags=TRUE, silent.runjags=TRUE, inits.warning=FALSE, predraw.plots=FALSE)
+```
+
+
+## Introduction
+
+The new version of template_huiwalter works in the same way as the old one (on CRAN), but has some new features and arguments (none of which are currently documented, sorry).  But the ones you might be interested in are:
+
+covariance:  this can now be specified as a data frame for specific covariance terms to include
+
+se_priors and sp_priors:  these can now be a list of values for different tests/populations, including a default value for anything not specifically named
+
+ppp-values:  this allows post-hoc calculation of Se/Sp by population, as well as ROC curves.  IMPORTANT NOTE:  this does not currently work as expected when there are correlation terms included, and/or with one or more missing test combinations.
+
+specify_populations:  this facilitates cross-validation by dropping a population at a time without having to re-generate the model
+
+single_check, agreement_check and outcome_check:  different mechanisms of doing model validation (as discussed at the SBED conference)
+
+You will also want to make sure that you have your original data in long format, and including SampleID, TestName and Results columns, to enable the ppp features (also, the Results column currently needs to be a factor with two levels, i.e. it won't work with a logical vector).
+
+## Dataset format
+
+This is an example of long format data:
+
+```{r}
+N <- 600
+tibble(
+    Population = rep(LETTERS[1:3], each=N/3),
+    status = rbinom(N, 1, rep(c(0.25,0.5,0.75), each=N/3)),
+    FirstTest = rbinom(N, 1, status*0.75 + (1-status)*0.05),
+    SecondTest = rbinom(N, 1, status*0.75 + (1-status)*0.05),
+    ThirdTest = rbinom(N, 1, status*0.75 + (1-status)*0.05)
+) |>
+  mutate(SampleID = row_number()) |>
+  select(-status) |>
+  pivot_longer(ends_with("Test"), names_to="TestName", values_to="Result") |>
+  mutate(Result = factor(Result, levels=c(0,1), labels=c("Neg","Pos"))) ->
+  long_data
+```
+
+Annoyingly, you (currently) still need to pass this to template_huiwalter as wide data - fortunately it is very easy to convert long data to wide data (and back again):
+
+```{r}
+long_data |>
+  pivot_wider(names_from="TestName", values_from="Result") ->
+  wide_data
+```
+
+The function now returns (invisibly) some useful things that we need to save:
+
+```{r}
+indexes <- template_huiwalter(
+  wide_data,
+  # You can use this code to deactivate correlation terms completely:
+  covariance = tribble(~Test_A, ~Test_B, ~Active, ),
+  # Required for post-hoc estimations:
+  ppp_values = TRUE,
+  # New model fit metrics:
+  single_check = TRUE,
+  agreement_check = TRUE,
+  outcome_check = TRUE
+)
+```
+
+Have a look at the model code - a few things have changed compared to before...
+
+```{r echo=FALSE, comment=''}
+cat(readLines("huiwalter_model.txt"), sep="\n")
+```
+
+
+But we still run it the same way:
+
+```{r}
+results <- run.jags("huiwalter_model.txt")
+summary(results, vars=c("se","sp","prev"))
+```
+
+One nice feature of the indexes is that it gives us names of populations and tests:
+
+```{r}
+indexes$populations
+indexes$tests
+```
+
+And it also (currently) contains the add_post_hoc and add_roc functions:
+
+```{r}
+(post_hoc <- indexes$add_post_hoc(long_data, results))
+```
+
+```{r}
+ggplot(post_hoc |> filter(Group=="TestPerformance"), aes(x=str_c(Type, " - ", Population), y=Median, ymin=Lower95, ymax=Upper95, col=Type)) +
+  geom_errorbar() +
+  geom_point() +
+  facet_grid(Variable ~ Parameter, scales="free_x") +
+  coord_flip() + xlab(NULL) + ylab(NULL)
+```
+
+This can also be used to assess tests that were not known to the model, for example we can exclude SecondTest from the model and still get post-hoc estimates:
+
+```{r}
+template_huiwalter(
+  wide_data |> select(-SecondTest),
+  covariance = tribble(~Test_A, ~Test_B, ~Active,
+  ),
+  ppp_values = TRUE
+) -> indexes
+
+results_no2 <- run.jags("huiwalter_model.txt")
+post_hoc <- indexes$add_post_hoc(long_data, results_no2)
+
+ggplot(post_hoc |> filter(Group=="TestPerformance"), aes(x=str_c(Type, " - ", Population), y=Median, ymin=Lower95, ymax=Upper95, col=Type)) +
+  geom_errorbar() +
+  geom_point() +
+  facet_grid(Variable ~ Parameter, scales="free_x") +
+  coord_flip() + xlab(NULL) + ylab(NULL)
+```
+
+Note that the post-hoc estimates are still produced for SecondTest even though it was not estimated by the model. This can be useful for (1) assessing tests that were too highly correlated with another test to be included in the model, (2) assessing tests where the Se/Sp varies by population and therefore cannot be added to the model without breaking key assumptions.  Of course, the model itself still needs a minimum of two tests, and excluding information from the model unnecessarily will just give wider credible intervals.
+
+## ROC curves
+
+There is another function in the indexes output called add_roc. This requires a column in the long_data called "Continuous", which holds the raw test result value - I haven't shown that here, but it should be fairly easy to use if you have suitable data, for example:
+
+```{r eval=FALSE}
+roc <- indexes$add_roc(long_data |> filter(TestName=="SecondTest"), results, positive_direction=">")
+ggplot(roc, aes(x=Threshold, y=Mean, ymin=Lower95, ymax=Upper95)) +
+  geom_ribbon(alpha=0.25, lwd=0) +
+  geom_line() +
+  geom_vline(xintercept=_current_cutoff_, lty="dashed") +
+  ylab(NULL) + xlab("Cutoff")
+```
+
+
+## More disclaimers
+
+Just in case you didn't read this the first time I will say it again:  although these features will be included in the next release version of runjags (on CRAN), I expect the implementation to change quite a bit - so the code given above will eventually break (and be replaced with something better, and documented).  So treat this guide as a sneak preview of what is to come...
+
+If anyone has any suggestions for how the new interface might look (and even better: is willing to help with runjags development) then please do get in touch!
+
+```{r include=FALSE}
+file.remove("huiwalter_model.txt")
+```
