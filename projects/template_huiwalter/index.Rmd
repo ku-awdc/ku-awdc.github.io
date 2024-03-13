@@ -1,7 +1,7 @@
 ---
 title: "New features in template_huiwalter"
 author: "Matt Denwood"
-date: '2024-01-31'
+date: '2024-01-31 (updated 2024-03-13)'
 output:
   html_document: default
   beamer_presentation:
@@ -19,13 +19,13 @@ subtitle: Installation and usage guide
 
 ## Overview and disclaimers {.fragile}
 
-The development version of runjags::template_huiwalter contains some useful modifications/extra features (as discussed at the 2024 SBED conference).  This brief guide illustrates how to use the features in their current partly finished state.
+The development version of runjags::template_huiwalter contains some useful modifications/extra features (as discussed at the 2024 SBED conference).  This brief guide illustrates how to use the features in their current partly finished state. This guide was updated on 2024-03-13 to indicate which features are available in the current CRAN version of runjags (2.2.2-4, released 2024-03-10) and which require the development version (≥ 2.2.3).
 
 DISCLAIMER:  these features are in development, so the code WILL CHANGE before the final version has been released.  There may also be things that don't work as expected.  So please don't put this into production code just yet...
 
 ## Installing compilers 
 
-You will need to install the development version of runjags from source - this requires C++ compilers.  See the relevant platform-specific instructions below:
+For the experimental features, you will need to install the development version of runjags from source - this requires C++ compilers.  See the relevant platform-specific instructions below:
 
 ### Windows
 
@@ -100,17 +100,19 @@ runjags.options(silent.jags=TRUE, silent.runjags=TRUE, inits.warning=FALSE, pred
 
 ## Introduction
 
-The new version of template_huiwalter works in the same way as the old one (on CRAN), but has some new features and arguments (none of which are currently documented, sorry).  But the ones you might be interested in are:
+The newer versions of template_huiwalter have some new features and arguments.  In particular, constraints are imposed to ensure both that conditional dependence terms do not invalidate probabilities and that Youden's J (sensitivity+specificity-1) is >= 0 (as discussed at the SBED conference in January). Other features that you might be interested in are:
 
 covariance:  this can now be specified as a data frame for specific covariance terms to include
 
 se_priors and sp_priors:  these can now be a list of values for different tests/populations, including a default value for anything not specifically named
 
-ppp-values:  this allows post-hoc calculation of Se/Sp by population, as well as ROC curves.  IMPORTANT NOTE:  this does not currently work as expected when there are correlation terms included, and/or with one or more missing test combinations.
+prev_priors:  a new option that works in a similar way to se_priors/sp_priors
 
 specify_populations:  this facilitates cross-validation by dropping a population at a time without having to re-generate the model
 
-single_check, agreement_check and outcome_check:  different mechanisms of doing model validation (as discussed at the SBED conference)
+single_check, agreement_check and outcome_check:  different mechanisms of doing model validation (as discussed at the SBED conference) - except for outcome_check these are DEVELOPMENT VERSION ONLY (and undocumented).
+
+ppp-values:  this allows post-hoc calculation of Se/Sp by population, as well as ROC curves.  IMPORTANT NOTE:  this does not currently work as expected when there are correlation terms included, and/or with one or more missing test combinations - DEVELOPMENT VERSION ONLY (and undocumented).
 
 You will also want to make sure that you have your original data in long format, and including SampleID, TestName and Results columns, to enable the ppp features (also, the Results column currently needs to be a factor with two levels, i.e. it won't work with a logical vector).
 
@@ -142,7 +144,7 @@ long_data |>
   wide_data
 ```
 
-The function now returns (invisibly) some useful things that we need to save:
+The development version of the function now returns (invisibly) some useful things that we need to save:
 
 ```{r}
 indexes <- template_huiwalter(
@@ -193,7 +195,7 @@ ggplot(post_hoc |> filter(Group=="TestPerformance"), aes(x=str_c(Type, " - ", Po
   coord_flip() + xlab(NULL) + ylab(NULL)
 ```
 
-This can also be used to assess tests that were not known to the model, for example we can exclude SecondTest from the model and still get post-hoc estimates:
+The primary use of this is to assess sensitivity and specificity in each population separately, in order to validate this important model assumption. However, in theory the PPP values can also be used to assess tests that were not known to the model as long as the PPP values produced are sufficiently close to 0 and 1 in order to avoid bias (i.e. the tests included in the model have a sufficiently high combined predictive value). For example we can exclude SecondTest from the model and still get post-hoc estimates:
 
 ```{r}
 template_huiwalter(
@@ -213,7 +215,7 @@ ggplot(post_hoc |> filter(Group=="TestPerformance"), aes(x=str_c(Type, " - ", Po
   coord_flip() + xlab(NULL) + ylab(NULL)
 ```
 
-Note that the post-hoc estimates are still produced for SecondTest even though it was not estimated by the model. This can be useful for (1) assessing tests that were too highly correlated with another test to be included in the model, (2) assessing tests where the Se/Sp varies by population and therefore cannot be added to the model without breaking key assumptions.  Of course, the model itself still needs a minimum of two tests, and excluding information from the model unnecessarily will just give wider credible intervals.
+Note that the post-hoc estimates are still produced for SecondTest even though it was not estimated by the model - these estimates will be biased downwards but the magnitude of the bias should be minimal as long as the combined predictive value of the tests included in the model is sufficiently high. This can be useful for (1) assessing tests that were too highly correlated with another test to be included in the model, (2) assessing tests where the Se/Sp varies by population and therefore cannot be added to the model without breaking key assumptions.  Of course, the model itself still needs a minimum of two tests, excluding information from the model unnecessarily will just give wider credible intervals, and where the tests included in the model have poor combined performance the resulting post-hoc calculations will exhibit substantial bias.
 
 ## ROC curves
 
@@ -228,10 +230,11 @@ ggplot(roc, aes(x=Threshold, y=Mean, ymin=Lower95, ymax=Upper95)) +
   ylab(NULL) + xlab("Cutoff")
 ```
 
+This works on the same principle as add_post_hoc function discussed above, so is subject to the same caveats regarding the expected bias in estimated performance of SecondTest.
 
 ## More disclaimers
 
-Just in case you didn't read this the first time I will say it again:  although these features will be included in the next release version of runjags (on CRAN), I expect the implementation to change quite a bit - so the code given above will eventually break (and be replaced with something better, and documented).  So treat this guide as a sneak preview of what is to come...
+Just in case you didn't read this the first time I will say it again:  although these features will be included in a feature release version of runjags (on CRAN), I expect the implementation to change quite a bit - so the code given above will eventually break (and be replaced with something better, and documented).  So treat this guide as a sneak preview of what is to come...
 
 If anyone has any suggestions for how the new interface might look (and even better: is willing to help with runjags development) then please do get in touch!
 
