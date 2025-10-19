@@ -31,6 +31,9 @@ data_file <- "example_data.xlsx"
 # List sheets within the excel file (helpful for copy/paste):
 excel_sheets(data_file)
 
+# Read and save the metadata:
+metadata <- read_excel(data_file, sheet="metadata")
+
 # Read and save the tables sheet:
 tables <- read_excel(data_file, sheet="tables")
 
@@ -65,7 +68,7 @@ str(example_sheet_raw)
 #  date             Date
 #  datetime         POSIXct
 
-## Data formatting and cleaning pipe:
+## Data formatting and cleaning pipeline:
 example_sheet_raw |>
 
   ## Add formatting and verification code below here!
@@ -73,10 +76,10 @@ example_sheet_raw |>
 
   ## Add formatting and verification code above here!
 
-  # Leave this line alone!
+  ## End of pipeline:
   identity() ->
-  # Cleaned and formatted data: change example_sheet to match your sheet name:
   example_sheet
+  # Note: change example_sheet to match the name of your Excel sheet (without "_raw")
 
 # Re-examine the data structure and show summary statistics:
 str(example_sheet)
@@ -103,8 +106,8 @@ example_sheet_raw |> arrange( desc(ExampleVariable) )
 example_sheet_raw |> filter( ExampleVariable >= 10 )
 
 
-## Formatting and verification code snippets (copy/paste into your pipe):
-example_data_raw |>
+## Formatting and verification code snippets (copy/paste into your pipeline):
+example_sheet_raw |>
 
   ## Formatting and verifying ID and text variables (to chr):
 
@@ -174,9 +177,9 @@ example_data_raw |>
   enforce(assert_integerish(ExampleCount, lower=-Inf, upper=Inf, any.missing=TRUE, unique=FALSE)) |>
 
 
-  ## End of pipe:
+  ## End of pipeline:
   identity() ->
-  example_data
+  example_sheet
 
 ## End code snippets
 #####################################################################################################################

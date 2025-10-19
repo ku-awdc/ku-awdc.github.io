@@ -31,6 +31,9 @@ data_file <- "example_data.xlsx"
 # List sheets within the excel file (helpful for copy/paste):
 excel_sheets(data_file)
 
+# Read and save the metadata:
+metadata <- read_excel(data_file, sheet="metadata")
+
 # Read and save the tables sheet:
 tables <- read_excel(data_file, sheet="tables")
 
@@ -49,7 +52,6 @@ sheet_name <- "example_dogs"
 
 # Read the Excel file/sheet:
 example_dogs_raw <- read_excel(data_file, sheet=sheet_name)
-# Note: change example_sheet_raw to match the name of your Excel sheet plus "_raw"
 
 # Examine the data structure:
 str(example_dogs_raw)
@@ -65,7 +67,7 @@ str(example_dogs_raw)
 #  date             Date
 #  datetime         POSIXct
 
-## Data formatting and cleaning pipe:
+## Data formatting and cleaning pipeline:
 example_dogs_raw |>
 
   ## Add formatting and verification code below here!
@@ -101,9 +103,8 @@ example_dogs_raw |>
 
   ## Add formatting and verification code above here!
 
-  # Leave this line alone!
+  ## End of pipeline:
   identity() ->
-  # Our cleaned and formatted data:
   example_dogs
 
 # Re-examine the data structure and show summary statistics:
